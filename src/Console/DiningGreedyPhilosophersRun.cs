@@ -5,7 +5,7 @@ using ThreadingExplore.Core.SystemLog;
 
 namespace ThreadingExplore.Console
 {
-    public class DiningPhilosophersRun
+    public class DiningGreedyPhilosophersRun
     {
         public void Run()
         {
@@ -17,13 +17,15 @@ namespace ThreadingExplore.Console
 
             var consoleSystemLog = new ConsoleSystemLog();
 
-            var phil0 = new Philosopher("Phil 0", 20, fork0, fork1, consoleSystemLog);
-            var phil1 = new Philosopher("Phil 1", 20, fork1, fork2, consoleSystemLog);
-            var phil2 = new Philosopher("Phil 2", 20, fork2, fork3, consoleSystemLog);
-            var phil3 = new Philosopher("Phil 3", 20, fork3, fork4, consoleSystemLog);
-            var phil4 = new Philosopher("Phil 4", 20, fork4, fork0, consoleSystemLog);
+            var starveThreashhold = 100;
 
-            var philosophers = new List<Philosopher>();
+            var phil0 = new GreedyPhilosopher("Phil 0", 10, fork0, fork1, starveThreashhold, consoleSystemLog);
+            var phil1 = new GreedyPhilosopher("Phil 1", 10, fork1, fork2, starveThreashhold, consoleSystemLog);
+            var phil2 = new GreedyPhilosopher("Phil 2", 50, fork2, fork3, starveThreashhold, consoleSystemLog);
+            var phil3 = new GreedyPhilosopher("Phil 3", 10, fork3, fork4, starveThreashhold, consoleSystemLog);
+            var phil4 = new GreedyPhilosopher("Phil 4", 10, fork4, fork0, starveThreashhold, consoleSystemLog);
+
+            var philosophers = new List<GreedyPhilosopher>();
 
             philosophers.Add(phil0);
             philosophers.Add(phil1);

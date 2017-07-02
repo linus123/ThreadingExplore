@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            var actionRun = new DiningPhilosophersRun();
+            var actionRun = new DiningGreedyPhilosophersRun();
 
             actionRun.Run();
         }

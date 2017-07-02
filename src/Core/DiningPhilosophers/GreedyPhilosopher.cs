@@ -1,30 +1,37 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using ThreadingExplore.Core.SystemLog;
 
 namespace ThreadingExplore.Core.DiningPhilosophers
 {
-    public class Philosopher
+    public class GreedyPhilosopher
     {
-        private PhilosopherFork _rightFork;
-        private PhilosopherFork _leftFork;
+        private readonly PhilosopherFork _rightFork;
+        private readonly PhilosopherFork _leftFork;
 
         private readonly int _eatTimeInMiliSeconds;
         private readonly string _name;
 
         private readonly ISystemLog _systemLog;
+        private int _totalThinkTime;
+        private readonly int _starveThreashhold;
 
-        public Philosopher(
+        public GreedyPhilosopher(
             string name,
             int eatTimeInMiliSeconds,
             PhilosopherFork rightFork,
             PhilosopherFork leftFork,
+            int starveThreashhold,
             ISystemLog systemLog)
         {
+            _starveThreashhold = starveThreashhold;
             _systemLog = systemLog;
             _name = name;
             _eatTimeInMiliSeconds = eatTimeInMiliSeconds;
             _rightFork = rightFork;
             _leftFork = leftFork;
+
+            _totalThinkTime = 0;
         }
 
         public void StartEating()
@@ -34,7 +41,7 @@ namespace ThreadingExplore.Core.DiningPhilosophers
             while (!hasLeftFork)
             {
                 _systemLog.Info($"{_name} cannot pickup left fork. Thinking for 10 milli seconds.");
-                Thread.Sleep(10);
+                ThinkWithPossibliltyOfStarving(10);
 
                 hasLeftFork = _leftFork.TryToPickup();
             }
@@ -44,7 +51,7 @@ namespace ThreadingExplore.Core.DiningPhilosophers
             while (!hasRightFork)
             {
                 _systemLog.Info($"{_name} cannot pickup right fork. Thinking for 10 milli seconds.");
-                Thread.Sleep(10);
+                ThinkWithPossibliltyOfStarving(10);
 
                 hasRightFork = _rightFork.TryToPickup();
             }
@@ -54,6 +61,17 @@ namespace ThreadingExplore.Core.DiningPhilosophers
 
             _leftFork.Release();
             _rightFork.Release();
+        }
+
+        private void ThinkWithPossibliltyOfStarving(
+            int milliSeconds)
+        {
+            if (_totalThinkTime + milliSeconds > _starveThreashhold)
+                throw new Exception($"{_name} has starved.");
+
+            Thread.Sleep(milliSeconds);
+
+            _totalThinkTime += milliSeconds;
         }
     }
 }
