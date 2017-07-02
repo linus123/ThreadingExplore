@@ -100,5 +100,33 @@ namespace ThreadingExplore.UnitTests.BankersAlgorithim
             system.ClaimResources(process).Should().BeFalse();
             system.GetSystemSummary().Should().Be("Name A - Cur:2 Max:2 | Name B - Cur:1 Max:1 | Name C - Cur:3 Max:3");
         }
+
+        [Fact(DisplayName = "RestoreResources should restore resources as expected.")]
+        public void Test5()
+        {
+            var systemResources = new[]
+            {
+                new SystemResource(ResourceName.A, 10),
+                new SystemResource(ResourceName.B, 9),
+                new SystemResource(ResourceName.C, 3),
+            };
+
+            var system = new SystemResources(systemResources, new NoOpSystemLog());
+
+            var processResources = new[]
+            {
+                new BankProcessResource(ResourceName.A, 1),
+                new BankProcessResource(ResourceName.B, 2),
+                new BankProcessResource(ResourceName.C, 1),
+            };
+
+            var process = new BankProcess("P1", 100, processResources);
+
+            system.ClaimResources(process).Should().BeTrue();
+            system.GetSystemSummary().Should().Be("Name A - Cur:9 Max:10 | Name B - Cur:7 Max:9 | Name C - Cur:2 Max:3");
+            system.RestoreResources(process);
+            system.GetSystemSummary().Should().Be("Name A - Cur:10 Max:10 | Name B - Cur:9 Max:9 | Name C - Cur:3 Max:3");
+        }
+
     }
 }
