@@ -40,7 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankersAlgorithim\Process.cs" />
+    <Compile Include="BankersAlgorithim\ProcessResource.cs" />
+    <Compile Include="BankersAlgorithim\ResourceName.cs" />
+    <Compile Include="BankersAlgorithim\SystemResource.cs" />
+    <Compile Include="BankersAlgorithim\SystemResources.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemLog\ConsoleSystemLog.cs" />
+    <Compile Include="SystemLog\ISystemLog.cs" />
+    <Compile Include="SystemLog\NoOpSystemLog.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
