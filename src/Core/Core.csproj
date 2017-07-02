@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankersAlgorithim\Process.cs" />
-    <Compile Include="BankersAlgorithim\ProcessResource.cs" />
+    <Compile Include="BankersAlgorithim\BankProcess.cs" />
+    <Compile Include="BankersAlgorithim\BankProcessResource.cs" />
     <Compile Include="BankersAlgorithim\ResourceName.cs" />
     <Compile Include="BankersAlgorithim\SystemResource.cs" />
     <Compile Include="BankersAlgorithim\SystemResources.cs" />

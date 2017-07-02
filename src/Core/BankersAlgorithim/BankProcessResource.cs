@@ -1,9 +1,9 @@
 namespace ThreadingExplore.Core.BankersAlgorithim
 {
-    public class ProcessResource
+    public class BankProcessResource
     {
 
-        public ProcessResource(
+        public BankProcessResource(
             ResourceName resourceName,
             int maxAmount)
         {

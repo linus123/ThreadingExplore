@@ -22,17 +22,17 @@ namespace ThreadingExplore.Core.BankersAlgorithim
         }
 
         public bool ClaimResources(
-            Process process)
+            BankProcess bankProcess)
         {
             lock (_lockObject)
             {
                 foreach (var systemResource in _systemResources)
                 {
-                    var resourceMaxAmount = process.GetResourceMaxAmount(systemResource.Name);
+                    var resourceMaxAmount = bankProcess.GetResourceMaxAmount(systemResource.Name);
 
                     if (resourceMaxAmount > systemResource.CurrentAmount)
                     {
-                        _systemLog.Info(string.Format("Not enought resources for {0}", process.ProcessName));
+                        _systemLog.Info(string.Format("Not enought resources for {0}", bankProcess.ProcessName));
                         _systemLog.Info(GetSystemSummary());
                         return false;
                     }
@@ -40,13 +40,13 @@ namespace ThreadingExplore.Core.BankersAlgorithim
 
                 foreach (var systemResource in _systemResources)
                 {
-                    var resourceMaxAmount = process.GetResourceMaxAmount(systemResource.Name);
+                    var resourceMaxAmount = bankProcess.GetResourceMaxAmount(systemResource.Name);
 
                     systemResource.ClaimResourceCount(resourceMaxAmount);
 
                 }
 
-                _systemLog.Info(string.Format("Claimed Resources for {0}", process.ProcessName));
+                _systemLog.Info(string.Format("Claimed Resources for {0}", bankProcess.ProcessName));
                 _systemLog.Info(GetSystemSummary());
 
                 return true;
@@ -54,19 +54,19 @@ namespace ThreadingExplore.Core.BankersAlgorithim
         }
 
         public void RestoreResources(
-            Process process)
+            BankProcess bankProcess)
         {
             lock (_lockObject)
             {
                 foreach (var systemResource in _systemResources)
                 {
-                    var resourceMaxAmount = process.GetResourceMaxAmount(systemResource.Name);
+                    var resourceMaxAmount = bankProcess.GetResourceMaxAmount(systemResource.Name);
 
                     systemResource.RestoreResourceCount(resourceMaxAmount);
 
                 }
 
-                _systemLog.Info(string.Format("Restored Resources for {0}", process.ProcessName));
+                _systemLog.Info(string.Format("Restored Resources for {0}", bankProcess.ProcessName));
                 _systemLog.Info(GetSystemSummary());
             }
         }

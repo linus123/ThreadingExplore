@@ -4,26 +4,26 @@ using System.Threading;
 
 namespace ThreadingExplore.Core.BankersAlgorithim
 {
-    public class Process
+    public class BankProcess
     {
-        private readonly ProcessResource[] _processResources;
-        private int _timeInMiliseconds;
+        private readonly BankProcessResource[] _bankProcessResources;
+        private readonly int _timeInMiliseconds;
         public string ProcessName { get; }
 
-        public Process(
+        public BankProcess(
             string processName,
             int timeInMiliseconds,
-            ProcessResource[] processResources)
+            BankProcessResource[] bankProcessResources)
         {
             _timeInMiliseconds = timeInMiliseconds;
             ProcessName = processName;
-            _processResources = processResources;
+            _bankProcessResources = bankProcessResources;
         }
 
         public int GetResourceMaxAmount(
             ResourceName resourceName)
         {
-            return _processResources.Single(r => r.Name == resourceName).MaxAmount;
+            return _bankProcessResources.Single(r => r.Name == resourceName).MaxAmount;
         }
 
         public void Start(
