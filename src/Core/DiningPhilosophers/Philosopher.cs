@@ -1,40 +1,59 @@
-﻿namespace ThreadingExplore.Core.DiningPhilosophers
+﻿using System.Threading;
+using ThreadingExplore.Core.SystemLog;
+
+namespace ThreadingExplore.Core.DiningPhilosophers
 {
     public class Philosopher
     {
-        private PhilosopherAction[] _philosopherActions;
-
-        private PhilosopherFork _leftFork;
         private PhilosopherFork _rightFork;
+        private PhilosopherFork _leftFork;
+
+        private readonly int _eatTimeInMiliSeconds;
+        private readonly string _name;
+
+        private readonly ISystemLog _systemLog;
 
         public Philosopher(
-            PhilosopherAction[] philosopherActions,
+            string name,
+            int eatTimeInMiliSeconds,
+            PhilosopherFork rightFork,
             PhilosopherFork leftFork,
-            PhilosopherFork rightFork)
+            ISystemLog systemLog)
         {
+            _systemLog = systemLog;
+            _name = name;
+            _eatTimeInMiliSeconds = eatTimeInMiliSeconds;
             _rightFork = rightFork;
             _leftFork = leftFork;
-            _philosopherActions = philosopherActions;
         }
-    }
 
-    public enum PhilosopherActionType
-    {
-        Think,
-        Eat
-    }
-
-    public class PhilosopherAction
-    {
-        private PhilosopherActionType _philosopherActionType;
-        private int _typeInMilli;
-
-        public PhilosopherAction(
-            PhilosopherActionType philosopherActionType,
-            int typeInMilli)
+        public void StartEating()
         {
-            _typeInMilli = typeInMilli;
-            _philosopherActionType = philosopherActionType;
+            var hasLeftFork = _leftFork.TryToPickup();
+
+            while (!hasLeftFork)
+            {
+                _systemLog.Info($"{_name} cannot pickup left fork. Thinking for 10 milli seconds.");
+                Thread.Sleep(10);
+
+                hasLeftFork = _leftFork.TryToPickup();
+            }
+
+            var hasRightFork = _rightFork.TryToPickup();
+
+            while (!hasRightFork)
+            {
+                _systemLog.Info($"{_name} cannot pickup right fork. Thinking for 10 milli seconds.");
+                Thread.Sleep(10);
+
+                hasRightFork = _rightFork.TryToPickup();
+            }
+
+            _systemLog.Info($"{_name} is now eating for {_eatTimeInMiliSeconds} milli seconds.");
+            Thread.Sleep(_eatTimeInMiliSeconds);
+
+            _leftFork.Release();
+            _rightFork.Release();
         }
     }
 }

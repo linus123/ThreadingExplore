@@ -4,9 +4,9 @@
     {
         static void Main(string[] args)
         {
-            var banksAlgorithimRun = new BanksAlgorithimRun();
+            var actionRun = new DiningPhilosophersRun();
 
-            banksAlgorithimRun.Run();
+            actionRun.Run();
         }
     }
 }
