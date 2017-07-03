@@ -1,4 +1,6 @@
-﻿namespace ThreadingExplore.Console
+﻿using ThreadingExplore.Console.DiningPhilosophers;
+
+namespace ThreadingExplore.Console
 {
     public class Program
     {

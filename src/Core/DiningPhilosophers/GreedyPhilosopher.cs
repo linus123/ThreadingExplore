@@ -38,7 +38,7 @@ namespace ThreadingExplore.Core.DiningPhilosophers
         {
             var hasLeftFork = _leftFork.TryToPickup();
 
-            while (!hasLeftFork)
+            while (!hasLeftFork.WasPickedUp)
             {
                 _systemLog.Info($"{_name} cannot pickup left fork. Thinking for 10 milli seconds.");
                 ThinkWithPossibliltyOfStarving(10);
@@ -48,7 +48,7 @@ namespace ThreadingExplore.Core.DiningPhilosophers
 
             var hasRightFork = _rightFork.TryToPickup();
 
-            while (!hasRightFork)
+            while (!hasRightFork.WasPickedUp)
             {
                 _systemLog.Info($"{_name} cannot pickup right fork. Thinking for 10 milli seconds.");
                 ThinkWithPossibliltyOfStarving(10);

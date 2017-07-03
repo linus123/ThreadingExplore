@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using ThreadingExplore.Core.SystemLog;
 
@@ -13,7 +14,6 @@ namespace ThreadingExplore.Core.DiningPhilosophers
         private readonly string _name;
 
         private readonly ISystemLog _systemLog;
-        private int _totalThinkTime;
         private readonly int _starveThreashhold;
 
         public WellManneredPhilosopher(
@@ -30,43 +30,49 @@ namespace ThreadingExplore.Core.DiningPhilosophers
             _eatTimeInMiliSeconds = eatTimeInMiliSeconds;
             _rightFork = rightFork;
             _leftFork = leftFork;
-
-            _totalThinkTime = 0;
         }
 
         public void StartEating()
         {
+            var stopwatch = Stopwatch.StartNew();
+
             var hasLeftFork = _leftFork.TryToPickup();
             var hasRightFork = _rightFork.TryToPickup();
 
-            while (!hasLeftFork || !hasRightFork)
+            while (!hasLeftFork.WasPickedUp || !hasRightFork.WasPickedUp)
             {
                 _leftFork.Release();
                 _rightFork.Release();
 
-                _systemLog.Info($"{_name} cannot pickup a fork. Thinking for 10 milli seconds.");
-                ThinkWithPossibliltyOfStarving(10);
+                _systemLog.Info(stopwatch, $"{_name} cannot pickup a fork. Yielding.");
+                _systemLog.Info(stopwatch, hasLeftFork.State);
+                _systemLog.Info(stopwatch, hasRightFork.State);
+                YieldWithPossibliltyOfStarving(stopwatch);
 
                 hasLeftFork = _leftFork.TryToPickup();
                 hasRightFork = _rightFork.TryToPickup();
             }
 
-            _systemLog.Info($"{_name} is now eating for {_eatTimeInMiliSeconds} milli seconds.");
+            _systemLog.Info(stopwatch, $"{_name} is now eating for {_eatTimeInMiliSeconds} milli seconds.");
             Thread.Sleep(_eatTimeInMiliSeconds);
 
             _leftFork.Release();
             _rightFork.Release();
+
+            _systemLog.Info(stopwatch, $"Total run time {stopwatch.ElapsedMilliseconds}.");
         }
 
-        private void ThinkWithPossibliltyOfStarving(
-            int milliSeconds)
+        private void YieldWithPossibliltyOfStarving(
+            Stopwatch stopwatch)
         {
-            if (_totalThinkTime + milliSeconds > _starveThreashhold)
+            var stopwatchElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+
+            _systemLog.Info(stopwatch, $"Diff {stopwatchElapsedMilliseconds}.");
+
+            if (stopwatchElapsedMilliseconds > _starveThreashhold)
                 throw new Exception($"{_name} has starved.");
 
-            Thread.Sleep(milliSeconds);
-
-            _totalThinkTime += milliSeconds;
+            Thread.Yield();
         }
     }
 }

@@ -43,7 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BanksAlgorithimRun.cs" />
-    <Compile Include="DiningGreedyPhilosophersRun.cs" />
+    <Compile Include="DiningPhilosophers\DiningGreedyPhilosophersRun.cs" />
+    <Compile Include="DiningPhilosophers\DiningWellManneredPhilosophersRun.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

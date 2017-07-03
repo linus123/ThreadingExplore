@@ -1,17 +1,25 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace ThreadingExplore.Core.SystemLog
 {
     public class ConsoleSystemLog : ISystemLog
     {
-        public void Info(string message)
+        public void Info(
+            Stopwatch stopwatch,
+            string message)
         {
-            var dateTime = DateTime.Now;
+            Console.WriteLine("{0} T:{1} - {2}",
+                stopwatch.ElapsedMilliseconds,
+                Thread.CurrentThread.ManagedThreadId,
+                message);
+        }
 
-            Console.WriteLine("{0} {1} T:{2} - {3}",
-                dateTime.ToShortDateString(),
-                dateTime.ToLongTimeString(),
+        public void Info(
+            string message)
+        {
+            Console.WriteLine("XX T:{0} - {1}",
                 Thread.CurrentThread.ManagedThreadId,
                 message);
         }
