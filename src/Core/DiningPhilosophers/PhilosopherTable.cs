@@ -18,16 +18,27 @@
         public EatRequestResult TryToEatAtPlace(
             int seatNumber)
         {
-            return new EatRequestResult(true, "Eat");
+            var leftForkNumber = seatNumber;
+            var rightForNumber = GetRightForkNumber(seatNumber);
+
+            if (!_forkArray[leftForkNumber] && !_forkArray[rightForNumber])
+            {
+                _forkArray[leftForkNumber] = true;
+                _forkArray[rightForNumber] = true;
+                return new EatRequestResult(true, "Eat");
+            }
+
+            return new EatRequestResult(false, "Do not eat");
+
         }
 
         private int GetRightForkNumber(
-            int forkNumber)
+            int seatNumber)
         {
-            if (forkNumber == _forkArray.Length - 1)
+            if (seatNumber == _forkArray.Length - 1)
                 return 0;
 
-            return forkNumber + 1;
+            return seatNumber + 1;
         }
 
         public class EatRequestResult
