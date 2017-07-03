@@ -1,8 +1,12 @@
-﻿namespace ThreadingExplore.Core.DiningPhilosophers
+﻿using System;
+
+namespace ThreadingExplore.Core.DiningPhilosophers
 {
     public class PhilosopherTable
     {
         private readonly bool[] _forkArray;
+
+        private readonly object _lockObject = new object();
 
         public PhilosopherTable(
             int forkCount)
@@ -18,24 +22,44 @@
         public EatRequestResult TryToEatAtPlace(
             int seatNumber)
         {
-            var leftForkNumber = seatNumber;
-            var rightForNumber = GetRightForkNumber(seatNumber);
-
-            if (!_forkArray[leftForkNumber] && !_forkArray[rightForNumber])
+            lock (_lockObject)
             {
-                _forkArray[leftForkNumber] = true;
-                _forkArray[rightForNumber] = true;
+                var leftForkNumber = seatNumber;
+                var rightForNumber = GetRightForkNumber(seatNumber);
 
-                return new EatRequestResult(true, "Forks are free");
+                if (!_forkArray[leftForkNumber] && !_forkArray[rightForNumber])
+                {
+                    _forkArray[leftForkNumber] = true;
+                    _forkArray[rightForNumber] = true;
+
+                    return new EatRequestResult(true, "Forks are free");
+                }
+
+                var message = string.Format(
+                    "Left fork free: {0} ... Right fork free: {1}",
+                    !_forkArray[leftForkNumber],
+                    !_forkArray[rightForNumber]);
+
+                return new EatRequestResult(false, message);
             }
+        }
 
-            var message = string.Format(
-                "Left fork free: {0} ... Right fork free: {1}",
-                !_forkArray[leftForkNumber],
-                !_forkArray[rightForNumber]);
+        public void PutDownForks(
+            int seatNumber)
+        {
+            lock (_lockObject)
+            {
+                var leftForkNumber = seatNumber;
+                var rightForNumber = GetRightForkNumber(seatNumber);
 
-            return new EatRequestResult(false, message);
+                if (!_forkArray[leftForkNumber] && !_forkArray[rightForNumber])
+                {
+                    throw new Exception("Cannot put down forks that are not both picked up.");
+                }
 
+                _forkArray[leftForkNumber] = false;
+                _forkArray[rightForNumber] = false;
+            }
         }
 
         private int GetRightForkNumber(

@@ -45,11 +45,10 @@
     <Compile Include="BankersAlgorithim\ResourceName.cs" />
     <Compile Include="BankersAlgorithim\SystemResource.cs" />
     <Compile Include="BankersAlgorithim\SystemResources.cs" />
-    <Compile Include="DiningPhilosophers\GreedyPhilosopher.cs" />
-    <Compile Include="DiningPhilosophers\PhilosopherFork.cs" />
+    <Compile Include="DiningPhilosophers\Philosopher.cs" />
     <Compile Include="DiningPhilosophers\PhilosopherTable.cs" />
-    <Compile Include="DiningPhilosophers\WellManneredPhilosopher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimulationLog.cs" />
     <Compile Include="SystemLog\ConsoleSystemLog.cs" />
     <Compile Include="SystemLog\ISystemLog.cs" />
     <Compile Include="SystemLog\NoOpSystemLog.cs" />
