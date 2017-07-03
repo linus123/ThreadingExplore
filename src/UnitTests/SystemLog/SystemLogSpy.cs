@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using ThreadingExplore.Core.SystemLog;
 
 namespace ThreadingExplore.UnitTests.SystemLog
@@ -15,6 +16,11 @@ namespace ThreadingExplore.UnitTests.SystemLog
         public void Info(string message)
         {
             _messages.Add(message);
+        }
+
+        public void Info(Stopwatch stopwatch, string message)
+        {
+            throw new System.NotImplementedException();
         }
 
         public string[] GetAllMessages()
