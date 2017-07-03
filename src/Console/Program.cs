@@ -13,11 +13,11 @@ namespace ThreadingExplore.Console
 
             var simulationLog = new SimulationLog();
 
-            var philosopher0 = new Philosopher("P0", 100, philosopherTable, 0, simulationLog);
-            var philosopher1 = new Philosopher("P1", 10, philosopherTable, 1, simulationLog);
+            var philosopher0 = new Philosopher("P0", 300, philosopherTable, 0, simulationLog);
+            var philosopher1 = new Philosopher("P1", 1000, philosopherTable, 1, simulationLog);
             var philosopher2 = new Philosopher("P2", 10, philosopherTable, 2, simulationLog);
-            var philosopher3 = new Philosopher("P3", 10, philosopherTable, 3, simulationLog);
-            var philosopher4 = new Philosopher("P4", 100, philosopherTable, 4, simulationLog);
+            var philosopher3 = new Philosopher("P3", 30, philosopherTable, 3, simulationLog);
+            var philosopher4 = new Philosopher("P4", 10, philosopherTable, 4, simulationLog);
 
             var philosophers = new List<Philosopher>();
             philosophers.Add(philosopher0);

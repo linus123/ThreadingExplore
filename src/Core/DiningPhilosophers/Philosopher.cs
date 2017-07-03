@@ -32,7 +32,9 @@ namespace ThreadingExplore.Core.DiningPhilosophers
 
             while (!eatRequestResult.CanEat)
             {
-                Thread.Yield();
+                _simulationLog.Info($"{_name} cannot eat {eatRequestResult.Message}.");
+
+                Thread.Sleep(10);
 
                 eatRequestResult = _philosopherTable.TryToEatAtPlace(_placeNumber);
             }
