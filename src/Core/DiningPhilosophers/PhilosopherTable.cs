@@ -25,10 +25,16 @@
             {
                 _forkArray[leftForkNumber] = true;
                 _forkArray[rightForNumber] = true;
-                return new EatRequestResult(true, "Eat");
+
+                return new EatRequestResult(true, "Forks are free");
             }
 
-            return new EatRequestResult(false, "Do not eat");
+            var message = string.Format(
+                "Left fork free: {0} ... Right fork free: {1}",
+                !_forkArray[leftForkNumber],
+                !_forkArray[rightForNumber]);
+
+            return new EatRequestResult(false, message);
 
         }
 

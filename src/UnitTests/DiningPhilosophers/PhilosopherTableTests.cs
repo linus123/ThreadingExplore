@@ -19,11 +19,23 @@ namespace ThreadingExplore.UnitTests.DiningPhilosophers
         [Fact(DisplayName = "TryToEatAtPlace should return false person to my right is eading.")]
         public void Test2()
         {
-            var philosopherTable = new PhilosopherTable(2);
+            var philosopherTable = new PhilosopherTable(3);
 
             var tryToEatAtPlace1 = philosopherTable.TryToEatAtPlace(0);
             var tryToEatAtPlace2 = philosopherTable.TryToEatAtPlace(1);
             tryToEatAtPlace2.CanEat.Should().BeFalse();
+            tryToEatAtPlace2.Message.Should().Be("Left fork free: False ... Right fork free: True");
+        }
+
+        [Fact(DisplayName = "TryToEatAtPlace should return false person to my left is eading.")]
+        public void Test10()
+        {
+            var philosopherTable = new PhilosopherTable(3);
+
+            var tryToEatAtPlace1 = philosopherTable.TryToEatAtPlace(1);
+            var tryToEatAtPlace2 = philosopherTable.TryToEatAtPlace(0);
+            tryToEatAtPlace2.CanEat.Should().BeFalse();
+            tryToEatAtPlace2.Message.Should().Be("Left fork free: True ... Right fork free: False");
         }
 
         [Fact(DisplayName = "TryToEatAtPlace should not error when eating is on last chair.")]
@@ -43,6 +55,7 @@ namespace ThreadingExplore.UnitTests.DiningPhilosophers
             var tryToEatAtPlace1 = philosopherTable.TryToEatAtPlace(0);
             var tryToEatAtPlace2 = philosopherTable.TryToEatAtPlace(2);
             tryToEatAtPlace2.CanEat.Should().BeFalse();
+            tryToEatAtPlace2.Message.Should().Be("Left fork free: True ... Right fork free: False");
         }
 
     }
