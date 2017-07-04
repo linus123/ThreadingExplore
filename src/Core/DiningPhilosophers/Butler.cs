@@ -2,13 +2,13 @@
 
 namespace ThreadingExplore.Core.DiningPhilosophers
 {
-    public class PhilosopherTable
+    public class Butler
     {
         private readonly bool[] _forkArray;
 
         private readonly object _lockObject = new object();
 
-        public PhilosopherTable(
+        public Butler(
             int forkCount)
         {
             _forkArray = new bool[forkCount];

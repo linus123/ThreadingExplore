@@ -8,27 +8,27 @@ namespace ThreadingExplore.Core.DiningPhilosophers
         private readonly int _eatTimeInMiliSeconds;
         private readonly string _name;
 
-        private readonly PhilosopherTable _philosopherTable;
+        private readonly Butler _butler;
         private readonly int _placeNumber;
         private readonly SimulationLog _simulationLog;
 
         public Philosopher(
             string name,
             int eatTimeInMiliSeconds,
-            PhilosopherTable philosopherTable,
+            Butler butler,
             int placeNumber,
             SimulationLog simulationLog)
         {
             _simulationLog = simulationLog;
             _placeNumber = placeNumber;
-            _philosopherTable = philosopherTable;
+            _butler = butler;
             _name = name;
             _eatTimeInMiliSeconds = eatTimeInMiliSeconds;
         }
 
         public void StartEating()
         {
-            var eatRequestResult = _philosopherTable.TryToEatAtPlace(_placeNumber);
+            var eatRequestResult = _butler.TryToEatAtPlace(_placeNumber);
 
             while (!eatRequestResult.CanEat)
             {
@@ -36,14 +36,14 @@ namespace ThreadingExplore.Core.DiningPhilosophers
 
                 Thread.Sleep(10);
 
-                eatRequestResult = _philosopherTable.TryToEatAtPlace(_placeNumber);
+                eatRequestResult = _butler.TryToEatAtPlace(_placeNumber);
             }
 
             _simulationLog.Info($"{_name} is now eating for {_eatTimeInMiliSeconds} milli seconds.");
             Thread.Sleep(_eatTimeInMiliSeconds);
             _simulationLog.Info($"{_name} has completed eating.");
 
-            _philosopherTable.PutDownForks(_placeNumber);
+            _butler.PutDownForks(_placeNumber);
         }
 
 //        private void ThinkWithPossibliltyOfStarving(

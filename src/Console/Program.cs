@@ -9,7 +9,7 @@ namespace ThreadingExplore.Console
     {
         static void Main(string[] args)
         {
-            var philosopherTable = new PhilosopherTable(5);
+            var philosopherTable = new Butler(5);
 
             var simulationLog = new SimulationLog();
 
