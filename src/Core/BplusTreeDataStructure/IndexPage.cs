@@ -42,7 +42,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             return customerRecords.ToArray();
         }
 
-        public InsertResult Insert(CustomerRecord customerRecord)
+        public InsertResult Insert(CustomerRecord newCustomerRecord)
         {
             throw new System.NotImplementedException();
         }

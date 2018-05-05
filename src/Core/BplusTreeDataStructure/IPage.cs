@@ -3,7 +3,7 @@
     public interface IPage
     {
         int PageSize { get; }
-        InsertResult Insert(CustomerRecord customerRecord);
+        InsertResult Insert(CustomerRecord newCustomerRecord);
         CustomerRecord[] GetAll();
     }
 }

@@ -5,21 +5,21 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
     public class DataPage : IPage
     {
-        private CustomerRecord[] _customers;
+        private CustomerRecord[] _customerRecords;
 
         public DataPage(
             int pageSize)
         {
             PageSize = pageSize;
-            _customers = new CustomerRecord[pageSize + 1];
+            _customerRecords = new CustomerRecord[pageSize + 1];
         }
 
         private DataPage(
             int pageSize,
-            CustomerRecord[] customerRecords)
+            CustomerRecord[] customerRecordRecords)
         {
             PageSize = pageSize;
-            _customers = customerRecords;
+            _customerRecords = customerRecordRecords;
         }
 
         public int PageSize { get; }
@@ -30,68 +30,88 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         }
 
         public InsertResult Insert(
-            CustomerRecord customerRecord)
+            CustomerRecord newCustomerRecord)
         {
             if (IsFull())
             {
-                for (int pageIndex = 0; pageIndex < PageSizePlusExtraSpace; pageIndex++)
-                {
-                    if (_customers[pageIndex] == null)
-                    {
-                        _customers[pageIndex] = customerRecord;
-
-                        break;
-                    }
-
-                    if (_customers[pageIndex].CustomerId > customerRecord.CustomerId)
-                    {
-                        _customers = InsertAndShiftWithFullPage(_customers, customerRecord, pageIndex);
-
-                        break;
-                    }
-                }
-
-                var splitCount = PageSize / 2;
-
-                var leftDataPage = CreateLeftDataPage(splitCount);
-                var rightDataPage = CreateRightDataPage(splitCount);
-
-                return InsertResult.CreateAsSplit(
-                    leftDataPage,
-                    rightDataPage);
+                return InsertAndSplit(newCustomerRecord);
             }
 
-            for (int pageIndex = 0; pageIndex < PageSize; pageIndex++)
-            {
-                if (_customers[pageIndex] == null)
-                {
-                    _customers[pageIndex] = customerRecord;
-
-                    return InsertResult.CreateInsertSuccess();
-                }
-
-                if (_customers[pageIndex].CustomerId > customerRecord.CustomerId)
-                {
-                    _customers = InsertAndShift(_customers, customerRecord, pageIndex);
-
-                    return InsertResult.CreateInsertSuccess();
-                }
-            }
-
-            throw new Exception("Something bad happend");
+            return InsertWithoutSplit(newCustomerRecord);
         }
 
-        private DataPage CreateRightDataPage(int splitCount)
+        private InsertResult InsertWithoutSplit(
+            CustomerRecord newCustomerRecord)
         {
-            var rightCustomers = new CustomerRecord[PageSize + 1];
-            Array.Copy(_customers, splitCount, rightCustomers, 0, PageSize - splitCount + 1);
+            for (int recordIndex = 0; recordIndex < PageSize; recordIndex++)
+            {
+                if (_customerRecords[recordIndex] == null)
+                {
+                    _customerRecords[recordIndex] = newCustomerRecord;
+
+                    break;
+                }
+
+                if (_customerRecords[recordIndex].CustomerId > newCustomerRecord.CustomerId)
+                {
+                    _customerRecords = ShiftAndInsert(_customerRecords, newCustomerRecord, recordIndex, PageSize);
+
+                    break;
+                }
+            }
+
+            return InsertResult.CreateInsertSuccess();
+        }
+
+        private InsertResult InsertAndSplit(
+            CustomerRecord newCustomerRecord)
+        {
+            for (int recordIndex = 0; recordIndex < PageSizePlusExtraSpace; recordIndex++)
+            {
+                if (_customerRecords[recordIndex] == null)
+                {
+                    _customerRecords[recordIndex] = newCustomerRecord;
+
+                    break;
+                }
+
+                if (_customerRecords[recordIndex].CustomerId > newCustomerRecord.CustomerId)
+                {
+                    _customerRecords = ShiftAndInsert(_customerRecords, newCustomerRecord, recordIndex, PageSizePlusExtraSpace);
+
+                    break;
+                }
+            }
+
+            return CreateSplitResult(_customerRecords);
+        }
+
+        private InsertResult CreateSplitResult(
+            CustomerRecord[] customerRecords)
+        {
+            var splitCount = PageSize / 2;
+
+            var leftDataPage = CreateLeftDataPage(customerRecords, splitCount);
+            var rightDataPage = CreateRightDataPage(customerRecords, splitCount);
+
+            return InsertResult.CreateAsSplit(
+                leftDataPage,
+                rightDataPage);
+        }
+
+        private DataPage CreateRightDataPage(
+            CustomerRecord[] customerRecords, int splitCount)
+        {
+            var rightCustomers = new CustomerRecord[PageSizePlusExtraSpace];
+            Array.Copy(customerRecords, splitCount, rightCustomers, 0, PageSize - splitCount + 1);
             return new DataPage(PageSize, rightCustomers);
         }
 
-        private DataPage CreateLeftDataPage(int splitCount)
+        private DataPage CreateLeftDataPage(
+            CustomerRecord[] customerRecords, int splitCount)
         {
-            var leftCustomers = new CustomerRecord[PageSize + 1];
-            Array.Copy(_customers, 0, leftCustomers, 0, splitCount);
+            var leftCustomers = new CustomerRecord[PageSizePlusExtraSpace];
+            Array.Copy(customerRecords, 0, leftCustomers, 0, splitCount);
             return new DataPage(PageSize, leftCustomers);
         }
 
@@ -99,48 +119,34 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         {
             for (int i = 0; i < PageSize; i++)
             {
-                if (_customers[i] == null)
+                if (_customerRecords[i] == null)
                     return false;
             }
 
             return true;
         }
 
-        private CustomerRecord[] InsertAndShift(
-            CustomerRecord[] dataPage,
-            CustomerRecord customerRecord,
-            int insertIndex)
+        private CustomerRecord[] ShiftAndInsert(
+            CustomerRecord[] customerRecords,
+            CustomerRecord newCustomerRecord,
+            int insertIndex,
+            int pageSize)
         {
-            for (int indexCounter = PageSize - 1; indexCounter > insertIndex; indexCounter--)
+            for (int i = pageSize - 1; i > insertIndex; i--)
             {
-                dataPage[indexCounter] = dataPage[indexCounter - 1];
+                customerRecords[i] = customerRecords[i - 1];
             }
 
-            dataPage[insertIndex] = customerRecord;
+            customerRecords[insertIndex] = newCustomerRecord;
 
-            return dataPage;
-        }
-
-        private CustomerRecord[] InsertAndShiftWithFullPage(
-            CustomerRecord[] dataPage,
-            CustomerRecord customerRecord,
-            int insertIndex)
-        {
-            for (int indexCounter = PageSizePlusExtraSpace - 1; indexCounter > insertIndex; indexCounter--)
-            {
-                dataPage[indexCounter] = dataPage[indexCounter - 1];
-            }
-
-            dataPage[insertIndex] = customerRecord;
-
-            return dataPage;
+            return customerRecords;
         }
 
         public CustomerRecord[] GetAll()
         {
             var customerRecords = new List<CustomerRecord>();
 
-            foreach (var customerRecord in _customers)
+            foreach (var customerRecord in _customerRecords)
             {
                 if (customerRecord != null)
                     customerRecords.Add(customerRecord);
