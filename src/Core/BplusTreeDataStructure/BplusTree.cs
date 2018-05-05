@@ -5,7 +5,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
     public class BplusTree
     {
         private CustomerRecord[] _dataPage;
-        private int _pageSize;
+        private readonly int _pageSize;
 
         public BplusTree(
             int pageSize = 2)
@@ -22,6 +22,11 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
                 {
                     _dataPage[pageIndex] = customerRecord;
 
+                    return;
+                }
+
+                if (IsDataPageFull(_dataPage))
+                {
                     return;
                 }
 
@@ -60,6 +65,18 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             dataPage[insertIndex] = customerRecord;
 
             return dataPage;
+        }
+
+        private bool IsDataPageFull(
+            CustomerRecord[] dataPage)
+        {
+            for (int i = 0; i < _pageSize; i++)
+            {
+                if (dataPage[i] == null)
+                    return false;
+            }
+
+            return true;
         }
     }
 

@@ -10,6 +10,20 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
+        public void ShouldNotErrorWithZeroRecords(
+            int pageSize)
+        {
+            var tree = new BplusTree(pageSize);
+
+            var customers = tree.GetAll();
+
+            customers.Should().HaveCount(0);
+        }
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
         public void ShouldStoreSingleRecord(
             int pageSize)
         {
