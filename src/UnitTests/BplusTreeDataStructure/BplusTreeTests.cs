@@ -12,7 +12,6 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             var tree = new BplusTree();
 
             var customerRecord = CreateCustomer(100);
-
             tree.Insert(customerRecord);
 
             var customers = tree.GetAll();

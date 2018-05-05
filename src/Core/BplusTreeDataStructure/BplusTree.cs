@@ -1,4 +1,6 @@
-﻿namespace ThreadingExplore.Core.BplusTreeDataStructure
+﻿using System.Collections.Generic;
+
+namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
     public class BplusTree
     {
@@ -31,7 +33,15 @@
 
         public CustomerRecord[] GetAll()
         {
-            return _dataPage;
+            var customerRecords = new List<CustomerRecord>();
+
+            foreach (var customerRecord in _dataPage)
+            {
+                if (customerRecord != null)
+                    customerRecords.Add(customerRecord);
+            }
+
+            return customerRecords.ToArray();
         }
     }
 
