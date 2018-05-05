@@ -45,7 +45,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
                     if (_customers[pageIndex].CustomerId > customerRecord.CustomerId)
                     {
-                        _customers = InsertAndShift(_customers, customerRecord, pageIndex);
+                        _customers = InsertAndShiftWithFullPage(_customers, customerRecord, pageIndex);
 
                         break;
                     }
@@ -102,9 +102,24 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             CustomerRecord customerRecord,
             int insertIndex)
         {
-            for (int indexCounter = insertIndex; indexCounter < (_pageSize - 1); indexCounter++)
+            for (int indexCounter = _pageSize - 1; indexCounter > insertIndex; indexCounter--)
             {
-                dataPage[insertIndex + 1] = dataPage[insertIndex];
+                dataPage[indexCounter] = dataPage[indexCounter - 1];
+            }
+
+            dataPage[insertIndex] = customerRecord;
+
+            return dataPage;
+        }
+
+        private CustomerRecord[] InsertAndShiftWithFullPage(
+            CustomerRecord[] dataPage,
+            CustomerRecord customerRecord,
+            int insertIndex)
+        {
+            for (int indexCounter = _pageSize; indexCounter > insertIndex; indexCounter--)
+            {
+                dataPage[indexCounter] = dataPage[indexCounter - 1];
             }
 
             dataPage[insertIndex] = customerRecord;
