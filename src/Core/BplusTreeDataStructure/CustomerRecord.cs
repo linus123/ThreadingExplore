@@ -13,5 +13,9 @@
         public int CustomerId { get; }
         public string Name { get; }
 
+        public override string ToString()
+        {
+            return $"{CustomerId,3} - {Name}";
+        }
     }
 }

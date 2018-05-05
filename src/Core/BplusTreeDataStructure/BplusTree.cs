@@ -5,29 +5,31 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
     public class BplusTree
     {
         private CustomerRecord[] _dataPage;
+        private int _pageSize;
 
         public BplusTree(
             int pageSize = 2)
         {
+            _pageSize = pageSize;
             _dataPage = new CustomerRecord[pageSize];
         }
 
         public void Insert(CustomerRecord customerRecord)
         {
-            if (_dataPage[0] == null)
+            for (int pageIndex = 0; pageIndex < _pageSize; pageIndex++)
             {
-                _dataPage[0] = customerRecord;
-            }
-            else
-            {
-                if (_dataPage[0].CustomerId > customerRecord.CustomerId)
+                if (_dataPage[pageIndex] == null)
                 {
-                    _dataPage[1] = _dataPage[0];
-                    _dataPage[0] = customerRecord;
+                    _dataPage[pageIndex] = customerRecord;
+
+                    return;
                 }
-                else
+
+                if (_dataPage[pageIndex].CustomerId > customerRecord.CustomerId)
                 {
-                    _dataPage[1] = customerRecord;
+                    _dataPage = InsertAndShift(_dataPage, customerRecord, pageIndex);
+
+                    return;
                 }
             }
         }
@@ -43,6 +45,21 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             }
 
             return customerRecords.ToArray();
+        }
+
+        private CustomerRecord[] InsertAndShift(
+            CustomerRecord[] dataPage,
+            CustomerRecord customerRecord,
+            int insertIndex)
+        {
+            for (int indexCounter = insertIndex; indexCounter < (_pageSize - 1); indexCounter++)
+            {
+                dataPage[insertIndex + 1] = dataPage[insertIndex];
+            }
+
+            dataPage[insertIndex] = customerRecord;
+
+            return dataPage;
         }
     }
 
