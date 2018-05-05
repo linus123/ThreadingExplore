@@ -11,32 +11,45 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             int pageSize = 2)
         {
             _pageSize = pageSize;
-            _dataPage = new CustomerRecord[pageSize];
+            _dataPage = new CustomerRecord[pageSize + 1];
         }
 
         public void Insert(CustomerRecord customerRecord)
         {
-            for (int pageIndex = 0; pageIndex < _pageSize; pageIndex++)
+            if (IsDataPageFull(_dataPage))
             {
-                if (_dataPage[pageIndex] == null)
+                for (int pageIndex = 0; pageIndex < _pageSize - 1; pageIndex++)
                 {
-                    _dataPage[pageIndex] = customerRecord;
+                    if (_dataPage[pageIndex].CustomerId > customerRecord.CustomerId)
+                    {
+                        _dataPage = InsertAndShift(_dataPage, customerRecord, pageIndex);
 
-                    return;
-                }
+                        // Split
 
-                if (IsDataPageFull(_dataPage))
-                {
-                    return;
-                }
-
-                if (_dataPage[pageIndex].CustomerId > customerRecord.CustomerId)
-                {
-                    _dataPage = InsertAndShift(_dataPage, customerRecord, pageIndex);
-
-                    return;
+                        return;
+                    }
                 }
             }
+            else
+            {
+                for (int pageIndex = 0; pageIndex < _pageSize; pageIndex++)
+                {
+                    if (_dataPage[pageIndex] == null)
+                    {
+                        _dataPage[pageIndex] = customerRecord;
+
+                        return;
+                    }
+
+                    if (_dataPage[pageIndex].CustomerId > customerRecord.CustomerId)
+                    {
+                        _dataPage = InsertAndShift(_dataPage, customerRecord, pageIndex);
+
+                        return;
+                    }
+                }
+            }
+
         }
 
         public CustomerRecord[] GetAll()
@@ -70,7 +83,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         private bool IsDataPageFull(
             CustomerRecord[] dataPage)
         {
-            for (int i = 0; i < _pageSize; i++)
+            for (int i = 0; i < _pageSize - 1; i++)
             {
                 if (dataPage[i] == null)
                     return false;
