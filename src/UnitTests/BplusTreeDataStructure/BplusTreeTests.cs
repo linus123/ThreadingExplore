@@ -121,7 +121,7 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         {
             return new CustomerRecord(
                 customerId,
-                string.Format("Customer {0,3}", customerId));
+                $"Customer {customerId,3}");
         }
 
     }

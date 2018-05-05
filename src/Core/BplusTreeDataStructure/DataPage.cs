@@ -5,7 +5,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
     public class DataPage
     {
-        private CustomerRecord[] _dataPage;
+        private CustomerRecord[] _customers;
 
         private readonly int _pageSize;
 
@@ -13,29 +13,68 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             int pageSize)
         {
             _pageSize = pageSize;
-            _dataPage = new CustomerRecord[pageSize + 1];
+            _customers = new CustomerRecord[pageSize + 1];
         }
 
-        public bool Insert(
+        private DataPage(
+            int pageSize,
+            CustomerRecord[] customerRecords)
+        {
+            _pageSize = pageSize;
+            _customers = customerRecords;
+        }
+
+        public InsertResult Insert(
             CustomerRecord customerRecord)
         {
             if (IsFull())
-                return false;
+            {
+                for (int pageIndex = 0; pageIndex < _pageSize + 1; pageIndex++)
+                {
+                    if (_customers[pageIndex] == null)
+                    {
+                        _customers[pageIndex] = customerRecord;
+
+                        break;
+                    }
+
+                    if (_customers[pageIndex].CustomerId > customerRecord.CustomerId)
+                    {
+                        _customers = InsertAndShift(_customers, customerRecord, pageIndex);
+
+                        break;
+                    }
+                }
+
+                var splitCount = _pageSize / 2;
+
+                var leftCustomers = new CustomerRecord[_pageSize + 1];
+                Array.Copy(_customers, 0, leftCustomers, 0, splitCount);
+                var leftDataPage = new DataPage(_pageSize, leftCustomers);
+
+                var rightCustomers = new CustomerRecord[_pageSize + 1];
+                Array.Copy(_customers, splitCount, rightCustomers, 0, _pageSize - splitCount + 1);
+                var rightDataPage = new DataPage(_pageSize, rightCustomers);
+
+                return InsertResult.CreateAsSplit(
+                    leftDataPage,
+                    rightDataPage);
+            }
 
             for (int pageIndex = 0; pageIndex < _pageSize; pageIndex++)
             {
-                if (_dataPage[pageIndex] == null)
+                if (_customers[pageIndex] == null)
                 {
-                    _dataPage[pageIndex] = customerRecord;
+                    _customers[pageIndex] = customerRecord;
 
-                    return true;
+                    return InsertResult.CreateInsertSuccess();
                 }
 
-                if (_dataPage[pageIndex].CustomerId > customerRecord.CustomerId)
+                if (_customers[pageIndex].CustomerId > customerRecord.CustomerId)
                 {
-                    _dataPage = InsertAndShift(_dataPage, customerRecord, pageIndex);
+                    _customers = InsertAndShift(_customers, customerRecord, pageIndex);
 
-                    return true;
+                    return InsertResult.CreateInsertSuccess();
                 }
             }
 
@@ -46,7 +85,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         {
             for (int i = 0; i < _pageSize; i++)
             {
-                if (_dataPage[i] == null)
+                if (_customers[i] == null)
                     return false;
             }
 
@@ -72,7 +111,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         {
             var customerRecords = new List<CustomerRecord>();
 
-            foreach (var customerRecord in _dataPage)
+            foreach (var customerRecord in _customers)
             {
                 if (customerRecord != null)
                     customerRecords.Add(customerRecord);
@@ -80,7 +119,33 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             return customerRecords.ToArray();
         }
+    }
 
+    public class InsertResult
+    {
+        public static InsertResult CreateInsertSuccess()
+        {
+            return new InsertResult()
+            {
+                WasSuccessful = true
+            };
+        }
+
+        public static InsertResult CreateAsSplit(
+            DataPage leftDataPage,
+            DataPage rightDataPage)
+        {
+            return new InsertResult()
+            {
+                WasSuccessful = false,
+                LeftDataPage = leftDataPage,
+                RightDataPage = rightDataPage
+            };
+        }
+
+        public bool WasSuccessful { get; private set; }
+        public DataPage LeftDataPage { get; private set; }
+        public DataPage RightDataPage { get; private set; }
 
     }
 }
