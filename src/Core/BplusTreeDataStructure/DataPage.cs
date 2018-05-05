@@ -7,6 +7,12 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
     {
         private CustomerRecord[] _customerRecords;
 
+        private enum AdditionalSpaceAction
+        {
+            DoNoUseAddtionalSpace,
+            UseAddtionalSpace
+        }
+
         public DataPage(
             int pageSize)
         {
@@ -32,12 +38,12 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         public InsertResult Insert(
             CustomerRecord newCustomerRecord)
         {
-            if (IsFull())
+            if (IsDataPageFull())
                 return InsertAndSplit(newCustomerRecord);
 
             return InsertWithoutSplit(
                 newCustomerRecord,
-                useAdditionalPlace: false);
+                AdditionalSpaceAction.DoNoUseAddtionalSpace);
         }
 
         private InsertResult InsertAndSplit(
@@ -45,16 +51,16 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         {
             InsertWithoutSplit(
                 newCustomerRecord,
-                useAdditionalPlace: true);
+                AdditionalSpaceAction.UseAddtionalSpace);
 
             return CreateSplitResult(_customerRecords);
         }
 
         private InsertResult InsertWithoutSplit(
             CustomerRecord newCustomerRecord,
-            bool useAdditionalPlace)
+            AdditionalSpaceAction additionalSpaceAction)
         {
-            var pageSize = GetCorrectPageSize(useAdditionalPlace);
+            var pageSize = GetCorrectPageSize(additionalSpaceAction);
 
             for (int recordIndex = 0; recordIndex < pageSize; recordIndex++)
             {
@@ -80,9 +86,9 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         }
 
         private int GetCorrectPageSize(
-            bool useAdditionalPlace)
+            AdditionalSpaceAction additionalSpaceAction)
         {
-            if (useAdditionalPlace)
+            if (additionalSpaceAction == AdditionalSpaceAction.UseAddtionalSpace)
                 return PageSizePlusAdditionalSpace;
 
             return PageSize;
@@ -119,7 +125,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             return new DataPage(PageSize, leftCustomers);
         }
 
-        private bool IsFull()
+        private bool IsDataPageFull()
         {
             for (int i = 0; i < PageSize; i++)
             {
