@@ -7,11 +7,11 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
     public class BplusTreeTests
     {
         [Fact]
-        public void ShouldWorkWithSingleDataPage()
+        public void ShouldStoreSingleRecord()
         {
             var tree = new BplusTree();
 
-            var customerRecord = new CustomerRecord(100, "Customer 100");
+            var customerRecord = CreateCustomer(100);
 
             tree.Insert(customerRecord);
 
@@ -20,18 +20,18 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             savedCustomer.HasValue.Should().BeTrue();
 
             savedCustomer.Value.CustomerId.Should().Be(100);
-            savedCustomer.Value.Name.Should().Be("Customer 100");
+            savedCustomer.Value.Name.Should().Be(customerRecord.Name);
         }
 
         [Fact]
-        public void ShouldWorkWithTwoDataPages()
+        public void ShouldStoreTwoRecord()
         {
             var tree = new BplusTree();
 
-            var customer01 = new CustomerRecord(100, "Customer 100");
+            var customer01 = CreateCustomer(100);
             tree.Insert(customer01);
 
-            var cusomter02 = new CustomerRecord(101, "Customer 101");
+            var cusomter02 = CreateCustomer(101);
             tree.Insert(cusomter02);
 
             var customers = tree.GetAll();
@@ -39,21 +39,21 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             customers.Should().HaveCount(2);
 
             customers[0].CustomerId.Should().Be(100);
-            customers[0].Name.Should().Be("Customer 100");
+            customers[0].Name.Should().Be(customer01.Name);
 
             customers[1].CustomerId.Should().Be(101);
-            customers[1].Name.Should().Be("Customer 101");
+            customers[1].Name.Should().Be(cusomter02.Name);
         }
 
         [Fact]
-        public void ShouldWorkWithTwoDataPagesOutOfOrder()
+        public void ShouldStoreTwoRecrodsOutOfOrder()
         {
             var tree = new BplusTree();
 
-            var cusomter02 = new CustomerRecord(101, "Customer 101");
+            var cusomter02 = CreateCustomer(101);
             tree.Insert(cusomter02);
 
-            var customer01 = new CustomerRecord(100, "Customer 100");
+            var customer01 = CreateCustomer(100);
             tree.Insert(customer01);
 
             var customers = tree.GetAll();
@@ -61,12 +61,39 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             customers.Should().HaveCount(2);
 
             customers[0].CustomerId.Should().Be(100);
-            customers[0].Name.Should().Be("Customer 100");
-
             customers[1].CustomerId.Should().Be(101);
-            customers[1].Name.Should().Be("Customer 101");
         }
 
+        [Fact]
+        public void ShouldStoreThreeRecords()
+        {
+            var tree = new BplusTree();
+
+            var customer01 = CreateCustomer(100);
+            tree.Insert(customer01);
+
+            var cusomter02 = CreateCustomer(101);
+            tree.Insert(cusomter02);
+
+            var cusomter03 = CreateCustomer(102);
+            tree.Insert(cusomter03);
+
+            var customers = tree.GetAll();
+
+            customers.Should().HaveCount(3);
+
+            customers[0].CustomerId.Should().Be(100);
+            customers[1].CustomerId.Should().Be(101);
+            customers[2].CustomerId.Should().Be(102);
+        }
+
+        public CustomerRecord CreateCustomer(
+            int customerId)
+        {
+            return new CustomerRecord(
+                customerId,
+                string.Format("Customer {0,3}", customerId));
+        }
 
     }
 }
