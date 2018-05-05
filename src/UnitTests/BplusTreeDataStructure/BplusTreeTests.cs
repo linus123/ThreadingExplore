@@ -6,10 +6,14 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 {
     public class BplusTreeTests
     {
-        [Fact]
-        public void ShouldStoreSingleRecord()
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void ShouldStoreSingleRecord(
+            int pageSize)
         {
-            var tree = new BplusTree();
+            var tree = new BplusTree(pageSize);
 
             var customerRecord = CreateCustomer(100);
             tree.Insert(customerRecord);
@@ -22,10 +26,14 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             customers[0].Name.Should().Be(customerRecord.Name);
         }
 
-        [Fact]
-        public void ShouldStoreTwoRecord()
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void ShouldStoreTwoRecord(
+            int pageSize)
         {
-            var tree = new BplusTree();
+            var tree = new BplusTree(pageSize);
 
             var customer01 = CreateCustomer(100);
             tree.Insert(customer01);
@@ -44,8 +52,12 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             customers[1].Name.Should().Be(cusomter02.Name);
         }
 
-        [Fact]
-        public void ShouldStoreTwoRecrodsOutOfOrder()
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void ShouldStoreTwoRecrodsOutOfOrder(
+            int pageSize)
         {
             var tree = new BplusTree();
 
@@ -63,10 +75,14 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             customers[1].CustomerId.Should().Be(101);
         }
 
-        [Fact]
-        public void ShouldStoreThreeRecords()
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void ShouldStoreThreeRecords(
+            int pageSize)
         {
-            var tree = new BplusTree();
+            var tree = new BplusTree(pageSize);
 
             var customer01 = CreateCustomer(100);
             tree.Insert(customer01);

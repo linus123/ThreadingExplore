@@ -6,9 +6,10 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
     {
         private CustomerRecord[] _dataPage;
 
-        public BplusTree()
+        public BplusTree(
+            int pageSize = 2)
         {
-            _dataPage = new CustomerRecord[2];
+            _dataPage = new CustomerRecord[pageSize];
         }
 
         public void Insert(CustomerRecord customerRecord)
