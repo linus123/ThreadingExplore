@@ -29,11 +29,6 @@
             }
         }
 
-        public Maybe<CustomerRecord> Select(int customerId)
-        {
-            return Maybe<CustomerRecord>.Some(_dataPage[0]);
-        }
-
         public CustomerRecord[] GetAll()
         {
             return _dataPage;

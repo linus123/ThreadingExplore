@@ -15,12 +15,12 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
             tree.Insert(customerRecord);
 
-            var savedCustomer = tree.Select(100);
+            var customers = tree.GetAll();
 
-            savedCustomer.HasValue.Should().BeTrue();
+            customers.Should().HaveCount(1);
 
-            savedCustomer.Value.CustomerId.Should().Be(100);
-            savedCustomer.Value.Name.Should().Be(customerRecord.Name);
+            customers[0].CustomerId.Should().Be(100);
+            customers[0].Name.Should().Be(customerRecord.Name);
         }
 
         [Fact]
