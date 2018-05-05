@@ -2,15 +2,11 @@
 {
     public class BplusTree
     {
-        private DataPage _dataPage;
-        private IndexPage _indexPage;
-
-        private int _pageSize;
-
+        private IPage _dataPage;
+        
         public BplusTree(
             int pageSize = 2)
         {
-            _pageSize = pageSize;
             _dataPage = new DataPage(pageSize);
         }
 
@@ -21,17 +17,14 @@
             if (insertResult.WasSuccessful)
                 return;
 
-            _indexPage = new IndexPage(
-                _pageSize,
+            _dataPage = new IndexPage(
+                _dataPage.PageSize,
                 insertResult.LeftDataPage,
                 insertResult.RightDataPage);
         }
 
         public CustomerRecord[] GetAll()
         {
-            if (_indexPage != null)
-                return _indexPage.GetAll();
-
             return _dataPage.GetAll();
         }
     }

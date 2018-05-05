@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
-    public class DataPage
+    public class DataPage : IPage
     {
         private CustomerRecord[] _customers;
 
@@ -22,6 +22,11 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         {
             _pageSize = pageSize;
             _customers = customerRecords;
+        }
+
+        public int PageSize
+        {
+            get { return _pageSize; }
         }
 
         public InsertResult Insert(
