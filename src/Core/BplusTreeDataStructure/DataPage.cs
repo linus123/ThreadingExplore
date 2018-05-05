@@ -7,12 +7,10 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
     {
         private CustomerRecord[] _customers;
 
-        private readonly int _pageSize;
-
         public DataPage(
             int pageSize)
         {
-            _pageSize = pageSize;
+            PageSize = pageSize;
             _customers = new CustomerRecord[pageSize + 1];
         }
 
@@ -20,13 +18,15 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             int pageSize,
             CustomerRecord[] customerRecords)
         {
-            _pageSize = pageSize;
+            PageSize = pageSize;
             _customers = customerRecords;
         }
 
-        public int PageSize
+        public int PageSize { get; }
+
+        private int PageSizePlusExtraSpace
         {
-            get { return _pageSize; }
+            get { return PageSize + 1; }
         }
 
         public InsertResult Insert(
@@ -34,7 +34,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         {
             if (IsFull())
             {
-                for (int pageIndex = 0; pageIndex < _pageSize + 1; pageIndex++)
+                for (int pageIndex = 0; pageIndex < PageSizePlusExtraSpace; pageIndex++)
                 {
                     if (_customers[pageIndex] == null)
                     {
@@ -51,22 +51,17 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
                     }
                 }
 
-                var splitCount = _pageSize / 2;
+                var splitCount = PageSize / 2;
 
-                var leftCustomers = new CustomerRecord[_pageSize + 1];
-                Array.Copy(_customers, 0, leftCustomers, 0, splitCount);
-                var leftDataPage = new DataPage(_pageSize, leftCustomers);
-
-                var rightCustomers = new CustomerRecord[_pageSize + 1];
-                Array.Copy(_customers, splitCount, rightCustomers, 0, _pageSize - splitCount + 1);
-                var rightDataPage = new DataPage(_pageSize, rightCustomers);
+                var leftDataPage = CreateLeftDataPage(splitCount);
+                var rightDataPage = CreateRightDataPage(splitCount);
 
                 return InsertResult.CreateAsSplit(
                     leftDataPage,
                     rightDataPage);
             }
 
-            for (int pageIndex = 0; pageIndex < _pageSize; pageIndex++)
+            for (int pageIndex = 0; pageIndex < PageSize; pageIndex++)
             {
                 if (_customers[pageIndex] == null)
                 {
@@ -86,9 +81,23 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             throw new Exception("Something bad happend");
         }
 
+        private DataPage CreateRightDataPage(int splitCount)
+        {
+            var rightCustomers = new CustomerRecord[PageSize + 1];
+            Array.Copy(_customers, splitCount, rightCustomers, 0, PageSize - splitCount + 1);
+            return new DataPage(PageSize, rightCustomers);
+        }
+
+        private DataPage CreateLeftDataPage(int splitCount)
+        {
+            var leftCustomers = new CustomerRecord[PageSize + 1];
+            Array.Copy(_customers, 0, leftCustomers, 0, splitCount);
+            return new DataPage(PageSize, leftCustomers);
+        }
+
         private bool IsFull()
         {
-            for (int i = 0; i < _pageSize; i++)
+            for (int i = 0; i < PageSize; i++)
             {
                 if (_customers[i] == null)
                     return false;
@@ -102,7 +111,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             CustomerRecord customerRecord,
             int insertIndex)
         {
-            for (int indexCounter = _pageSize - 1; indexCounter > insertIndex; indexCounter--)
+            for (int indexCounter = PageSize - 1; indexCounter > insertIndex; indexCounter--)
             {
                 dataPage[indexCounter] = dataPage[indexCounter - 1];
             }
@@ -117,7 +126,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             CustomerRecord customerRecord,
             int insertIndex)
         {
-            for (int indexCounter = _pageSize; indexCounter > insertIndex; indexCounter--)
+            for (int indexCounter = PageSizePlusExtraSpace - 1; indexCounter > insertIndex; indexCounter--)
             {
                 dataPage[indexCounter] = dataPage[indexCounter - 1];
             }
