@@ -15,12 +15,12 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
             tree.Insert(customerRecord);
 
-            var savedDataPage = tree.Select(100);
+            var savedCustomer = tree.Select(100);
 
-            savedDataPage.HasValue.Should().BeTrue();
+            savedCustomer.HasValue.Should().BeTrue();
 
-            savedDataPage.Value.CustomerId.Should().Be(100);
-            savedDataPage.Value.Name.Should().Be("Customer 100");
+            savedCustomer.Value.CustomerId.Should().Be(100);
+            savedCustomer.Value.Name.Should().Be("Customer 100");
         }
 
         [Fact]
@@ -34,11 +34,15 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             var cusomter02 = new CustomerRecord(101, "Customer 101");
             tree.Insert(cusomter02);
 
-            var savedDataPage = tree.Select(101);
+            var customers = tree.GetAll();
 
-            savedDataPage.HasValue.Should().BeTrue();
-            savedDataPage.Value.CustomerId.Should().Be(101);
-            savedDataPage.Value.Name.Should().Be("Customer 101");
+            customers.Should().HaveCount(2);
+
+            customers[0].CustomerId.Should().Be(100);
+            customers[0].Name.Should().Be("Customer 100");
+
+            customers[1].CustomerId.Should().Be(101);
+            customers[1].Name.Should().Be("Customer 101");
         }
 
     }

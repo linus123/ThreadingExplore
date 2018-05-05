@@ -46,7 +46,7 @@
     <Compile Include="BankersAlgorithim\SystemResource.cs" />
     <Compile Include="BankersAlgorithim\SystemResources.cs" />
     <Compile Include="BplusTreeDataStructure\BplusTree.cs" />
-    <Compile Include="BplusTreeDataStructure\DataPage.cs" />
+    <Compile Include="BplusTreeDataStructure\CustomerRecord.cs" />
     <Compile Include="BplusTreeDataStructure\Maybe.cs" />
     <Compile Include="DiningPhilosophers\Philosopher.cs" />
     <Compile Include="DiningPhilosophers\Butler.cs" />
