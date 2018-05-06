@@ -4,7 +4,6 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
     public class IndexPage : IPage
     {
-        private int _pageSize;
         private int[] _indexes;
         private DataPage[] _dataPages;
 
@@ -13,7 +12,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             DataPage dataPage1,
             DataPage dataPage2)
         {
-            _pageSize = pageSize;
+            PageSize = pageSize;
 
             _indexes = new int[pageSize];
             _dataPages = new DataPage[pageSize + 1];
@@ -22,10 +21,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             _dataPages[1] = dataPage2;
         }
 
-        public int PageSize
-        {
-            get { return _pageSize; }
-        }
+        public int PageSize { get; }
 
         public CustomerRecord[] GetAll()
         {

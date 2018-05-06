@@ -170,6 +170,37 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             customers[2].CustomerId.Should().Be(102);
         }
 
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void ShouldStoreFourInOrder(
+            int pageSize)
+        {
+            var tree = new BplusTree(pageSize);
+
+            var customer01 = CreateCustomer(110);
+            tree.Insert(customer01);
+
+            var cusomter02 = CreateCustomer(120);
+            tree.Insert(cusomter02);
+
+            var cusomter03 = CreateCustomer(130);
+            tree.Insert(cusomter03);
+
+            var cusomter04 = CreateCustomer(115);
+            tree.Insert(cusomter04);
+
+            var customers = tree.GetAll();
+
+            customers.Should().HaveCount(3);
+
+            customers[0].CustomerId.Should().Be(110);
+            customers[1].CustomerId.Should().Be(115);
+            customers[2].CustomerId.Should().Be(120);
+            customers[3].CustomerId.Should().Be(130);
+        }
+
 
         public CustomerRecord CreateCustomer(
             int customerId)
