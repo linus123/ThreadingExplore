@@ -2,7 +2,7 @@
 {
     public class InsertResult
     {
-        public static InsertResult CreateInsertSuccess()
+        public static InsertResult CreateWithoutSplit()
         {
             return new InsertResult()
             {

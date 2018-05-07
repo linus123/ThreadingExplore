@@ -82,7 +82,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
                 }
             }
 
-            return InsertResult.CreateInsertSuccess();
+            return InsertResult.CreateWithoutSplit();
         }
 
         private int GetCorrectPageSize(

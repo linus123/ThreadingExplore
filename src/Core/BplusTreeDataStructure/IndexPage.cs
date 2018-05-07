@@ -42,7 +42,23 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
         public InsertResult Insert(CustomerRecord newCustomerRecord)
         {
-            return _dataPages[0].Insert(newCustomerRecord);
+            if (newCustomerRecord.CustomerId < _indexes[0])
+            {
+                return _dataPages[0].Insert(newCustomerRecord);
+            }
+            else
+            {
+                var insertResult = _dataPages[1].Insert(newCustomerRecord);
+
+                if (insertResult.WasSplitCaused)
+                {
+                    _indexes[1] = insertResult.SplitValue;
+                    _dataPages[1] = insertResult.LeftDataPage;
+                    _dataPages[2] = insertResult.RightDataPage;
+                }
+
+                return InsertResult.CreateWithoutSplit();
+            }
         }
     }
 }
