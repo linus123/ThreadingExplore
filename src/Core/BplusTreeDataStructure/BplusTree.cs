@@ -14,13 +14,13 @@
         {
             var insertResult = _dataPage.Insert(customerRecord);
 
-            if (insertResult.WasSuccessful)
-                return;
-
-            _dataPage = new IndexPage(
-                _dataPage.PageSize,
-                insertResult.LeftDataPage,
-                insertResult.RightDataPage);
+            if (insertResult.WasSplitCaused)
+            {
+                _dataPage = new IndexPage(
+                    _dataPage.PageSize,
+                    insertResult.LeftDataPage,
+                    insertResult.RightDataPage);
+            }
         }
 
         public CustomerRecord[] GetAll()

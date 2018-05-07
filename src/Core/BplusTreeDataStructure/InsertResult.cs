@@ -6,7 +6,7 @@
         {
             return new InsertResult()
             {
-                WasSuccessful = true
+                WasSplitCaused = false
             };
         }
 
@@ -16,13 +16,13 @@
         {
             return new InsertResult()
             {
-                WasSuccessful = false,
+                WasSplitCaused = true,
                 LeftDataPage = leftDataPage,
                 RightDataPage = rightDataPage
             };
         }
 
-        public bool WasSuccessful { get; private set; }
+        public bool WasSplitCaused { get; private set; }
         public DataPage LeftDataPage { get; private set; }
         public DataPage RightDataPage { get; private set; }
 
