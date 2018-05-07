@@ -4,8 +4,8 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
     public class IndexPage : IPage
     {
-        private int[] _indexes;
-        private DataPage[] _dataPages;
+        private readonly int[] _indexes;
+        private readonly DataPage[] _dataPages;
 
         public IndexPage(
             int pageSize,
@@ -46,19 +46,17 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             {
                 return _dataPages[0].Insert(newCustomerRecord);
             }
-            else
+
+            var insertResult = _dataPages[1].Insert(newCustomerRecord);
+
+            if (insertResult.WasSplitCaused)
             {
-                var insertResult = _dataPages[1].Insert(newCustomerRecord);
-
-                if (insertResult.WasSplitCaused)
-                {
-                    _indexes[1] = insertResult.SplitValue;
-                    _dataPages[1] = insertResult.LeftDataPage;
-                    _dataPages[2] = insertResult.RightDataPage;
-                }
-
-                return InsertResult.CreateWithoutSplit();
+                _indexes[1] = insertResult.SplitValue;
+                _dataPages[1] = insertResult.LeftDataPage;
+                _dataPages[2] = insertResult.RightDataPage;
             }
+
+            return InsertResult.CreateWithoutSplit();
         }
     }
 }
