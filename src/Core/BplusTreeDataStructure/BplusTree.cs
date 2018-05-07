@@ -18,6 +18,7 @@
             {
                 _dataPage = new IndexPage(
                     _dataPage.PageSize,
+                    insertResult.SplitValue,
                     insertResult.LeftDataPage,
                     insertResult.RightDataPage);
             }

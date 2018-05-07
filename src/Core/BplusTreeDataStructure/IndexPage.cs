@@ -9,12 +9,14 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
         public IndexPage(
             int pageSize,
+            int splitValue,
             DataPage dataPage1,
             DataPage dataPage2)
         {
             PageSize = pageSize;
 
             _indexes = new int[pageSize];
+            _indexes[0] = splitValue;
             _dataPages = new DataPage[pageSize + 1];
 
             _dataPages[0] = dataPage1;
@@ -40,7 +42,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
         public InsertResult Insert(CustomerRecord newCustomerRecord)
         {
-            throw new System.NotImplementedException();
+            return _dataPages[0].Insert(newCustomerRecord);
         }
     }
 }

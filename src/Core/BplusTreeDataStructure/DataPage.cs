@@ -97,12 +97,15 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         private InsertResult CreateSplitResult(
             CustomerRecord[] customerRecords)
         {
-            var splitCount = PageSize / 2;
+            var splitCount = (int) Math.Floor(PageSize / 2.0d);
 
             var leftDataPage = CreateLeftDataPage(customerRecords, splitCount);
             var rightDataPage = CreateRightDataPage(customerRecords, splitCount);
 
+            var parentValueIndex = (int)Math.Ceiling(PageSize / 2.0d);
+
             return InsertResult.CreateAsSplit(
+                customerRecords[parentValueIndex].CustomerId,
                 leftDataPage,
                 rightDataPage);
         }

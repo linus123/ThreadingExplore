@@ -179,26 +179,26 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         {
             var tree = new BplusTree(pageSize);
 
-            var customer01 = CreateCustomer(110);
+            var customer01 = CreateCustomer(100);
             tree.Insert(customer01);
 
-            var cusomter02 = CreateCustomer(120);
+            var cusomter02 = CreateCustomer(110);
             tree.Insert(cusomter02);
 
-            var cusomter03 = CreateCustomer(130);
+            var cusomter03 = CreateCustomer(120);
             tree.Insert(cusomter03);
 
-            var cusomter04 = CreateCustomer(140);
+            var cusomter04 = CreateCustomer(105);
             tree.Insert(cusomter04);
 
             var customers = tree.GetAll();
 
-            customers.Should().HaveCount(3);
+            customers.Should().HaveCount(4);
 
-            customers[0].CustomerId.Should().Be(110);
-            customers[1].CustomerId.Should().Be(120);
-            customers[2].CustomerId.Should().Be(130);
-            customers[3].CustomerId.Should().Be(140);
+            customers[0].CustomerId.Should().Be(100);
+            customers[1].CustomerId.Should().Be(105);
+            customers[2].CustomerId.Should().Be(110);
+            customers[3].CustomerId.Should().Be(120);
         }
 
 
