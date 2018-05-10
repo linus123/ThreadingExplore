@@ -33,6 +33,24 @@ namespace ThreadingExplore.Core.GameOfLife
         {
             _grid[x, y] = cellStatus;
         }
+
+        public void SetGrid(string[] stringArray)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    if (stringArray[y][x] == '*')
+                    {
+                        SetCellStatus(x, y, CellStatus.Alive);
+                    }
+                    else
+                    {
+                        SetCellStatus(x, y, CellStatus.NotAlive);
+                    }
+                }
+            }
+        }
     }
 
     public enum CellStatus

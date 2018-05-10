@@ -84,5 +84,80 @@ namespace ThreadingExplore.UnitTests.GameOfLife
             Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(x, y));
         }
 
+        [Fact(DisplayName = "SetGrid should set the entire grid from an array of strings.")]
+        public void Test0070()
+        {
+            var testGrid = new string[3];
+
+            testGrid[0] = "---";
+            testGrid[1] = "---";
+            testGrid[2] = "---";
+
+            var grid = new GameOfLifeGrid();
+            grid.SetGrid(testGrid);
+
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(0, 0));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(1, 0));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 0));
+
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(0, 1));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(1, 1));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 1));
+
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(0, 2));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(1, 2));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 2));
+        }
+
+        [Fact(DisplayName = "SetGrid should setup a grid given a single alive cell.")]
+        public void Test0080()
+        {
+            var testGrid = new string[3];
+
+            testGrid[0] = "---";
+            testGrid[1] = "-*-";
+            testGrid[2] = "---";
+
+            var grid = new GameOfLifeGrid();
+            grid.SetGrid(testGrid);
+
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(0, 0));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(1, 0));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 0));
+
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(0, 1));
+            Assert.Equal(CellStatus.Alive, grid.GetCellStatus(1, 1));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 1));
+
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(0, 2));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(1, 2));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 2));
+        }
+
+        [Fact(DisplayName = "SetGrid should setup a grid give multple living cells.")]
+        public void Test0090()
+        {
+            var testGrid = new string[3];
+
+            testGrid[0] = "***";
+            testGrid[1] = "---";
+            testGrid[2] = "-*-";
+
+            var grid = new GameOfLifeGrid();
+            grid.SetGrid(testGrid);
+
+            Assert.Equal(CellStatus.Alive, grid.GetCellStatus(0, 0));
+            Assert.Equal(CellStatus.Alive, grid.GetCellStatus(1, 0));
+            Assert.Equal(CellStatus.Alive, grid.GetCellStatus(2, 0));
+
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(0, 1));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(1, 1));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 1));
+
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(0, 2));
+            Assert.Equal(CellStatus.Alive, grid.GetCellStatus(1, 2));
+            Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 2));
+        }
+
     }
 }
