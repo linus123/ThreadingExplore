@@ -34,13 +34,13 @@ namespace ThreadingExplore.Core.GameOfLife
             _grid[x, y] = cellStatus;
         }
 
-        public void SetGrid(string[] stringArray)
+        public void SetGrid(string[] stringGrid)
         {
             for (int x = 0; x < 3; x++)
             {
                 for (int y = 0; y < 3; y++)
                 {
-                    if (stringArray[y][x] == '*')
+                    if (stringGrid[y][x] == '*')
                     {
                         SetCellStatus(x, y, CellStatus.Alive);
                     }
@@ -50,6 +50,28 @@ namespace ThreadingExplore.Core.GameOfLife
                     }
                 }
             }
+        }
+
+        public bool IsGridEqual(string[] stringGrid)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    if (stringGrid[y][x] == '*')
+                    {
+                        if (GetCellStatus(x, y) != CellStatus.Alive)
+                            return false;
+                    }
+                    else
+                    {
+                        if (GetCellStatus(x, y) != CellStatus.NotAlive)
+                            return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 

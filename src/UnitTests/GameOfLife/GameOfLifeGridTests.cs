@@ -159,5 +159,52 @@ namespace ThreadingExplore.UnitTests.GameOfLife
             Assert.Equal(CellStatus.NotAlive, grid.GetCellStatus(2, 2));
         }
 
+        [Fact(DisplayName = "IsGridEqual should false when given string grid does not match the given grid.")]
+        public void Test0100()
+        {
+            var grid = new GameOfLifeGrid();
+
+            var stringGrid = new string[3];
+
+            stringGrid[0] = "*--";
+            stringGrid[1] = "---";
+            stringGrid[2] = "---";
+
+            Assert.False(grid.IsGridEqual(stringGrid));
+        }
+
+        [Fact(DisplayName = "IsGridEqual should return true when all cells are not alive.")]
+        public void Test0110()
+        {
+            var grid = new GameOfLifeGrid();
+
+            var stringGrid = new string[3];
+
+            stringGrid[0] = "---";
+            stringGrid[1] = "---";
+            stringGrid[2] = "---";
+
+            Assert.True(grid.IsGridEqual(stringGrid));
+        }
+
+        [Fact(DisplayName = "IsGridEqual should return true when the grid and string grid match on alive / dead cells.")]
+        public void Test0120()
+        {
+            var grid = new GameOfLifeGrid();
+
+            grid.SetCellStatus(0, 0, CellStatus.Alive);
+            grid.SetCellStatus(1, 0, CellStatus.Alive);
+            grid.SetCellStatus(2, 0, CellStatus.Alive);
+            grid.SetCellStatus(1, 1, CellStatus.Alive);
+            grid.SetCellStatus(1, 2, CellStatus.Alive);
+
+            var stringGrid = new string[3];
+
+            stringGrid[0] = "***";
+            stringGrid[1] = "-*-";
+            stringGrid[2] = "-*-";
+
+            Assert.True(grid.IsGridEqual(stringGrid));
+        }
     }
 }
