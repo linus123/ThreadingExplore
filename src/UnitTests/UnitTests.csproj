@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BankersAlgorithim\SystemResourcesTests.cs" />
+    <Compile Include="BplusTreeDataStructure\BplusTreeTests.cs" />
     <Compile Include="DiningPhilosophers\PhilosopherTableTests.cs" />
     <Compile Include="GameOfLife\GameOfLifeGridTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

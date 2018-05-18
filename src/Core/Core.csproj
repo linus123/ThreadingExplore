@@ -45,6 +45,13 @@
     <Compile Include="BankersAlgorithim\ResourceName.cs" />
     <Compile Include="BankersAlgorithim\SystemResource.cs" />
     <Compile Include="BankersAlgorithim\SystemResources.cs" />
+    <Compile Include="BplusTreeDataStructure\BplusTree.cs" />
+    <Compile Include="BplusTreeDataStructure\CustomerRecord.cs" />
+    <Compile Include="BplusTreeDataStructure\DataPage.cs" />
+    <Compile Include="BplusTreeDataStructure\IndexPage.cs" />
+    <Compile Include="BplusTreeDataStructure\InsertResult.cs" />
+    <Compile Include="BplusTreeDataStructure\IPage.cs" />
+    <Compile Include="BplusTreeDataStructure\Maybe.cs" />
     <Compile Include="DiningPhilosophers\Philosopher.cs" />
     <Compile Include="DiningPhilosophers\Butler.cs" />
     <Compile Include="GameOfLife\GameOfLifeGrid.cs" />
