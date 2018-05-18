@@ -17,5 +17,10 @@
         {
             return $"{CustomerId,3} - {Name}";
         }
+
+        public string GetIndexString()
+        {
+            return $"P:{CustomerId}";
+        }
     }
 }

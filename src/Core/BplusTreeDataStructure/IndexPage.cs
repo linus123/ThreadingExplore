@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
@@ -38,6 +39,18 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             }
 
             return customerRecords.ToArray();
+        }
+
+        public void AppendString(StringBuilder sb)
+        {
+            _dataPages[0].AppendString(sb);
+
+            for (int i = 1; i < PageSize; i++)
+            {
+                sb.AppendFormat("|I:{0}|", _indexes[i - 1]);
+
+                _dataPages[i].AppendString(sb);
+            }
         }
 
         public InsertResult Insert(CustomerRecord newCustomerRecord)

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
@@ -166,6 +168,17 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             }
 
             return customerRecords.ToArray();
+        }
+
+        public void AppendString(
+            StringBuilder sb)
+        {
+            var custStrings = _customerRecords
+                .Where(c => c != null)
+                .Select(c => c.GetIndexString())
+                .ToArray();
+
+            sb.AppendFormat(string.Join("|", custStrings));
         }
     }
 }

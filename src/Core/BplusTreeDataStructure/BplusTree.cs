@@ -1,4 +1,6 @@
-﻿namespace ThreadingExplore.Core.BplusTreeDataStructure
+﻿using System.Text;
+
+namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
     public class BplusTree
     {
@@ -27,6 +29,15 @@
         public CustomerRecord[] GetAll()
         {
             return _dataPage.GetAll();
+        }
+
+        public string GetStringVersion()
+        {
+            var sb = new StringBuilder();
+
+            _dataPage.AppendString(sb);
+
+            return sb.ToString();
         }
     }
 }
