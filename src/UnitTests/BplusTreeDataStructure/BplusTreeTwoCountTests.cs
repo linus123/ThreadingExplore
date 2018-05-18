@@ -9,88 +9,53 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         private const int PageCount = 2;
 
         [Fact]
-        public void ShouldNotErrorWithZeroRecords()
+        public void SortedItemInsert()
         {
             var tree = new BplusTree(PageCount);
 
-            var customers = tree.GetAll();
+            tree.GetStringVersion().Should().BeEmpty();
 
-            customers.Should().HaveCount(0);
+            var customerRecord1 = CreateCustomer(100);
+            tree.Insert(customerRecord1);
+            tree.GetStringVersion().Should().Be("P:100");
 
-            var stringVersion = tree.GetStringVersion();
-            stringVersion.Should().BeEmpty();
+            var customerRecord2 = CreateCustomer(110);
+            tree.Insert(customerRecord2);
+            tree.GetStringVersion().Should().Be("P:100|P:110");
+
+            var customerRecord3 = CreateCustomer(120);
+            tree.Insert(customerRecord3);
+            tree.GetStringVersion().Should().Be("P:100|I:110|P:110|P:120");
+
+            var customerRecord4 = CreateCustomer(130);
+            tree.Insert(customerRecord4);
+            tree.GetStringVersion().Should().Be("P:100|I:110|P:110|I:120|P:120|P:130");
         }
 
         [Fact]
-        public void ShouldStoreSingleRecord()
+        public void BalancedInsert()
         {
             var tree = new BplusTree(PageCount);
 
-            var customerRecord = CreateCustomer(100);
-            tree.Insert(customerRecord);
+            tree.GetStringVersion().Should().BeEmpty();
 
-            var customers = tree.GetAll();
+            var customerRecord1 = CreateCustomer(500);
+            tree.Insert(customerRecord1);
+            tree.GetStringVersion().Should().Be("P:500");
 
-            customers.Should().HaveCount(1);
+            var customerRecord2 = CreateCustomer(400);
+            tree.Insert(customerRecord2);
+            tree.GetStringVersion().Should().Be("P:400|P:500");
 
-            customers[0].CustomerId.Should().Be(100);
-            customers[0].Name.Should().Be(customerRecord.Name);
+            var customerRecord3 = CreateCustomer(300);
+            tree.Insert(customerRecord3);
+            tree.GetStringVersion().Should().Be("P:300|I:400|P:400|P:500");
 
-            var stringVersion = tree.GetStringVersion();
-            stringVersion.Should().Be("P:100");
+            var customerRecord4 = CreateCustomer(350);
+            tree.Insert(customerRecord4);
+            tree.GetStringVersion().Should().Be("P:300|P:350|I:400|P:400|P:500");
+
         }
-
-        [Fact]
-        public void ShouldStoreTwoRecord()
-        {
-            var tree = new BplusTree(PageCount);
-
-            var customer01 = CreateCustomer(100);
-            tree.Insert(customer01);
-
-            var cusomter02 = CreateCustomer(101);
-            tree.Insert(cusomter02);
-
-            var customers = tree.GetAll();
-
-            customers.Should().HaveCount(2);
-
-            customers[0].CustomerId.Should().Be(100);
-            customers[0].Name.Should().Be(customer01.Name);
-
-            customers[1].CustomerId.Should().Be(101);
-            customers[1].Name.Should().Be(cusomter02.Name);
-
-            var stringVersion = tree.GetStringVersion();
-            stringVersion.Should().Be("P:100|P:101");
-        }
-
-        [Fact]
-        public void ShouldStoreThreeRecords()
-        {
-            var tree = new BplusTree(PageCount);
-
-            var customer01 = CreateCustomer(100);
-            tree.Insert(customer01);
-
-            var cusomter02 = CreateCustomer(101);
-            tree.Insert(cusomter02);
-
-            var cusomter03 = CreateCustomer(102);
-            tree.Insert(cusomter03);
-
-            var customers = tree.GetAll();
-
-            customers.Should().HaveCount(3);
-
-            customers[0].CustomerId.Should().Be(100);
-            customers[1].CustomerId.Should().Be(101);
-            customers[2].CustomerId.Should().Be(102);
-
-            var stringVersion = tree.GetStringVersion();
-            stringVersion.Should().Be("P:100|I:101|P:101|P:102");
-        }
-
 
 
         public CustomerRecord CreateCustomer(

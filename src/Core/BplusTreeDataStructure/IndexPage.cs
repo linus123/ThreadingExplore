@@ -16,7 +16,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         {
             PageSize = pageSize;
 
-            _indexes = new int[pageSize];
+            _indexes = new int[pageSize + 1];
             _indexes[0] = splitValue;
             _dataPages = new DataPage[pageSize + 1];
 
@@ -45,11 +45,14 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         {
             _dataPages[0].AppendString(sb);
 
-            for (int i = 1; i < PageSize; i++)
+            for (int i = 0; i < PageSize; i++)
             {
-                sb.AppendFormat("|I:{0}|", _indexes[i - 1]);
+                if (_dataPages[i + 1] == null)
+                    break;
 
-                _dataPages[i].AppendString(sb);
+                sb.AppendFormat("|I:{0}|", _indexes[i]);
+
+                _dataPages[i + 1].AppendString(sb);
             }
         }
 
