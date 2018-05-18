@@ -15,13 +15,7 @@ namespace ThreadingExplore.Core.GameOfLife
 
         private void IntiGrid()
         {
-            for (int x = 0; x < 3; x++)
-            {
-                for (int y = 0; y < 3; y++)
-                {
-                    _grid[x, y] = CellStatus.NotAlive;
-                }
-            }
+            ForAllCells((x, y) => _grid[x, y] = CellStatus.NotAlive);
         }
 
         public CellStatus GetCellStatus(int x, int y)
@@ -36,43 +30,69 @@ namespace ThreadingExplore.Core.GameOfLife
 
         public void SetGrid(string[] stringGrid)
         {
-            for (int x = 0; x < 3; x++)
+            ForAllCells((x, y) =>
             {
-                for (int y = 0; y < 3; y++)
-                {
-                    if (stringGrid[y][x] == '*')
-                    {
-                        SetCellStatus(x, y, CellStatus.Alive);
-                    }
-                    else
-                    {
-                        SetCellStatus(x, y, CellStatus.NotAlive);
-                    }
-                }
-            }
+                if (stringGrid[y][x] == '*')
+                    SetCellStatus(x, y, CellStatus.Alive);
+                else
+                    SetCellStatus(x, y, CellStatus.NotAlive);
+            });
         }
 
         public bool IsGridEqual(string[] stringGrid)
+        {
+            var isEqual = true;
+
+            ForAllCellsWithBreak((x, y) =>
+            {
+                if (stringGrid[y][x] == '*')
+                {
+                    if (GetCellStatus(x, y) != CellStatus.Alive)
+                    {
+                        isEqual = false;
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (GetCellStatus(x, y) != CellStatus.NotAlive)
+                    {
+                        isEqual = false;
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            return isEqual;
+        }
+
+        private void ForAllCells(
+            Action<int, int> cellAction)
+        {
+            ForAllCellsWithBreak((x, y) =>
+            {
+                cellAction(x, y);
+                return true;
+            });
+        }
+
+        private void ForAllCellsWithBreak(
+            Func<int, int, bool> cellFunction)
         {
             for (int x = 0; x < 3; x++)
             {
                 for (int y = 0; y < 3; y++)
                 {
-                    if (stringGrid[y][x] == '*')
-                    {
-                        if (GetCellStatus(x, y) != CellStatus.Alive)
-                            return false;
-                    }
-                    else
-                    {
-                        if (GetCellStatus(x, y) != CellStatus.NotAlive)
-                            return false;
-                    }
+                    var shouldContinue = cellFunction(x, y);
+
+                    if (!shouldContinue)
+                        return;
                 }
             }
-
-            return true;
         }
+
     }
 
     public enum CellStatus
