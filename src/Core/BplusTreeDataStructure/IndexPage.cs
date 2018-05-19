@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ThreadingExplore.Core.BplusTreeDataStructure
@@ -6,7 +7,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
     public class IndexPage : IPage
     {
         private readonly int[] _indexes;
-        private readonly DataPage[] _dataPages;
+        private readonly IPage[] _dataPages;
 
         public IndexPage(
             int pageSize,
@@ -18,7 +19,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             _indexes = new int[pageSize + 1];
             _indexes[0] = splitValue;
-            _dataPages = new DataPage[pageSize + 1];
+            _dataPages = new IPage[pageSize + 1];
 
             _dataPages[0] = dataPage1;
             _dataPages[1] = dataPage2;
@@ -58,50 +59,38 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
         public InsertResult Insert(CustomerRecord newCustomerRecord)
         {
-            var indexToInsertFindResult = FindIndexToInsert(newCustomerRecord);
+            var indexToInsert = FindIndexToInsert(newCustomerRecord);
 
-            if (indexToInsertFindResult.IsLast)
+            var insertResult = _dataPages[indexToInsert].Insert(newCustomerRecord);
+
+            // If index is full
+            if (indexToInsert == PageSize)
             {
                 return null;
             }
 
-            var insertResult = _dataPages[indexToInsertFindResult.Index].Insert(newCustomerRecord);
-
             if (insertResult.WasSplitCaused)
             {
-                _indexes[indexToInsertFindResult.Index] = insertResult.SplitValue;
-                _dataPages[indexToInsertFindResult.Index] = insertResult.LeftDataPage;
-                _dataPages[indexToInsertFindResult.Index + 1] = insertResult.RightDataPage;
+                _indexes[indexToInsert] = insertResult.SplitValue;
+                _dataPages[indexToInsert] = insertResult.LeftDataPage;
+                _dataPages[indexToInsert + 1] = insertResult.RightDataPage;
             }
 
             return InsertResult.CreateWithoutSplit();
 
         }
 
-        private IndexToInsertFindResult FindIndexToInsert(CustomerRecord newCustomerRecord)
+        private int FindIndexToInsert(CustomerRecord newCustomerRecord)
         {
-            for (var i = 0; i < PageSize; i++)
+            for (var i = 0; i < PageSize + 1; i++)
             {
                 if (_indexes[i] <= 0 || newCustomerRecord.CustomerId < _indexes[i])
                 {
-                    return new IndexToInsertFindResult()
-                    {
-                        Index = i,
-                        IsLast = false
-                    };
+                    return i;
                 }
             }
 
-            return new IndexToInsertFindResult()
-            {
-                IsLast = true
-            };
-    }
-
-        private struct IndexToInsertFindResult
-        {
-            public int Index { get; set; }
-            public bool IsLast { get; set; }
+            throw new Exception("Something is wrong");
         }
     }
 }
