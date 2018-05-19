@@ -185,5 +185,14 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             sb.AppendFormat(string.Join("|", customerStrings));
         }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            AppendString(sb);
+
+            return sb.ToString();
+        }
     }
 }

@@ -58,21 +58,50 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
         public InsertResult Insert(CustomerRecord newCustomerRecord)
         {
-            if (newCustomerRecord.CustomerId < _indexes[0])
+            var indexToInsertFindResult = FindIndexToInsert(newCustomerRecord);
+
+            if (indexToInsertFindResult.IsLast)
             {
-                return _dataPages[0].Insert(newCustomerRecord);
+                return null;
             }
 
-            var insertResult = _dataPages[1].Insert(newCustomerRecord);
+            var insertResult = _dataPages[indexToInsertFindResult.Index].Insert(newCustomerRecord);
 
             if (insertResult.WasSplitCaused)
             {
-                _indexes[1] = insertResult.SplitValue;
-                _dataPages[1] = insertResult.LeftDataPage;
-                _dataPages[2] = insertResult.RightDataPage;
+                _indexes[indexToInsertFindResult.Index] = insertResult.SplitValue;
+                _dataPages[indexToInsertFindResult.Index] = insertResult.LeftDataPage;
+                _dataPages[indexToInsertFindResult.Index + 1] = insertResult.RightDataPage;
             }
 
             return InsertResult.CreateWithoutSplit();
+
+        }
+
+        private IndexToInsertFindResult FindIndexToInsert(CustomerRecord newCustomerRecord)
+        {
+            for (var i = 0; i < PageSize; i++)
+            {
+                if (_indexes[i] <= 0 || newCustomerRecord.CustomerId < _indexes[i])
+                {
+                    return new IndexToInsertFindResult()
+                    {
+                        Index = i,
+                        IsLast = false
+                    };
+                }
+            }
+
+            return new IndexToInsertFindResult()
+            {
+                IsLast = true
+            };
+    }
+
+        private struct IndexToInsertFindResult
+        {
+            public int Index { get; set; }
+            public bool IsLast { get; set; }
         }
     }
 }
