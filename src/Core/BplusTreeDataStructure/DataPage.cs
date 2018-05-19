@@ -173,12 +173,17 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         public void AppendString(
             StringBuilder sb)
         {
-            var custStrings = _customerRecords
-                .Where(c => c != null)
-                .Select(c => c.GetIndexString())
-                .ToArray();
+            var customerStrings = new List<string>();
 
-            sb.AppendFormat(string.Join("|", custStrings));
+            foreach (var c in _customerRecords)
+            {
+                if (c == null)
+                    break;
+
+                customerStrings.Add(c.GetIndexString());
+            }
+
+            sb.AppendFormat(string.Join("|", customerStrings));
         }
     }
 }

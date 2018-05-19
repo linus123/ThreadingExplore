@@ -62,7 +62,6 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
         }
 
-
         public CustomerRecord CreateCustomer(
             int customerId)
         {
