@@ -4,9 +4,9 @@ using Xunit;
 
 namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 {
-    public class BplusTreeTwoCountTests
+    public class BplusTreeThreeCountTests
     {
-        private const int PageCount = 2;
+        private const int PageCount = 3;
 
         [Fact]
         public void SortedItemInsert()
@@ -25,11 +25,11 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
             var customerRecord3 = CreateCustomer(120);
             tree.Insert(customerRecord3);
-            tree.GetStringVersion().Should().Be("P:100|I:110|P:110|P:120");
+            tree.GetStringVersion().Should().Be("P:100|P:110|P:120");
 
             var customerRecord4 = CreateCustomer(130);
             tree.Insert(customerRecord4);
-            tree.GetStringVersion().Should().Be("P:100|I:110|P:110|I:120|P:120|P:130");
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130");
 
             var customerRecord5 = CreateCustomer(140);
             tree.Insert(customerRecord5);
@@ -53,7 +53,7 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
             var customerRecord3 = CreateCustomer(120);
             tree.Insert(customerRecord3);
-            tree.GetStringVersion().Should().Be("P:100|I:110|P:110|P:120");
+            tree.GetStringVersion().Should().Be("P:100|P:110|P:120");
 
             var customerRecord4 = CreateCustomer(105);
             tree.Insert(customerRecord4);
@@ -81,7 +81,7 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
             var customerRecord3 = CreateCustomer(300);
             tree.Insert(customerRecord3);
-            tree.GetStringVersion().Should().Be("P:300|I:400|P:400|P:500");
+            tree.GetStringVersion().Should().Be("P:300|P:400|P:500");
 
             var customerRecord4 = CreateCustomer(350);
             tree.Insert(customerRecord4);
