@@ -12,8 +12,8 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
         public IndexPage(
             int pageSize,
             int splitValue,
-            DataPage dataPage1,
-            DataPage dataPage2)
+            IPage dataPage1,
+            IPage dataPage2)
         {
             PageSize = pageSize;
 
@@ -66,7 +66,26 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             // If index is full
             if (indexToInsert == PageSize)
             {
-                return null;
+                if (insertResult.WasSplitCaused)
+                {
+//                    _indexes[indexToInsert] = insertResult.SplitValue;
+//                    _dataPages[indexToInsert] = insertResult.LeftDataPage;
+//                    var trailingPage = insertResult.RightDataPage;
+
+                    var leftIndex = new IndexPage(PageSize, _indexes[0], _dataPages[0], _dataPages[1]);
+                    var rightIndex = new IndexPage(PageSize, insertResult.SplitValue, insertResult.LeftDataPage, insertResult.RightDataPage);
+
+                    _indexes[0] = _indexes[1];
+                    _indexes[1] = 0;
+                    _indexes[2] = 0;
+
+                    _dataPages[0] = leftIndex;
+                    _dataPages[1] = rightIndex;
+                    _dataPages[2] = null;
+                }
+
+                return InsertResult.CreateWithoutSplit();
+
             }
 
             if (insertResult.WasSplitCaused)
