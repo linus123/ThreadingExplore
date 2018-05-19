@@ -63,15 +63,10 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             var insertResult = _dataPages[indexToInsert].Insert(newCustomerRecord);
 
-            // If index is full
             if (indexToInsert == PageSize)
             {
                 if (insertResult.WasSplitCaused)
                 {
-//                    _indexes[indexToInsert] = insertResult.SplitValue;
-//                    _dataPages[indexToInsert] = insertResult.LeftDataPage;
-//                    var trailingPage = insertResult.RightDataPage;
-
                     var leftIndex = new IndexPage(PageSize, _indexes[0], _dataPages[0], _dataPages[1]);
                     var rightIndex = new IndexPage(PageSize, insertResult.SplitValue, insertResult.LeftDataPage, insertResult.RightDataPage);
 
