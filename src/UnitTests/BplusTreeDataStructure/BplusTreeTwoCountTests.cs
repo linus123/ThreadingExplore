@@ -62,9 +62,7 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             var customerRecord5 = CreateCustomer(106);
             tree.Insert(customerRecord5);
             tree.GetStringVersion().Should().Be("P:100|I:105|P:105|P:106|I:110|P:110|P:120");
-
         }
-
 
         [Fact]
         public void BalancedInsert()
