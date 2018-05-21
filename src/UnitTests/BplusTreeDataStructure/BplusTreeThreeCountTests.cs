@@ -43,25 +43,24 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
             tree.GetStringVersion().Should().BeEmpty();
 
-            var customerRecord1 = CreateCustomer(100);
-            tree.Insert(customerRecord1);
+            tree.Insert(CreateCustomer(100));
             tree.GetStringVersion().Should().Be("P:100");
 
-            var customerRecord2 = CreateCustomer(110);
-            tree.Insert(customerRecord2);
+            tree.Insert(CreateCustomer(110));
             tree.GetStringVersion().Should().Be("P:100|P:110");
 
-            var customerRecord3 = CreateCustomer(120);
-            tree.Insert(customerRecord3);
+            tree.Insert(CreateCustomer(120));
             tree.GetStringVersion().Should().Be("P:100|P:110|P:120");
 
-            var customerRecord4 = CreateCustomer(105);
-            tree.Insert(customerRecord4);
-            tree.GetStringVersion().Should().Be("P:100|P:105|I:110|P:110|P:120");
+            tree.Insert(CreateCustomer(130));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130");
 
-            var customerRecord5 = CreateCustomer(106);
-            tree.Insert(customerRecord5);
-            tree.GetStringVersion().Should().Be("P:100|I:105|P:105|P:106|I:110|P:110|P:120");
+            tree.Insert(CreateCustomer(111));
+            tree.GetStringVersion().Should().Be("P:100|P:110|P:111|I:120|P:120|P:130");
+
+            tree.Insert(CreateCustomer(112));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:111|P:111|P:112|I:120|P:120|P:130");
+
         }
 
         [Fact]
