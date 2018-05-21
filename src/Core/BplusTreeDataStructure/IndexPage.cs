@@ -19,7 +19,7 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             _indexes = new int[pageSize + 1];
             _indexes[0] = splitValue;
-            _dataPages = new IPage[pageSize + 1];
+            _dataPages = new IPage[pageSize + 2];
 
             _dataPages[0] = dataPage1;
             _dataPages[1] = dataPage2;
@@ -63,35 +63,20 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             var insertResult = _dataPages[indexToInsert].Insert(newCustomerRecord);
 
-            if (indexToInsert == PageSize)
-            {
-                if (insertResult.WasSplitCaused)
-                {
-                    var leftIndex = new IndexPage(PageSize, _indexes[0], _dataPages[0], _dataPages[1]);
-                    var rightIndex = new IndexPage(PageSize, insertResult.SplitValue, insertResult.LeftDataPage, insertResult.RightDataPage);
-
-                    _indexes[0] = _indexes[1];
-                    _indexes[1] = 0;
-                    _indexes[2] = 0;
-
-                    _dataPages[0] = leftIndex;
-                    _dataPages[1] = rightIndex;
-                    _dataPages[2] = null;
-                }
-
-                return InsertResult.CreateWithoutSplit();
-
-            }
-
             if (insertResult.WasSplitCaused)
             {
                 if (_indexes[indexToInsert] > 0)
                 {
-                    for (int i = PageSize; i > 0; i--)
+                    for (int i = PageSize; i > indexToInsert; i--)
                     {
                         _indexes[i] = _indexes[i - 1];
+                    }
+
+                    for (int i = PageSize + 1; i > indexToInsert; i--)
+                    {
                         _dataPages[i] = _dataPages[i - 1];
                     }
+
                 }
 
                 _indexes[indexToInsert] = insertResult.SplitValue;

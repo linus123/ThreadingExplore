@@ -115,7 +115,6 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130|I:140|P:140|P:150");
         }
 
-
         [Fact]
         public void BalancedInsert()
         {
