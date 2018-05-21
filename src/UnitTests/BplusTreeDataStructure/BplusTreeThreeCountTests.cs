@@ -32,7 +32,33 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         }
 
         [Fact]
-        public void InternalSplit()
+        public void LeftMostSplit()
+        {
+            var tree = new BplusTree(PageCount);
+
+            tree.GetStringVersion().Should().BeEmpty();
+
+            tree.Insert(CreateCustomer(100));
+            tree.GetStringVersion().Should().Be("P:100");
+
+            tree.Insert(CreateCustomer(110));
+            tree.GetStringVersion().Should().Be("P:100|P:110");
+
+            tree.Insert(CreateCustomer(120));
+            tree.GetStringVersion().Should().Be("P:100|P:110|P:120");
+
+            tree.Insert(CreateCustomer(130));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130");
+
+            tree.Insert(CreateCustomer(111));
+            tree.GetStringVersion().Should().Be("P:100|P:110|P:111|I:120|P:120|P:130");
+
+            tree.Insert(CreateCustomer(112));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:111|P:111|P:112|I:120|P:120|P:130");
+        }
+
+        [Fact]
+        public void MiddleSplit()
         {
             var tree = new BplusTree(PageCount);
 
@@ -56,6 +82,11 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             tree.Insert(CreateCustomer(112));
             tree.GetStringVersion().Should().Be("P:100|P:110|I:111|P:111|P:112|I:120|P:120|P:130");
 
+            tree.Insert(CreateCustomer(113));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:111|P:111|P:112|P:113|I:120|P:120|P:130");
+
+            tree.Insert(CreateCustomer(114));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:111|P:111|P:112|I:113|P:113|P:114|I:120|P:120|P:130");
         }
 
         [Fact]
