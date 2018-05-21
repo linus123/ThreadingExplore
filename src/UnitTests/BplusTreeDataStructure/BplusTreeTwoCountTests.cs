@@ -32,7 +32,7 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         }
 
         [Fact]
-        public void InternalSplit()
+        public void LeftSplit()
         {
             var tree = new BplusTree(PageCount);
 
@@ -55,6 +55,27 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         }
 
         [Fact]
+        public void RightSplit()
+        {
+            var tree = new BplusTree(PageCount);
+
+            tree.GetStringVersion().Should().BeEmpty();
+
+            tree.Insert(CreateCustomer(100));
+            tree.GetStringVersion().Should().Be("P:100");
+
+            tree.Insert(CreateCustomer(110));
+            tree.GetStringVersion().Should().Be("P:100|P:110");
+
+            tree.Insert(CreateCustomer(120));
+            tree.GetStringVersion().Should().Be("P:100|I:110|P:110|P:120");
+
+            tree.Insert(CreateCustomer(130));
+            tree.GetStringVersion().Should().Be("P:100|I:110|P:110|I:120|P:120|P:130");
+
+        }
+
+        [Fact]
         public void BalancedInsert()
         {
             var tree = new BplusTree(PageCount);
@@ -72,8 +93,37 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
             tree.Insert(CreateCustomer(350));
             tree.GetStringVersion().Should().Be("P:300|P:350|I:400|P:400|P:500");
-
         }
+
+        [Fact]
+        public void HighLevelIndexSplit()
+        {
+            var tree = new BplusTree(PageCount);
+
+            tree.GetStringVersion().Should().BeEmpty();
+
+            tree.Insert(CreateCustomer(100));
+            tree.GetStringVersion().Should().Be("P:100");
+
+            tree.Insert(CreateCustomer(200));
+            tree.GetStringVersion().Should().Be("P:100|P:200");
+
+            tree.Insert(CreateCustomer(300));
+            tree.GetStringVersion().Should().Be("P:100|I:200|P:200|P:300");
+
+            tree.Insert(CreateCustomer(110));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|P:300");
+
+            tree.Insert(CreateCustomer(400));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:300|P:300|P:400");
+
+            tree.Insert(CreateCustomer(225));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|P:225|I:300|P:300|P:400");
+
+            tree.Insert(CreateCustomer(230));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|I:230|I:300|P:300|P:400");
+        }
+
 
         public CustomerRecord CreateCustomer(
             int customerId)

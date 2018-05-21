@@ -90,6 +90,33 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         }
 
         [Fact]
+        public void RightSplit()
+        {
+            var tree = new BplusTree(PageCount);
+
+            tree.GetStringVersion().Should().BeEmpty();
+
+            tree.Insert(CreateCustomer(100));
+            tree.GetStringVersion().Should().Be("P:100");
+
+            tree.Insert(CreateCustomer(110));
+            tree.GetStringVersion().Should().Be("P:100|P:110");
+
+            tree.Insert(CreateCustomer(120));
+            tree.GetStringVersion().Should().Be("P:100|P:110|P:120");
+
+            tree.Insert(CreateCustomer(130));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130");
+
+            tree.Insert(CreateCustomer(140));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130|P:140");
+
+            tree.Insert(CreateCustomer(150));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130|I:140|P:140|P:150");
+        }
+
+
+        [Fact]
         public void BalancedInsert()
         {
             var tree = new BplusTree(PageCount);
