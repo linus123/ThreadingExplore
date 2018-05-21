@@ -106,36 +106,6 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public void ShouldStoreThreeRecords(
-            int pageSize)
-        {
-            var tree = new BplusTree(pageSize);
-
-            var customer01 = CreateCustomer(100);
-            tree.Insert(customer01);
-
-            var cusomter02 = CreateCustomer(101);
-            tree.Insert(cusomter02);
-
-            var cusomter03 = CreateCustomer(102);
-            tree.Insert(cusomter03);
-
-            var customers = tree.GetAll();
-
-            customers.Should().HaveCount(3);
-
-            customers[0].CustomerId.Should().Be(100);
-            customers[1].CustomerId.Should().Be(101);
-            customers[2].CustomerId.Should().Be(102);
-
-            var stringVersion = tree.GetStringVersion();
-            stringVersion.Should().Be("P:100|P:101|P:102");
-        }
-
-        [Theory]
-        [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(4)]
         public void ShouldStoreThreeRecordsOutOfOrder1(
             int pageSize)
         {
