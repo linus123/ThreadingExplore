@@ -85,6 +85,15 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             if (insertResult.WasSplitCaused)
             {
+                if (_indexes[indexToInsert] > 0)
+                {
+                    for (int i = PageSize; i > 0; i--)
+                    {
+                        _indexes[i] = _indexes[i - 1];
+                        _dataPages[i] = _dataPages[i - 1];
+                    }
+                }
+
                 _indexes[indexToInsert] = insertResult.SplitValue;
                 _dataPages[indexToInsert] = insertResult.LeftDataPage;
                 _dataPages[indexToInsert + 1] = insertResult.RightDataPage;
