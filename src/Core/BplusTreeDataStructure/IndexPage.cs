@@ -67,11 +67,13 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             {
                 if (_indexes[indexToInsert] > 0)
                 {
+                    // ** Slide
                     for (int i = PageSize; i > indexToInsert; i--)
                     {
                         _indexes[i] = _indexes[i - 1];
                     }
 
+                    // ** Slide
                     for (int i = PageSize + 1; i > indexToInsert; i--)
                     {
                         _dataPages[i] = _dataPages[i - 1];
@@ -82,6 +84,14 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
                 _indexes[indexToInsert] = insertResult.SplitValue;
                 _dataPages[indexToInsert] = insertResult.LeftDataPage;
                 _dataPages[indexToInsert + 1] = insertResult.RightDataPage;
+            }
+
+            if (_indexes[PageSize] > 0)
+            {
+                var leftPage = new IndexPage(PageSize, _indexes[0], _dataPages[0], _dataPages[1]);
+                var rightPage = new IndexPage(PageSize, _indexes[2], _dataPages[2], _dataPages[3]);
+
+                return InsertResult.CreateAsSplit(_indexes[1], leftPage, rightPage);
             }
 
             return InsertResult.CreateWithoutSplit();

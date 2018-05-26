@@ -12,8 +12,8 @@
 
         public static InsertResult CreateAsSplit(
             int splitValue,
-            DataPage leftDataPage,
-            DataPage rightDataPage)
+            IPage leftDataPage,
+            IPage rightDataPage)
         {
             return new InsertResult()
             {
@@ -26,8 +26,8 @@
 
         public bool WasSplitCaused { get; private set; }
         public int SplitValue { get; private set; }
-        public DataPage LeftDataPage { get; private set; }
-        public DataPage RightDataPage { get; private set; }
+        public IPage LeftDataPage { get; private set; }
+        public IPage RightDataPage { get; private set; }
 
     }
 }

@@ -121,7 +121,7 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|P:225|I:300|P:300|P:400");
 
             tree.Insert(CreateCustomer(230));
-            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|I:230|I:300|P:300|P:400");
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|P:230|I:300|P:300|P:400");
         }
 
 
