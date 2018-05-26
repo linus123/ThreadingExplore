@@ -90,18 +90,8 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             {
                 if (_indexes[indexToInsert] > 0)
                 {
-                    // ** Slide
-                    for (int i = PageSize; i > indexToInsert; i--)
-                    {
-                        _indexes[i] = _indexes[i - 1];
-                    }
-
-                    // ** Slide
-                    for (int i = PageSize + 1; i > indexToInsert; i--)
-                    {
-                        _dataPages[i] = _dataPages[i - 1];
-                    }
-
+                    ShiftIndexes(indexToInsert);
+                    ShiftPages(indexToInsert);
                 }
 
                 _indexes[indexToInsert] = insertResult.SplitValue;
@@ -113,20 +103,40 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             {
                 var splitCount = (int)Math.Ceiling(PageSize / 2.0d);
 
-                System.Diagnostics.Debugger.Break();
+                var leftPage = CreateLeftPage(splitCount);
 
-                var leftIndexs = SubArray<int>(_indexes, 0, splitCount);
-                var leftPages = SubArray<IPage>(_dataPages, 0, splitCount + 1);
-                var leftPage = new IndexPage(PageSize, leftIndexs, leftPages);
-
-                var rightIndexs = SubArray<int>(_indexes, splitCount + 1, PageSize - splitCount);
-                var rightPages = SubArray<IPage>(_dataPages, splitCount + 1, PageSize - splitCount + 1);
-                var rightPage = new IndexPage(PageSize, rightIndexs, rightPages);
+                var rightPage = CreateRightPage(splitCount);
 
                 return InsertResult.CreateAsSplit(_indexes[splitCount], leftPage, rightPage);
             }
 
             return InsertResult.CreateWithoutSplit();
+        }
+
+        private IndexPage CreateRightPage(int splitCount)
+        {
+            var indexes = SubArray(_indexes, splitCount + 1, PageSize - splitCount);
+            var pages = SubArray(_dataPages, splitCount + 1, PageSize - splitCount + 1);
+            return new IndexPage(PageSize, indexes, pages);
+        }
+
+        private IndexPage CreateLeftPage(int splitCount)
+        {
+            var indexes = SubArray(_indexes, 0, splitCount);
+            var pages = SubArray(_dataPages, 0, splitCount + 1);
+            return new IndexPage(PageSize, indexes, pages);
+        }
+
+        private void ShiftPages(int indexToInsert)
+        {
+            for (int i = PageSize + 1; i > indexToInsert; i--)
+                _dataPages[i] = _dataPages[i - 1];
+        }
+
+        private void ShiftIndexes(int indexToInsert)
+        {
+            for (int i = PageSize; i > indexToInsert; i--)
+                _indexes[i] = _indexes[i - 1];
         }
 
         private static T[] SubArray<T>(T[] data, int index, int length)
