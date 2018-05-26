@@ -119,6 +119,18 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
 
             tree.Insert(CreateCustomer(150));
             tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130|I:140|P:140|P:150");
+
+            tree.Insert(CreateCustomer(160));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130|I:140|P:140|P:150|P:160");
+
+            tree.Insert(CreateCustomer(170));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130|I:140|P:140|P:150|I:160|P:160|P:170");
+
+            tree.Insert(CreateCustomer(180));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130|I:140|P:140|P:150|I:160|P:160|P:170|P:180");
+
+            tree.Insert(CreateCustomer(190));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130|I:140|P:140|P:150|I:160|P:160|P:170|I:180|P:180|P:190");
         }
 
         [Fact]
