@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml.Schema;
 
 namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
@@ -94,23 +93,39 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
                     ShiftPages(indexToInsert);
                 }
 
-                _indexes[indexToInsert] = insertResult.SplitValue;
-                _dataPages[indexToInsert] = insertResult.LeftDataPage;
-                _dataPages[indexToInsert + 1] = insertResult.RightDataPage;
+                UpdateIndexsAndPages(indexToInsert, insertResult);
             }
 
-            if (_indexes[PageSize] > 0)
+            if (PageIsFull())
             {
-                var splitCount = (int)Math.Ceiling(PageSize / 2.0d);
-
-                var leftPage = CreateLeftPage(splitCount);
-
-                var rightPage = CreateRightPage(splitCount);
-
-                return InsertResult.CreateAsSplit(_indexes[splitCount], leftPage, rightPage);
+                return CreateSplit();
             }
 
             return InsertResult.CreateWithoutSplit();
+        }
+
+        private void UpdateIndexsAndPages(
+            int indexToInsert,
+            InsertResult insertResult)
+        {
+            _indexes[indexToInsert] = insertResult.SplitValue;
+            _dataPages[indexToInsert] = insertResult.LeftDataPage;
+            _dataPages[indexToInsert + 1] = insertResult.RightDataPage;
+        }
+
+        private InsertResult CreateSplit()
+        {
+            var splitCount = (int) Math.Ceiling(PageSize / 2.0d);
+
+            var leftPage = CreateLeftPage(splitCount);
+            var rightPage = CreateRightPage(splitCount);
+
+            return InsertResult.CreateAsSplit(_indexes[splitCount], leftPage, rightPage);
+        }
+
+        private bool PageIsFull()
+        {
+            return _indexes[PageSize] > 0;
         }
 
         private IndexPage CreateRightPage(int splitCount)
@@ -139,18 +154,21 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
                 _indexes[i] = _indexes[i - 1];
         }
 
-        private static T[] SubArray<T>(T[] data, int index, int length)
+        private static T[] SubArray<T>(
+            T[] data,
+            int index,
+            int length)
         {
-            T[] result = new T[length];
+            var result = new T[length];
             Array.Copy(data, index, result, 0, length);
             return result;
         }
 
-        private int FindIndexToInsert(CustomerRecord newCustomerRecord)
+        private int FindIndexToInsert(CustomerRecord cust)
         {
             for (var i = 0; i < PageSize + 1; i++)
             {
-                if (_indexes[i] <= 0 || newCustomerRecord.CustomerId < _indexes[i])
+                if (_indexes[i] <= 0 || cust.CustomerId < _indexes[i])
                 {
                     return i;
                 }
