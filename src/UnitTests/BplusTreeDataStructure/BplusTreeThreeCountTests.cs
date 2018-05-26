@@ -41,20 +41,32 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             tree.Insert(CreateCustomer(100));
             tree.GetStringVersion().Should().Be("P:100");
 
-            tree.Insert(CreateCustomer(110));
-            tree.GetStringVersion().Should().Be("P:100|P:110");
+            tree.Insert(CreateCustomer(200));
+            tree.GetStringVersion().Should().Be("P:100|P:200");
 
-            tree.Insert(CreateCustomer(120));
-            tree.GetStringVersion().Should().Be("P:100|P:110|P:120");
+            tree.Insert(CreateCustomer(300));
+            tree.GetStringVersion().Should().Be("P:100|P:200|P:300");
 
-            tree.Insert(CreateCustomer(130));
-            tree.GetStringVersion().Should().Be("P:100|P:110|I:120|P:120|P:130");
+            tree.Insert(CreateCustomer(400));
+            tree.GetStringVersion().Should().Be("P:100|P:200|I:300|P:300|P:400");
 
-            tree.Insert(CreateCustomer(111));
-            tree.GetStringVersion().Should().Be("P:100|P:110|P:111|I:120|P:120|P:130");
+            tree.Insert(CreateCustomer(250));
+            tree.GetStringVersion().Should().Be("P:100|P:200|P:250|I:300|P:300|P:400");
 
-            tree.Insert(CreateCustomer(112));
-            tree.GetStringVersion().Should().Be("P:100|P:110|I:111|P:111|P:112|I:120|P:120|P:130");
+            tree.Insert(CreateCustomer(275));
+            tree.GetStringVersion().Should().Be("P:100|P:200|I:250|P:250|P:275|I:300|P:300|P:400");
+
+            tree.Insert(CreateCustomer(225));
+            tree.GetStringVersion().Should().Be("P:100|P:200|P:225|I:250|P:250|P:275|I:300|P:300|P:400");
+
+            tree.Insert(CreateCustomer(150));
+            tree.GetStringVersion().Should().Be("P:100|P:150|I:200|P:200|P:225|I:250|P:250|P:275|I:300|P:300|P:400");
+
+            tree.Insert(CreateCustomer(175));
+            tree.GetStringVersion().Should().Be("P:100|P:150|P:175|I:200|P:200|P:225|I:250|P:250|P:275|I:300|P:300|P:400");
+
+            tree.Insert(CreateCustomer(125));
+            tree.GetStringVersion().Should().Be("P:100|P:125|I:150|P:150|P:175|I:200|P:200|P:225|I:250|P:250|P:275|I:300|P:300|P:400");
         }
 
         [Fact]
