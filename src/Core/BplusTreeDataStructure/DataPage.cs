@@ -110,15 +110,6 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
                 rightDataPage);
         }
 
-        private DataPage CreateRightDataPage(
-            CustomerRecord[] customerRecords,
-            int splitCount)
-        {
-            var rightCustomers = new CustomerRecord[PageSizePlusAdditionalSpace];
-            Array.Copy(customerRecords, splitCount, rightCustomers, 0, PageSize - splitCount + 1);
-            return new DataPage(PageSize, rightCustomers);
-        }
-
         private DataPage CreateLeftDataPage(
             CustomerRecord[] customerRecords,
             int splitCount)
@@ -126,6 +117,15 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             var leftCustomers = new CustomerRecord[PageSizePlusAdditionalSpace];
             Array.Copy(customerRecords, 0, leftCustomers, 0, splitCount);
             return new DataPage(PageSize, leftCustomers);
+        }
+
+        private DataPage CreateRightDataPage(
+            CustomerRecord[] customerRecords,
+            int splitCount)
+        {
+            var rightCustomers = new CustomerRecord[PageSizePlusAdditionalSpace];
+            Array.Copy(customerRecords, splitCount, rightCustomers, 0, PageSize - splitCount + 1);
+            return new DataPage(PageSize, rightCustomers);
         }
 
         private bool IsDataPageFull()

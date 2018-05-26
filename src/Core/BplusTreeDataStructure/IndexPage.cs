@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Schema;
 
 namespace ThreadingExplore.Core.BplusTreeDataStructure
 {
@@ -23,6 +24,28 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             _dataPages[0] = dataPage1;
             _dataPages[1] = dataPage2;
+        }
+
+        public IndexPage(
+            int pageSize,
+            int[] indexes,
+            IPage[] dataPages)
+        {
+            PageSize = pageSize;
+
+            _indexes = new int[pageSize + 1];
+
+            for (int i = 0; i < indexes.Length; i++)
+            {
+                _indexes[i] = indexes[i];
+            }
+
+            _dataPages = new IPage[pageSize + 2];
+
+            for (int i = 0; i < dataPages.Length; i++)
+            {
+                _dataPages[i] = dataPages[i];
+            }
         }
 
         public int PageSize { get; }
@@ -88,14 +111,29 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
 
             if (_indexes[PageSize] > 0)
             {
-                var leftPage = new IndexPage(PageSize, _indexes[0], _dataPages[0], _dataPages[1]);
-                var rightPage = new IndexPage(PageSize, _indexes[2], _dataPages[2], _dataPages[3]);
+                var splitCount = (int)Math.Ceiling(PageSize / 2.0d);
 
-                return InsertResult.CreateAsSplit(_indexes[1], leftPage, rightPage);
+//                System.Diagnostics.Debugger.Break();
+
+                var leftIndexs = SubArray<int>(_indexes, 0, splitCount);
+                var leftPages = SubArray<IPage>(_dataPages, 0, PageSize - splitCount + 2);
+                var leftPage = new IndexPage(PageSize, leftIndexs, leftPages);
+
+                var rightIndexs = SubArray<int>(_indexes, splitCount + 1, PageSize - splitCount);
+                var rightPages = SubArray<IPage>(_dataPages, splitCount + 1, PageSize - splitCount + 1);
+                var rightPage = new IndexPage(PageSize, rightIndexs, rightPages);
+
+                return InsertResult.CreateAsSplit(_indexes[splitCount], leftPage, rightPage);
             }
 
             return InsertResult.CreateWithoutSplit();
+        }
 
+        private static T[] SubArray<T>(T[] data, int index, int length)
+        {
+            T[] result = new T[length];
+            Array.Copy(data, index, result, 0, length);
+            return result;
         }
 
         private int FindIndexToInsert(CustomerRecord newCustomerRecord)
