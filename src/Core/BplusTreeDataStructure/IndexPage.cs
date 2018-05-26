@@ -113,10 +113,10 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             {
                 var splitCount = (int)Math.Ceiling(PageSize / 2.0d);
 
-//                System.Diagnostics.Debugger.Break();
+                System.Diagnostics.Debugger.Break();
 
                 var leftIndexs = SubArray<int>(_indexes, 0, splitCount);
-                var leftPages = SubArray<IPage>(_dataPages, 0, PageSize - splitCount + 2);
+                var leftPages = SubArray<IPage>(_dataPages, 0, splitCount + 1);
                 var leftPage = new IndexPage(PageSize, leftIndexs, leftPages);
 
                 var rightIndexs = SubArray<int>(_indexes, splitCount + 1, PageSize - splitCount);
