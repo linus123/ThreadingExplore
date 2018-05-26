@@ -123,9 +123,17 @@ namespace ThreadingExplore.UnitTests.BplusTreeDataStructure
             tree.Insert(CreateCustomer(230));
             tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|P:230|I:300|P:300|P:400");
 
-//            tree.Insert(CreateCustomer(500));
-//            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|P:230|I:300|P:300|P:400|P:500");
+            tree.Insert(CreateCustomer(500));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|P:230|I:300|P:300|I:400|P:400|P:500");
 
+            tree.Insert(CreateCustomer(600));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|P:230|I:300|P:300|I:400|P:400|I:500|P:500|P:600");
+
+            tree.Insert(CreateCustomer(700));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|P:230|I:300|P:300|I:400|P:400|I:500|P:500|I:600|P:600|P:700");
+
+            tree.Insert(CreateCustomer(800));
+            tree.GetStringVersion().Should().Be("P:100|P:110|I:200|P:200|I:225|P:225|P:230|I:300|P:300|I:400|P:400|I:500|P:500|I:600|P:600|I:700|P:700|P:800");
         }
 
 
