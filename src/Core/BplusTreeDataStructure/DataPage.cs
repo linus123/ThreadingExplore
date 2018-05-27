@@ -145,14 +145,22 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             int insertIndex,
             int pageSize)
         {
-            for (int i = pageSize - 1; i > insertIndex; i--)
-            {
-                customerRecords[i] = customerRecords[i - 1];
-            }
+            ShiftCustomers(customerRecords, insertIndex, pageSize);
 
             customerRecords[insertIndex] = newCustomerRecord;
 
             return customerRecords;
+        }
+
+        private static void ShiftCustomers(
+            CustomerRecord[] customerRecords,
+            int insertIndex,
+            int pageSize)
+        {
+            for (int i = pageSize - 1; i > insertIndex; i--)
+            {
+                customerRecords[i] = customerRecords[i - 1];
+            }
         }
 
         public CustomerRecord[] GetAll()

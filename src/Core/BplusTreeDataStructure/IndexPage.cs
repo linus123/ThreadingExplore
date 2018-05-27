@@ -120,7 +120,10 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             var leftPage = CreateLeftPage(splitCount);
             var rightPage = CreateRightPage(splitCount);
 
-            return InsertResult.CreateAsSplit(_indexes[splitCount], leftPage, rightPage);
+            return InsertResult.CreateAsSplit(
+                _indexes[splitCount],
+                leftPage,
+                rightPage);
         }
 
         private bool PageIsFull()
@@ -128,17 +131,17 @@ namespace ThreadingExplore.Core.BplusTreeDataStructure
             return _indexes[PageSize] > 0;
         }
 
-        private IndexPage CreateRightPage(int splitCount)
-        {
-            var indexes = SubArray(_indexes, splitCount + 1, PageSize - splitCount);
-            var pages = SubArray(_dataPages, splitCount + 1, PageSize - splitCount + 1);
-            return new IndexPage(PageSize, indexes, pages);
-        }
-
         private IndexPage CreateLeftPage(int splitCount)
         {
             var indexes = SubArray(_indexes, 0, splitCount);
             var pages = SubArray(_dataPages, 0, splitCount + 1);
+            return new IndexPage(PageSize, indexes, pages);
+        }
+
+        private IndexPage CreateRightPage(int splitCount)
+        {
+            var indexes = SubArray(_indexes, splitCount + 1, PageSize - splitCount);
+            var pages = SubArray(_dataPages, splitCount + 1, PageSize - splitCount + 1);
             return new IndexPage(PageSize, indexes, pages);
         }
 
