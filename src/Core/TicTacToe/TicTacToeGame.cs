@@ -2,10 +2,10 @@
 {
     public class TicTacToeGame
     {
-        private CellValue[,] _gameBoard;
+        private readonly CellValue[,] _gameBoard;
 
         public TicTacToeGame(
-            string[,] grid = null)
+            string[] grid = null)
         {
             _gameBoard = new CellValue[3, 3];
 
@@ -14,6 +14,16 @@
                 for (int y = 0; y < 3; y++)
                 {
                     _gameBoard[x, y] = CellValue.Blank;
+
+                    if (grid != null)
+                    {
+                        if (grid[y][x] == 'X')
+                            _gameBoard[x, y] = CellValue.X;
+
+                        if (grid[y][x] == 'O')
+                            _gameBoard[x, y] = CellValue.O;
+
+                    }
                 }
             }
         }
