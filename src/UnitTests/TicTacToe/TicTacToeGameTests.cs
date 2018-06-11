@@ -69,6 +69,49 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             game.GetCellValue(2, 2).Should().Be(TicTacToeGame.CellValue.X);
         }
 
+        [Fact]
+        public void IsWonShouldBeFalseForBlankGrid()
+        {
+            var game = new TicTacToeGame();
+
+            game.IsWon.Should().BeFalse();
+        }
+
+        [Fact]
+        public void IsWonShouldBeFalseForNoWinningMoves()
+        {
+            var grid = new string[]
+            {
+                "X--",
+                "-O-",
+                "O-X",
+            };
+
+            var game = new TicTacToeGame(grid);
+
+            game.IsWon.Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData(0, TicTacToeGame.CellValue.X)]
+        [InlineData(1, TicTacToeGame.CellValue.X)]
+        [InlineData(2, TicTacToeGame.CellValue.X)]
+        [InlineData(0, TicTacToeGame.CellValue.O)]
+        [InlineData(1, TicTacToeGame.CellValue.O)]
+        [InlineData(2, TicTacToeGame.CellValue.O)]
+        public void IsWonShouldBeTrueForHorizonalWin(
+            int y,
+            TicTacToeGame.CellValue cellValue)
+        {
+            var game = new TicTacToeGame();
+
+            game.SetCellValue(0, y, cellValue);
+            game.SetCellValue(1, y, cellValue);
+            game.SetCellValue(2, y, cellValue);
+
+            game.IsWon.Should().BeTrue();
+        }
+
         public class EachCellWithXandO : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()

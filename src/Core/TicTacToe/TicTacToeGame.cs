@@ -28,6 +28,11 @@
             }
         }
 
+        public bool IsWon
+        {
+            get { return false; }
+        }
+
         public void SetCellValue(
             int x,
             int y,
