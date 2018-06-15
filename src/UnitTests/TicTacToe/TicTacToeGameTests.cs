@@ -74,7 +74,9 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         {
             var game = new TicTacToeGame();
 
-            game.GetWinStatus().Should().BeFalse();
+            var winStatus = game.GetWinStatus();
+
+            winStatus.IsWon.Should().BeFalse();
         }
 
         [Fact]
@@ -89,7 +91,9 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var game = new TicTacToeGame(grid);
 
-            game.GetWinStatus().Should().BeFalse();
+            var winStatus = game.GetWinStatus();
+
+            winStatus.IsWon.Should().BeFalse();
         }
 
         [Theory]
@@ -109,7 +113,9 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             game.SetCellValue(1, y, cellValue);
             game.SetCellValue(2, y, cellValue);
 
-            game.GetWinStatus().Should().BeTrue();
+            var winStatus = game.GetWinStatus();
+
+            winStatus.IsWon.Should().BeTrue();
         }
 
         [Theory]
@@ -129,7 +135,9 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             game.SetCellValue(x, 1, cellValue);
             game.SetCellValue(x, 2, cellValue);
 
-            game.GetWinStatus().Should().BeTrue();
+            var winStatus = game.GetWinStatus();
+
+            winStatus.IsWon.Should().BeTrue();
         }
 
         public class EachCellWithXandO : IEnumerable<object[]>

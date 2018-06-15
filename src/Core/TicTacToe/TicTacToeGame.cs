@@ -28,14 +28,14 @@
             }
         }
 
-        public bool GetWinStatus()
+        public WinStatus GetWinStatus()
         {
             for (int x = 0; x < 3; x++)
             {
                 if (_gameBoard[x, 0] == CellValue.X
                     && _gameBoard[x, 1] == CellValue.X
                     && _gameBoard[x, 2] == CellValue.X)
-                    return true;
+                    return new WinStatus(true);
             }
 
             for (int x = 0; x < 3; x++)
@@ -43,7 +43,7 @@
                 if (_gameBoard[x, 0] == CellValue.O
                     && _gameBoard[x, 1] == CellValue.O
                     && _gameBoard[x, 2] == CellValue.O)
-                    return true;
+                    return new WinStatus(true);
             }
 
             for (int y = 0; y < 3; y++)
@@ -51,7 +51,7 @@
                 if (_gameBoard[0, y] == CellValue.X
                     && _gameBoard[1, y] == CellValue.X
                     && _gameBoard[2, y] == CellValue.X)
-                    return true;
+                    return new WinStatus(true);
             }
 
             for (int y = 0; y < 3; y++)
@@ -59,12 +59,22 @@
                 if (_gameBoard[0, y] == CellValue.O
                     && _gameBoard[1, y] == CellValue.O
                     && _gameBoard[2, y] == CellValue.O)
-                    return true;
+                    return new WinStatus(true);
             }
 
-            return false;
-
+            return new WinStatus(false);
         }
+
+        public class WinStatus
+        {
+            public WinStatus(bool isWon)
+            {
+                IsWon = isWon;
+            }
+
+            public bool IsWon { get; }
+        }
+
 
         public void SetCellValue(
             int x,
