@@ -28,51 +28,88 @@
             }
         }
 
-        public WinStatus GetWinStatus()
+        private WinStatus GetColumnWinStatus(
+            CellValue cellValue)
         {
             for (int x = 0; x < 3; x++)
             {
-                if (_gameBoard[x, 0] == CellValue.X
-                    && _gameBoard[x, 1] == CellValue.X
-                    && _gameBoard[x, 2] == CellValue.X)
-                    return new WinStatus(true);
+                if (_gameBoard[x, 0] == cellValue
+                    && _gameBoard[x, 1] == cellValue
+                    && _gameBoard[x, 2] == cellValue)
+                {
+                    var message = $"Column win for {cellValue} on column {x + 1}";
+                    return WinStatus.CreateAsWin(message);
+                }
             }
 
-            for (int x = 0; x < 3; x++)
-            {
-                if (_gameBoard[x, 0] == CellValue.O
-                    && _gameBoard[x, 1] == CellValue.O
-                    && _gameBoard[x, 2] == CellValue.O)
-                    return new WinStatus(true);
-            }
+            return WinStatus.CreateAsNoWin();
+        }
 
+        private WinStatus GetRowWinStatus(
+            CellValue cellValue)
+        {
             for (int y = 0; y < 3; y++)
             {
-                if (_gameBoard[0, y] == CellValue.X
-                    && _gameBoard[1, y] == CellValue.X
-                    && _gameBoard[2, y] == CellValue.X)
-                    return new WinStatus(true);
+                if (_gameBoard[0, y] == cellValue
+                    && _gameBoard[1, y] == cellValue
+                    && _gameBoard[2, y] == cellValue)
+                {
+                    var message = $"Row win for {cellValue} on row {y + 1}";
+                    return WinStatus.CreateAsWin(message);
+                }
             }
 
-            for (int y = 0; y < 3; y++)
-            {
-                if (_gameBoard[0, y] == CellValue.O
-                    && _gameBoard[1, y] == CellValue.O
-                    && _gameBoard[2, y] == CellValue.O)
-                    return new WinStatus(true);
-            }
+            return WinStatus.CreateAsNoWin();
+        }
 
-            return new WinStatus(false);
+        public WinStatus GetWinStatus()
+        {
+            var columnWinStatusX = GetColumnWinStatus(CellValue.X);
+
+            if (columnWinStatusX.IsWon)
+                return columnWinStatusX;
+
+            var columnWinStatusO = GetColumnWinStatus(CellValue.O);
+
+            if (columnWinStatusO.IsWon)
+                return columnWinStatusO;
+
+            var rowWinStatusX = GetRowWinStatus(CellValue.X);
+
+            if (rowWinStatusX.IsWon)
+                return rowWinStatusX;
+
+            var rowWinStatusO = GetRowWinStatus(CellValue.O);
+
+            if (rowWinStatusO.IsWon)
+                return rowWinStatusO;
+
+            return WinStatus.CreateAsNoWin();
         }
 
         public class WinStatus
         {
-            public WinStatus(bool isWon)
+            public static WinStatus CreateAsWin(
+                string message)
+            {
+                return new WinStatus(true)
+                {
+                    WinMessage = message
+                };
+            }
+
+            public static WinStatus CreateAsNoWin()
+            {
+                return new WinStatus(false);
+            }
+
+            private WinStatus(bool isWon)
             {
                 IsWon = isWon;
             }
 
             public bool IsWon { get; }
+            public string WinMessage { get; private set; }
         }
 
 

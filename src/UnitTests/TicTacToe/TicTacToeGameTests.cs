@@ -116,6 +116,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             var winStatus = game.GetWinStatus();
 
             winStatus.IsWon.Should().BeTrue();
+            winStatus.WinMessage.Should().Be($"Row win for {cellValue} on row {y + 1}");
         }
 
         [Theory]
@@ -138,6 +139,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             var winStatus = game.GetWinStatus();
 
             winStatus.IsWon.Should().BeTrue();
+            winStatus.WinMessage.Should().Be($"Column win for {cellValue} on column {x + 1}");
         }
 
         public class EachCellWithXandO : IEnumerable<object[]>
