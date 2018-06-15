@@ -28,7 +28,7 @@
             }
         }
 
-        public bool GetIsWon()
+        public bool GetWinStatus()
         {
             for (int x = 0; x < 3; x++)
             {
