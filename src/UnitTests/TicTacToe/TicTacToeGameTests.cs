@@ -113,6 +113,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var winStatus = game.GetIsWon();
             winStatus.IsWon.Should().BeTrue();
+            winStatus.Message.Should().Be($"{cellValue} has won with horizontal win at y = {y}.");
         }
 
         [Theory]
@@ -134,6 +135,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var winStatus = game.GetIsWon();
             winStatus.IsWon.Should().BeTrue();
+            winStatus.Message.Should().Be($"{cellValue} has won with vertical win at x = {x}.");
         }
 
         [Theory]
@@ -150,6 +152,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var winStatus = game.GetIsWon();
             winStatus.IsWon.Should().BeTrue();
+            winStatus.Message.Should().Be($"{cellValue} has won with diaginal 1 win.");
         }
 
         [Theory]
@@ -166,6 +169,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var winStatus = game.GetIsWon();
             winStatus.IsWon.Should().BeTrue();
+            winStatus.Message.Should().Be($"{cellValue} has won with diaginal 2 win.");
         }
 
         public class EachCellWithXandO : IEnumerable<object[]>

@@ -30,82 +30,113 @@
 
         public WinStatus GetIsWon()
         {
-            if (HasHoisontalWin(CellValue.X))
-                return new WinStatus(true);
+            var hasHoisontalWin = HasHoisontalWin(CellValue.X);
 
-            if (HasHoisontalWin(CellValue.O))
-                return new WinStatus(true);
+            if (hasHoisontalWin.IsWon)
+                return hasHoisontalWin;
 
-            if (HasVerticalWin(CellValue.X))
-                return new WinStatus(true);
+            var hoisontalWin = HasHoisontalWin(CellValue.O);
 
-            if (HasVerticalWin(CellValue.O))
-                return new WinStatus(true);
+            if (hoisontalWin.IsWon)
+                return hoisontalWin;
 
-            if (HasDiaginal1Win(CellValue.X))
-                return new WinStatus(true);
+            var hasVerticalWin = HasVerticalWin(CellValue.X);
 
-            if (HasDiaginal1Win(CellValue.O))
-                return new WinStatus(true);
+            if (hasVerticalWin.IsWon)
+                return hasVerticalWin;
 
-            if (HasDiaginal2Win(CellValue.X))
-                return new WinStatus(true);
+            var verticalWin = HasVerticalWin(CellValue.O);
 
-            if (HasDiaginal2Win(CellValue.O))
-                return new WinStatus(true);
+            if (verticalWin.IsWon)
+                return verticalWin;
 
-            return new WinStatus(false);
+            var diaginal1WinXStatus = GetDiaginal1WinStatus(CellValue.X);
+
+            if (diaginal1WinXStatus.IsWon)
+                return diaginal1WinXStatus;
+
+            var diaginal1WinOStatus = GetDiaginal1WinStatus(CellValue.O);
+
+            if (diaginal1WinOStatus.IsWon)
+                return diaginal1WinOStatus;
+
+            var diaginal2WinXStatus = GetDiaginal2WinStatus(CellValue.X);
+
+            if (diaginal2WinXStatus.IsWon)
+                return diaginal2WinXStatus;
+
+            var diaginal2WinOStatus = GetDiaginal2WinStatus(CellValue.O);
+
+            if (diaginal2WinOStatus.IsWon)
+                return diaginal2WinOStatus;
+
+            return WinStatus.NotWon;
         }
 
         public class WinStatus
         {
+            public static WinStatus NotWon = new WinStatus(false, null);
+
             public bool IsWon { get; }
+            public string Message { get; }
 
             public WinStatus(
-                bool isWon)
+                bool isWon,
+                string message)
             {
+                Message = message;
                 IsWon = isWon;
             }
         }
 
-        private bool HasDiaginal1Win(CellValue value)
+        private WinStatus GetDiaginal1WinStatus(CellValue value)
         {
-            return _gameBoard[0, 0] == value
-                   && _gameBoard[1, 1] == value
-                   && _gameBoard[2, 2] == value;
+            if (_gameBoard[0, 0] == value
+                && _gameBoard[1, 1] == value
+                && _gameBoard[2, 2] == value)
+            {
+                return new WinStatus(true, $"{value} has won with diaginal 1 win.");
+            }
+
+            return WinStatus.NotWon;
         }
 
-        private bool HasDiaginal2Win(CellValue value)
+        private WinStatus GetDiaginal2WinStatus(CellValue value)
         {
-            return _gameBoard[2, 0] == value
-                   && _gameBoard[1, 1] == value
-                   && _gameBoard[0, 2] == value;
+            if (_gameBoard[2, 0] == value
+                && _gameBoard[1, 1] == value
+                && _gameBoard[0, 2] == value)
+            {
+                return new WinStatus(true, $"{value} has won with diaginal 2 win.");
+            }
+
+            return WinStatus.NotWon;
         }
 
-        private bool HasHoisontalWin(CellValue cellValue)
+        private WinStatus HasHoisontalWin(CellValue cellValue)
         {
             for (int y = 0; y < 3; y++)
             {
                 if (_gameBoard[0, y] == cellValue
                     && _gameBoard[1, y] == cellValue
                     && _gameBoard[2, y] == cellValue)
-                    return true;
+                    return new WinStatus(true, $"{cellValue} has won with horizontal win at y = {y}.");
             }
 
-            return false;
+            return WinStatus.NotWon;
         }
 
-        private bool HasVerticalWin(CellValue cellValue)
+        private WinStatus HasVerticalWin(CellValue cellValue)
         {
             for (int x = 0; x < 3; x++)
             {
                 if (_gameBoard[x, 0] == cellValue
                     && _gameBoard[x, 1] == cellValue
                     && _gameBoard[x, 2] == cellValue)
-                    return true;
+                    return new WinStatus(true, $"{cellValue} has won with vertical win at x = {x}.");
             }
 
-            return false;
+            return WinStatus.NotWon;
         }
 
         public void SetCellValue(
