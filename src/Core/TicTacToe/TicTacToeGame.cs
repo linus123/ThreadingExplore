@@ -28,35 +28,43 @@
             }
         }
 
-        public bool IsWon
+        public WinStatus GetIsWon()
         {
-            get
+            if (HasHoisontalWin(CellValue.X))
+                return new WinStatus(true);
+
+            if (HasHoisontalWin(CellValue.O))
+                return new WinStatus(true);
+
+            if (HasVerticalWin(CellValue.X))
+                return new WinStatus(true);
+
+            if (HasVerticalWin(CellValue.O))
+                return new WinStatus(true);
+
+            if (HasDiaginal1Win(CellValue.X))
+                return new WinStatus(true);
+
+            if (HasDiaginal1Win(CellValue.O))
+                return new WinStatus(true);
+
+            if (HasDiaginal2Win(CellValue.X))
+                return new WinStatus(true);
+
+            if (HasDiaginal2Win(CellValue.O))
+                return new WinStatus(true);
+
+            return new WinStatus(false);
+        }
+
+        public class WinStatus
+        {
+            public bool IsWon { get; }
+
+            public WinStatus(
+                bool isWon)
             {
-                if (HasHoisontalWin(CellValue.X))
-                    return true;
-
-                if (HasHoisontalWin(CellValue.O))
-                    return true;
-
-                if (HasVerticalWin(CellValue.X))
-                    return true;
-
-                if (HasVerticalWin(CellValue.O))
-                    return true;
-
-                if (HasDiaginal1Win(CellValue.X))
-                    return true;
-
-                if (HasDiaginal1Win(CellValue.O))
-                    return true;
-
-                if (HasDiaginal2Win(CellValue.X))
-                    return true;
-
-                if (HasDiaginal2Win(CellValue.O))
-                    return true;
-
-                return false;
+                IsWon = isWon;
             }
         }
 
