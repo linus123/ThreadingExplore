@@ -38,6 +38,12 @@
                 if (HasHoisontalWin(CellValue.O))
                     return true;
 
+                if (HasVerticalWin(CellValue.X))
+                    return true;
+
+                if (HasVerticalWin(CellValue.O))
+                    return true;
+
                 return false;
             }
         }
@@ -49,6 +55,19 @@
                 if (_gameBoard[0, y] == cellValue
                     && _gameBoard[1, y] == cellValue
                     && _gameBoard[2, y] == cellValue)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool HasVerticalWin(CellValue cellValue)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                if (_gameBoard[x, 0] == cellValue
+                    && _gameBoard[x, 1] == cellValue
+                    && _gameBoard[x, 2] == cellValue)
                     return true;
             }
 
