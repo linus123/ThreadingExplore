@@ -32,21 +32,27 @@
         {
             get
             {
-                for (int y = 0; y < 3; y++)
-                {
-                    if (_gameBoard[0, y] == CellValue.X
-                        && _gameBoard[1, y] == CellValue.X
-                        && _gameBoard[2, y] == CellValue.X)
-                        return true;
+                if (HasHoisontalWin(CellValue.X))
+                    return true;
 
-                    if (_gameBoard[0, y] == CellValue.O
-                        && _gameBoard[1, y] == CellValue.O
-                        && _gameBoard[2, y] == CellValue.O)
-                        return true;
-                }
+                if (HasHoisontalWin(CellValue.O))
+                    return true;
 
                 return false;
             }
+        }
+
+        private bool HasHoisontalWin(CellValue cellValue)
+        {
+            for (int y = 0; y < 3; y++)
+            {
+                if (_gameBoard[0, y] == cellValue
+                    && _gameBoard[1, y] == cellValue
+                    && _gameBoard[2, y] == cellValue)
+                    return true;
+            }
+
+            return false;
         }
 
         public void SetCellValue(
