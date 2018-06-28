@@ -30,25 +30,25 @@
 
         public WinStatus GetIsWon()
         {
-            var hasHoisontalWin = HasHoisontalWin(CellValue.X);
+            var hoisontalWinStatusX = GetHoisontalWinStatus(CellValue.X);
 
-            if (hasHoisontalWin.IsWon)
-                return hasHoisontalWin;
+            if (hoisontalWinStatusX.IsWon)
+                return hoisontalWinStatusX;
 
-            var hoisontalWin = HasHoisontalWin(CellValue.O);
+            var hoisontalWinStatusO = GetHoisontalWinStatus(CellValue.O);
 
-            if (hoisontalWin.IsWon)
-                return hoisontalWin;
+            if (hoisontalWinStatusO.IsWon)
+                return hoisontalWinStatusO;
 
-            var hasVerticalWin = HasVerticalWin(CellValue.X);
+            var verticalWinStatusX = GetVerticalWinStatus(CellValue.X);
 
-            if (hasVerticalWin.IsWon)
-                return hasVerticalWin;
+            if (verticalWinStatusX.IsWon)
+                return verticalWinStatusX;
 
-            var verticalWin = HasVerticalWin(CellValue.O);
+            var verticalWinStatusO = GetVerticalWinStatus(CellValue.O);
 
-            if (verticalWin.IsWon)
-                return verticalWin;
+            if (verticalWinStatusO.IsWon)
+                return verticalWinStatusO;
 
             var diaginal1WinXStatus = GetDiaginal1WinStatus(CellValue.X);
 
@@ -113,7 +113,7 @@
             return WinStatus.NotWon;
         }
 
-        private WinStatus HasHoisontalWin(CellValue cellValue)
+        private WinStatus GetHoisontalWinStatus(CellValue cellValue)
         {
             for (int y = 0; y < 3; y++)
             {
@@ -126,7 +126,7 @@
             return WinStatus.NotWon;
         }
 
-        private WinStatus HasVerticalWin(CellValue cellValue)
+        private WinStatus GetVerticalWinStatus(CellValue cellValue)
         {
             for (int x = 0; x < 3; x++)
             {
