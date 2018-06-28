@@ -34,6 +34,23 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             AssertAllCellsAreBlank(game);
         }
 
+        public class EachCellWithXandO : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                for (int x = 0; x < 3; x++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        yield return new object[] { x, y, TicTacToeGame.CellValue.X };
+                        yield return new object[] { x, y, TicTacToeGame.CellValue.O };
+                    }
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
         [Fact]
         public void ConsructorShouldInitWillAllBlankCells()
         {
@@ -76,6 +93,50 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var winStatus = game.GetIsWon();
             winStatus.IsWon.Should().BeFalse();
+        }
+
+        [Fact]
+        public void GetBoardAsStringShouldReturnStringRepOfBoard()
+        {
+            var game = new TicTacToeGame();
+
+            var boardAsStrings = game.GetBoardAsStrings();
+
+            boardAsStrings[0].Should().Be("---");
+            boardAsStrings[1].Should().Be("---");
+            boardAsStrings[2].Should().Be("---");
+        }
+
+        [Fact]
+        public void GetBoardAsStringShouldReturnStringRepOfBoardWithSingleMoveMadeForX()
+        {
+            var game = new TicTacToeGame();
+
+            game.SetCellValue(0, 0, TicTacToeGame.CellValue.X);
+            game.SetCellValue(1, 1, TicTacToeGame.CellValue.X);
+            game.SetCellValue(2, 2, TicTacToeGame.CellValue.X);
+
+            var boardAsStrings = game.GetBoardAsStrings();
+
+            boardAsStrings[0].Should().Be("X--");
+            boardAsStrings[1].Should().Be("-X-");
+            boardAsStrings[2].Should().Be("--X");
+        }
+
+        [Fact]
+        public void GetBoardAsStringShouldReturnStringRepOfBoardWithSingleMoveMadeForO()
+        {
+            var game = new TicTacToeGame();
+
+            game.SetCellValue(0, 0, TicTacToeGame.CellValue.O);
+            game.SetCellValue(1, 1, TicTacToeGame.CellValue.O);
+            game.SetCellValue(2, 2, TicTacToeGame.CellValue.O);
+
+            var boardAsStrings = game.GetBoardAsStrings();
+
+            boardAsStrings[0].Should().Be("O--");
+            boardAsStrings[1].Should().Be("-O-");
+            boardAsStrings[2].Should().Be("--O");
         }
 
         [Fact]
@@ -170,23 +231,6 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             var winStatus = game.GetIsWon();
             winStatus.IsWon.Should().BeTrue();
             winStatus.Message.Should().Be($"{cellValue} has won with diaginal 2 win.");
-        }
-
-        public class EachCellWithXandO : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                for (int x = 0; x < 3; x++)
-                {
-                    for (int y = 0; y < 3; y++)
-                    {
-                        yield return new object[] { x, y, TicTacToeGame.CellValue.X };
-                        yield return new object[] { x, y, TicTacToeGame.CellValue.O };
-                    }
-                }
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
         private static void AssertAllCellsAreBlank(TicTacToeGame game)
