@@ -44,8 +44,34 @@
                 if (HasVerticalWin(CellValue.O))
                     return true;
 
+                if (HasDiaginal1Win(CellValue.X))
+                    return true;
+
+                if (HasDiaginal1Win(CellValue.O))
+                    return true;
+
+                if (HasDiaginal2Win(CellValue.X))
+                    return true;
+
+                if (HasDiaginal2Win(CellValue.O))
+                    return true;
+
                 return false;
             }
+        }
+
+        private bool HasDiaginal1Win(CellValue value)
+        {
+            return _gameBoard[0, 0] == value
+                   && _gameBoard[1, 1] == value
+                   && _gameBoard[2, 2] == value;
+        }
+
+        private bool HasDiaginal2Win(CellValue value)
+        {
+            return _gameBoard[2, 0] == value
+                   && _gameBoard[1, 1] == value
+                   && _gameBoard[0, 2] == value;
         }
 
         private bool HasHoisontalWin(CellValue cellValue)
