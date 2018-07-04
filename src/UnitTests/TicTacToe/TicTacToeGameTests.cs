@@ -69,77 +69,16 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             game.GetCellValue(2, 2).Should().Be(TicTacToeGame.CellValue.X);
         }
 
-        [Fact]
-        public void IsWonShouldBeFalseForBlankGrid()
+
+        private static void AssertAllCellsAreBlank(TicTacToeGame game)
         {
-            var game = new TicTacToeGame();
-
-            var winStatus = game.GetWinStatus();
-
-            winStatus.IsWon.Should().BeFalse();
-        }
-
-        [Fact]
-        public void IsWonShouldBeFalseForNoWinningMoves()
-        {
-            var grid = new string[]
+            for (int x = 0; x < 3; x++)
             {
-                "X--",
-                "-O-",
-                "O-X",
-            };
-
-            var game = new TicTacToeGame(grid);
-
-            var winStatus = game.GetWinStatus();
-
-            winStatus.IsWon.Should().BeFalse();
-        }
-
-        [Theory]
-        [InlineData(0, TicTacToeGame.CellValue.X)]
-        [InlineData(1, TicTacToeGame.CellValue.X)]
-        [InlineData(2, TicTacToeGame.CellValue.X)]
-        [InlineData(0, TicTacToeGame.CellValue.O)]
-        [InlineData(1, TicTacToeGame.CellValue.O)]
-        [InlineData(2, TicTacToeGame.CellValue.O)]
-        public void IsWonShouldBeTrueForHorizonalWin(
-            int y,
-            TicTacToeGame.CellValue cellValue)
-        {
-            var game = new TicTacToeGame();
-
-            game.SetCellValue(0, y, cellValue);
-            game.SetCellValue(1, y, cellValue);
-            game.SetCellValue(2, y, cellValue);
-
-            var winStatus = game.GetWinStatus();
-
-            winStatus.IsWon.Should().BeTrue();
-            winStatus.WinMessage.Should().Be($"Row win for {cellValue} on row {y + 1}");
-        }
-
-        [Theory]
-        [InlineData(0, TicTacToeGame.CellValue.X)]
-        [InlineData(1, TicTacToeGame.CellValue.X)]
-        [InlineData(2, TicTacToeGame.CellValue.X)]
-        [InlineData(0, TicTacToeGame.CellValue.O)]
-        [InlineData(1, TicTacToeGame.CellValue.O)]
-        [InlineData(2, TicTacToeGame.CellValue.O)]
-        public void IsWonShouldBeTrueForVerticalWin(
-            int x,
-            TicTacToeGame.CellValue cellValue)
-        {
-            var game = new TicTacToeGame();
-
-            game.SetCellValue(x, 0, cellValue);
-            game.SetCellValue(x, 1, cellValue);
-            game.SetCellValue(x, 2, cellValue);
-
-            var winStatus = game.GetWinStatus();
-
-            winStatus.IsWon.Should().BeTrue();
-            winStatus.WinMessage.Should().Be($"Column win for {cellValue} on column {x + 1}");
+                for (int y = 0; y < 3; y++)
+                {
+                    game.GetCellValue(x, y).Should().Be(TicTacToeGame.CellValue.Blank);
+                }
+            }
         }
 
         public class EachCellWithXandO : IEnumerable<object[]>
@@ -159,15 +98,5 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
-        private static void AssertAllCellsAreBlank(TicTacToeGame game)
-        {
-            for (int x = 0; x < 3; x++)
-            {
-                for (int y = 0; y < 3; y++)
-                {
-                    game.GetCellValue(x, y).Should().Be(TicTacToeGame.CellValue.Blank);
-                }
-            }
-        }
     }
 }
