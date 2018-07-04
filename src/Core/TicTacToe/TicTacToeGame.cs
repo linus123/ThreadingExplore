@@ -154,5 +154,14 @@ namespace ThreadingExplore.Core.TicTacToe
 
             return returnBoard;
         }
+
+        public void MakeNextMoveForO()
+        {
+            if (_gameBoard[0, 0] == CellValue.X
+                && _gameBoard[1, 0] == CellValue.X)
+            {
+                _gameBoard[2, 0] = CellValue.O;
+            }
+        }
     }
 }

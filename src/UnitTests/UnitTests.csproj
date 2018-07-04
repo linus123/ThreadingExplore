@@ -66,6 +66,7 @@
     <Compile Include="GameOfLife\GameOfLifeGridTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemLog\SystemLogSpy.cs" />
+    <Compile Include="TicTacToe\TicTacToeGameForMakeNextMoveTests.cs" />
     <Compile Include="TicTacToe\TicTacToeGameForWinDetectionTests.cs" />
     <Compile Include="TicTacToe\TicTacToeGameTests.cs" />
   </ItemGroup>
