@@ -157,11 +157,30 @@ namespace ThreadingExplore.Core.TicTacToe
 
         public void MakeNextMoveForO()
         {
-            if (_gameBoard[0, 0] == CellValue.X
-                && _gameBoard[1, 0] == CellValue.X)
+            for (int y = 0; y < 3; y++)
             {
-                _gameBoard[2, 0] = CellValue.O;
+                if (_gameBoard[1, y] == CellValue.X
+                    && _gameBoard[2, y] == CellValue.X)
+                {
+                    _gameBoard[0, y] = CellValue.O;
+                    return;
+                }
+
+                if (_gameBoard[0, y] == CellValue.X
+                    && _gameBoard[2, y] == CellValue.X)
+                {
+                    _gameBoard[1, y] = CellValue.O;
+                    return;
+                }
+
+                if (_gameBoard[0, y] == CellValue.X
+                    && _gameBoard[1, y] == CellValue.X)
+                {
+                    _gameBoard[2, y] = CellValue.O;
+                    return;
+                }
             }
+
         }
     }
 }
