@@ -155,28 +155,33 @@ namespace ThreadingExplore.Core.TicTacToe
             return returnBoard;
         }
 
-        public void MakeNextMoveForO()
+        public void MakeNextMoveFor(CellValue turnCellValue)
         {
+            var opposingCellValue = CellValue.X;
+
+            if (turnCellValue == CellValue.X)
+                opposingCellValue = CellValue.O;
+
             for (int y = 0; y < 3; y++)
             {
-                if (_gameBoard[1, y] == CellValue.X
-                    && _gameBoard[2, y] == CellValue.X)
+                if (_gameBoard[1, y] == opposingCellValue
+                    && _gameBoard[2, y] == opposingCellValue)
                 {
-                    _gameBoard[0, y] = CellValue.O;
+                    _gameBoard[0, y] = turnCellValue;
                     return;
                 }
 
-                if (_gameBoard[0, y] == CellValue.X
-                    && _gameBoard[2, y] == CellValue.X)
+                if (_gameBoard[0, y] == opposingCellValue
+                    && _gameBoard[2, y] == opposingCellValue)
                 {
-                    _gameBoard[1, y] = CellValue.O;
+                    _gameBoard[1, y] = turnCellValue;
                     return;
                 }
 
-                if (_gameBoard[0, y] == CellValue.X
-                    && _gameBoard[1, y] == CellValue.X)
+                if (_gameBoard[0, y] == opposingCellValue
+                    && _gameBoard[1, y] == opposingCellValue)
                 {
-                    _gameBoard[2, y] = CellValue.O;
+                    _gameBoard[2, y] = turnCellValue;
                     return;
                 }
             }
