@@ -69,6 +69,35 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             game.GetCellValue(2, 2).Should().Be(TicTacToeGame.CellValue.X);
         }
 
+        [Fact]
+        public void GetStringBoardShouldReturnLayoutOfBoardWithAllBlanks()
+        {
+            var ticTacToeGame = new TicTacToeGame();
+
+            var stringBoard = ticTacToeGame.GetStringBoard();
+
+            stringBoard[0].Should().Be("---");
+            stringBoard[1].Should().Be("---");
+            stringBoard[2].Should().Be("---");
+        }
+
+        [Fact]
+        public void GetStringBoardShouldReturnLayoutOfBoardWithMixOfXAndOs()
+        {
+            var ticTacToeGame = new TicTacToeGame();
+
+            ticTacToeGame.SetCellValue(0, 0, TicTacToeGame.CellValue.X);
+            ticTacToeGame.SetCellValue(1, 0, TicTacToeGame.CellValue.O);
+            ticTacToeGame.SetCellValue(1, 1, TicTacToeGame.CellValue.O);
+            ticTacToeGame.SetCellValue(1, 2, TicTacToeGame.CellValue.X);
+
+            var stringBoard = ticTacToeGame.GetStringBoard();
+
+            stringBoard[0].Should().Be("XO-");
+            stringBoard[1].Should().Be("-O-");
+            stringBoard[2].Should().Be("-X-");
+        }
+
 
         private static void AssertAllCellsAreBlank(TicTacToeGame game)
         {

@@ -1,4 +1,6 @@
-﻿namespace ThreadingExplore.Core.TicTacToe
+﻿using System;
+
+namespace ThreadingExplore.Core.TicTacToe
 {
     public class TicTacToeGame
     {
@@ -133,6 +135,24 @@
             Blank,
             X,
             O
+        }
+
+        public string[] GetStringBoard()
+        {
+            var returnBoard = new string[3];
+
+            for (int y = 0; y < 3; y++)
+            {
+                for (int x = 0; x < 3; x++)
+                {
+                    if (_gameBoard[x, y] == CellValue.Blank)
+                        returnBoard[y] += "-";
+                    else
+                        returnBoard[y] += _gameBoard[x, y];
+                }
+            }
+
+            return returnBoard;
         }
     }
 }
