@@ -155,6 +155,16 @@ namespace ThreadingExplore.Core.TicTacToe
             return returnBoard;
         }
 
+        private int AddWithAdjust(int x, int addVal)
+        {
+            var n1 = x + addVal;
+
+            if (n1 >= 3)
+                n1 = n1 - 3;
+
+            return n1;
+        }
+
         public void MakeNextMoveFor(CellValue turnCellValue)
         {
             var opposingCellValue = CellValue.X;
@@ -164,71 +174,38 @@ namespace ThreadingExplore.Core.TicTacToe
 
             for (int y = 0; y < 3; y++)
             {
-                if (_gameBoard[1, y] == opposingCellValue
-                    && _gameBoard[2, y] == opposingCellValue)
+                for (int x = 0; x < 3; x++)
                 {
-                    _gameBoard[0, y] = turnCellValue;
-                    return;
-                }
-
-                if (_gameBoard[0, y] == opposingCellValue
-                    && _gameBoard[2, y] == opposingCellValue)
-                {
-                    _gameBoard[1, y] = turnCellValue;
-                    return;
-                }
-
-                if (_gameBoard[0, y] == opposingCellValue
-                    && _gameBoard[1, y] == opposingCellValue)
-                {
-                    _gameBoard[2, y] = turnCellValue;
-                    return;
+                    if (_gameBoard[AddWithAdjust(x, 1), y] == opposingCellValue
+                        && _gameBoard[AddWithAdjust(x, 2), y] == opposingCellValue)
+                    {
+                        _gameBoard[AddWithAdjust(x, 0), y] = turnCellValue;
+                        return;
+                    }
                 }
             }
 
             for (int x = 0; x < 3; x++)
             {
-                if (_gameBoard[x, 1] == opposingCellValue
-                    && _gameBoard[x, 2] == opposingCellValue)
+                for (int y = 0; y < 3; y++)
                 {
-                    _gameBoard[x, 0] = turnCellValue;
-                    return;
-                }
-
-                if (_gameBoard[x, 0] == opposingCellValue
-                    && _gameBoard[x, 2] == opposingCellValue)
-                {
-                    _gameBoard[x, 1] = turnCellValue;
-                    return;
-                }
-
-                if (_gameBoard[x, 0] == opposingCellValue
-                    && _gameBoard[x, 1] == opposingCellValue)
-                {
-                    _gameBoard[x, 2] = turnCellValue;
-                    return;
+                    if (_gameBoard[x, AddWithAdjust(y, 1)] == opposingCellValue
+                        && _gameBoard[x, AddWithAdjust(y, 2)] == opposingCellValue)
+                    {
+                        _gameBoard[x, AddWithAdjust(y, 0)] = turnCellValue;
+                        return;
+                    }
                 }
             }
 
-            if (_gameBoard[0, 0] == opposingCellValue
-                && _gameBoard[1, 1] == opposingCellValue)
+            for (int n = 0; n < 3; n++)
             {
-                _gameBoard[2, 2] = turnCellValue;
-                return;
-            }
-
-            if (_gameBoard[0, 0] == opposingCellValue
-                && _gameBoard[2, 2] == opposingCellValue)
-            {
-                _gameBoard[1, 1] = turnCellValue;
-                return;
-            }
-
-            if (_gameBoard[1, 1] == opposingCellValue
-                && _gameBoard[2, 2] == opposingCellValue)
-            {
-                _gameBoard[0, 0] = turnCellValue;
-                return;
+                if (_gameBoard[AddWithAdjust(n, 0), AddWithAdjust(n, 0)] == opposingCellValue
+                    && _gameBoard[AddWithAdjust(n, 1), AddWithAdjust(n, 1)] == opposingCellValue)
+                {
+                    _gameBoard[AddWithAdjust(n, 2), AddWithAdjust(n, 2)] = turnCellValue;
+                    return;
+                }
             }
 
             // **
