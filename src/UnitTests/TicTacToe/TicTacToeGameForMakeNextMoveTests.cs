@@ -13,7 +13,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         [InlineData("OO-", "OOX", TicTacToeGame.CellValue.X)]
         [InlineData("O-O", "OXO", TicTacToeGame.CellValue.X)]
         [InlineData("-OO", "XOO", TicTacToeGame.CellValue.X)]
-        public void ShouldMakeTopRowBockForO(
+        public void ShouldMakeTopRowBlock(
             string inputRow,
             string expectedRow,
             TicTacToeGame.CellValue cellValue)
@@ -43,7 +43,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         [InlineData("OO-", "OOX", TicTacToeGame.CellValue.X)]
         [InlineData("O-O", "OXO", TicTacToeGame.CellValue.X)]
         [InlineData("-OO", "XOO", TicTacToeGame.CellValue.X)]
-        public void ShouldMakeMiddleRowBockForO(
+        public void ShouldMakeMiddleRowBlock(
             string inputRow,
             string expectedRow,
             TicTacToeGame.CellValue cellValue)
@@ -73,7 +73,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         [InlineData("OO-", "OOX", TicTacToeGame.CellValue.X)]
         [InlineData("O-O", "OXO", TicTacToeGame.CellValue.X)]
         [InlineData("-OO", "XOO", TicTacToeGame.CellValue.X)]
-        public void ShouldMakeBottomRowBockForO(
+        public void ShouldMakeBottomRowBlock(
             string inputRow,
             string expectedRow,
             TicTacToeGame.CellValue cellValue)
