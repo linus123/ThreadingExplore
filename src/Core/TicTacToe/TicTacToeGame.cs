@@ -230,6 +230,31 @@ namespace ThreadingExplore.Core.TicTacToe
                 _gameBoard[0, 0] = turnCellValue;
                 return;
             }
+
+            // **
+
+            if (_gameBoard[2, 0] == opposingCellValue
+                && _gameBoard[1, 1] == opposingCellValue)
+            {
+                _gameBoard[0, 2] = turnCellValue;
+                return;
+            }
+
+            if (_gameBoard[2, 0] == opposingCellValue
+                && _gameBoard[0, 2] == opposingCellValue)
+            {
+                _gameBoard[1, 1] = turnCellValue;
+                return;
+            }
+
+            if (_gameBoard[0, 2] == opposingCellValue
+                && _gameBoard[1, 1] == opposingCellValue)
+            {
+                _gameBoard[2, 0] = turnCellValue;
+                return;
+            }
+
+
         }
     }
 }
