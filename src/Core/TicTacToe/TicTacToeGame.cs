@@ -186,6 +186,31 @@ namespace ThreadingExplore.Core.TicTacToe
                 }
             }
 
+            for (int x = 0; x < 3; x++)
+            {
+                if (_gameBoard[x, 1] == opposingCellValue
+                    && _gameBoard[x, 2] == opposingCellValue)
+                {
+                    _gameBoard[x, 0] = turnCellValue;
+                    return;
+                }
+
+                if (_gameBoard[x, 0] == opposingCellValue
+                    && _gameBoard[x, 2] == opposingCellValue)
+                {
+                    _gameBoard[x, 1] = turnCellValue;
+                    return;
+                }
+
+                if (_gameBoard[x, 0] == opposingCellValue
+                    && _gameBoard[x, 1] == opposingCellValue)
+                {
+                    _gameBoard[x, 2] = turnCellValue;
+                    return;
+                }
+            }
+
+
         }
     }
 }
