@@ -1,5 +1,4 @@
-﻿using System;
-using ThreadingExplore.Core.BplusTreeDataStructure;
+﻿using System.Threading;
 
 namespace ThreadingExplore.Console
 {
@@ -7,21 +6,24 @@ namespace ThreadingExplore.Console
     {
         static void Main(string[] args)
         {
-            var random = new Random();
+            var thread = new Thread(WriteY);
 
+            thread.Start();
 
-            var bplusTree = new BplusTree(4);
-
-            for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 1000; i++)
             {
-                var num = random.Next(1, 1000000);
-
-                bplusTree.Insert(new CustomerRecord(num, "Customer {num}"));
+                System.Console.Write("x");
             }
 
-            //var stringVersion = bplusTree.GetStringVersion();
+            System.Console.ReadLine();
+        }
 
-            //System.Console.WriteLine(stringVersion);
+        static void WriteY()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                System.Console.Write("y");
+            }
         }
     }
 }
