@@ -34,23 +34,6 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             AssertAllCellsAreBlank(game);
         }
 
-        public class EachCellWithXandO : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                for (int x = 0; x < 3; x++)
-                {
-                    for (int y = 0; y < 3; y++)
-                    {
-                        yield return new object[] { x, y, TicTacToeGame.CellValue.X };
-                        yield return new object[] { x, y, TicTacToeGame.CellValue.O };
-                    }
-                }
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
         [Fact]
         public void ConsructorShouldInitWillAllBlankCells()
         {
@@ -87,151 +70,34 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         }
 
         [Fact]
-        public void IsWonShouldBeFalseForBlankGrid()
+        public void GetStringBoardShouldReturnLayoutOfBoardWithAllBlanks()
         {
-            var game = new TicTacToeGame();
+            var ticTacToeGame = new TicTacToeGame();
 
-            var winStatus = game.GetIsWon();
-            winStatus.IsWon.Should().BeFalse();
+            var stringBoard = ticTacToeGame.GetStringBoard();
+
+            stringBoard[0].Should().Be("---");
+            stringBoard[1].Should().Be("---");
+            stringBoard[2].Should().Be("---");
         }
 
         [Fact]
-        public void GetBoardAsStringShouldReturnStringRepOfBoard()
+        public void GetStringBoardShouldReturnLayoutOfBoardWithMixOfXAndOs()
         {
-            var game = new TicTacToeGame();
+            var ticTacToeGame = new TicTacToeGame();
 
-            var boardAsStrings = game.GetBoardAsStrings();
+            ticTacToeGame.SetCellValue(0, 0, TicTacToeGame.CellValue.X);
+            ticTacToeGame.SetCellValue(1, 0, TicTacToeGame.CellValue.O);
+            ticTacToeGame.SetCellValue(1, 1, TicTacToeGame.CellValue.O);
+            ticTacToeGame.SetCellValue(1, 2, TicTacToeGame.CellValue.X);
 
-            boardAsStrings[0].Should().Be("---");
-            boardAsStrings[1].Should().Be("---");
-            boardAsStrings[2].Should().Be("---");
+            var stringBoard = ticTacToeGame.GetStringBoard();
+
+            stringBoard[0].Should().Be("XO-");
+            stringBoard[1].Should().Be("-O-");
+            stringBoard[2].Should().Be("-X-");
         }
 
-        [Fact]
-        public void GetBoardAsStringShouldReturnStringRepOfBoardWithSingleMoveMadeForX()
-        {
-            var game = new TicTacToeGame();
-
-            game.SetCellValue(0, 0, TicTacToeGame.CellValue.X);
-            game.SetCellValue(1, 1, TicTacToeGame.CellValue.X);
-            game.SetCellValue(2, 2, TicTacToeGame.CellValue.X);
-
-            var boardAsStrings = game.GetBoardAsStrings();
-
-            boardAsStrings[0].Should().Be("X--");
-            boardAsStrings[1].Should().Be("-X-");
-            boardAsStrings[2].Should().Be("--X");
-        }
-
-        [Fact]
-        public void GetBoardAsStringShouldReturnStringRepOfBoardWithSingleMoveMadeForO()
-        {
-            var game = new TicTacToeGame();
-
-            game.SetCellValue(0, 0, TicTacToeGame.CellValue.O);
-            game.SetCellValue(1, 1, TicTacToeGame.CellValue.O);
-            game.SetCellValue(2, 2, TicTacToeGame.CellValue.O);
-
-            var boardAsStrings = game.GetBoardAsStrings();
-
-            boardAsStrings[0].Should().Be("O--");
-            boardAsStrings[1].Should().Be("-O-");
-            boardAsStrings[2].Should().Be("--O");
-        }
-
-        [Fact]
-        public void IsWonShouldBeFalseForNoWinningMoves()
-        {
-            var grid = new string[]
-            {
-                "X--",
-                "-O-",
-                "O-X",
-            };
-
-            var game = new TicTacToeGame(grid);
-
-            var winStatus = game.GetIsWon();
-            winStatus.IsWon.Should().BeFalse();
-        }
-
-        [Theory]
-        [InlineData(0, TicTacToeGame.CellValue.X)]
-        [InlineData(1, TicTacToeGame.CellValue.X)]
-        [InlineData(2, TicTacToeGame.CellValue.X)]
-        [InlineData(0, TicTacToeGame.CellValue.O)]
-        [InlineData(1, TicTacToeGame.CellValue.O)]
-        [InlineData(2, TicTacToeGame.CellValue.O)]
-        public void IsWonShouldBeTrueForHorizonalWin(
-            int y,
-            TicTacToeGame.CellValue cellValue)
-        {
-            var game = new TicTacToeGame();
-
-            game.SetCellValue(0, y, cellValue);
-            game.SetCellValue(1, y, cellValue);
-            game.SetCellValue(2, y, cellValue);
-
-            var winStatus = game.GetIsWon();
-            winStatus.IsWon.Should().BeTrue();
-            winStatus.Message.Should().Be($"{cellValue} has won with horizontal win at y = {y}.");
-        }
-
-        [Theory]
-        [InlineData(0, TicTacToeGame.CellValue.X)]
-        [InlineData(1, TicTacToeGame.CellValue.X)]
-        [InlineData(2, TicTacToeGame.CellValue.X)]
-        [InlineData(0, TicTacToeGame.CellValue.O)]
-        [InlineData(1, TicTacToeGame.CellValue.O)]
-        [InlineData(2, TicTacToeGame.CellValue.O)]
-        public void IsWonShouldBeTrueForVerticalWin(
-            int x,
-            TicTacToeGame.CellValue cellValue)
-        {
-            var game = new TicTacToeGame();
-
-            game.SetCellValue(x, 0, cellValue);
-            game.SetCellValue(x, 1, cellValue);
-            game.SetCellValue(x, 2, cellValue);
-
-            var winStatus = game.GetIsWon();
-            winStatus.IsWon.Should().BeTrue();
-            winStatus.Message.Should().Be($"{cellValue} has won with vertical win at x = {x}.");
-        }
-
-        [Theory]
-        [InlineData(TicTacToeGame.CellValue.X)]
-        [InlineData(TicTacToeGame.CellValue.O)]
-        public void IsWonShouldBeTrueForDiagonal1Win(
-            TicTacToeGame.CellValue cellValue)
-        {
-            var game = new TicTacToeGame();
-
-            game.SetCellValue(0, 0, cellValue);
-            game.SetCellValue(1, 1, cellValue);
-            game.SetCellValue(2, 2, cellValue);
-
-            var winStatus = game.GetIsWon();
-            winStatus.IsWon.Should().BeTrue();
-            winStatus.Message.Should().Be($"{cellValue} has won with diaginal 1 win.");
-        }
-
-        [Theory]
-        [InlineData(TicTacToeGame.CellValue.X)]
-        [InlineData(TicTacToeGame.CellValue.O)]
-        public void IsWonShouldBeTrueForDiagonal2Win(
-            TicTacToeGame.CellValue cellValue)
-        {
-            var game = new TicTacToeGame();
-
-            game.SetCellValue(2, 0, cellValue);
-            game.SetCellValue(1, 1, cellValue);
-            game.SetCellValue(0, 2, cellValue);
-
-            var winStatus = game.GetIsWon();
-            winStatus.IsWon.Should().BeTrue();
-            winStatus.Message.Should().Be($"{cellValue} has won with diaginal 2 win.");
-        }
 
         private static void AssertAllCellsAreBlank(TicTacToeGame game)
         {
@@ -243,5 +109,23 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 }
             }
         }
+
+        public class EachCellWithXandO : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                for (int x = 0; x < 3; x++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        yield return new object[] { x, y, TicTacToeGame.CellValue.X };
+                        yield return new object[] { x, y, TicTacToeGame.CellValue.O };
+                    }
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
     }
 }

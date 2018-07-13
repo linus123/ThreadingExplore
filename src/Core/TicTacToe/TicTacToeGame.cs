@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ThreadingExplore.Core.TicTacToe
 {
@@ -31,116 +30,90 @@ namespace ThreadingExplore.Core.TicTacToe
             }
         }
 
-        public WinStatus GetIsWon()
-        {
-            var hoisontalWinStatusX = GetHoisontalWinStatus(CellValue.X);
-
-            if (hoisontalWinStatusX.IsWon)
-                return hoisontalWinStatusX;
-
-            var hoisontalWinStatusO = GetHoisontalWinStatus(CellValue.O);
-
-            if (hoisontalWinStatusO.IsWon)
-                return hoisontalWinStatusO;
-
-            var verticalWinStatusX = GetVerticalWinStatus(CellValue.X);
-
-            if (verticalWinStatusX.IsWon)
-                return verticalWinStatusX;
-
-            var verticalWinStatusO = GetVerticalWinStatus(CellValue.O);
-
-            if (verticalWinStatusO.IsWon)
-                return verticalWinStatusO;
-
-            var diaginal1WinXStatus = GetDiaginal1WinStatus(CellValue.X);
-
-            if (diaginal1WinXStatus.IsWon)
-                return diaginal1WinXStatus;
-
-            var diaginal1WinOStatus = GetDiaginal1WinStatus(CellValue.O);
-
-            if (diaginal1WinOStatus.IsWon)
-                return diaginal1WinOStatus;
-
-            var diaginal2WinXStatus = GetDiaginal2WinStatus(CellValue.X);
-
-            if (diaginal2WinXStatus.IsWon)
-                return diaginal2WinXStatus;
-
-            var diaginal2WinOStatus = GetDiaginal2WinStatus(CellValue.O);
-
-            if (diaginal2WinOStatus.IsWon)
-                return diaginal2WinOStatus;
-
-            return WinStatus.NotWon;
-        }
-
-        public class WinStatus
-        {
-            public static WinStatus NotWon = new WinStatus(false, null);
-
-            public bool IsWon { get; }
-            public string Message { get; }
-
-            public WinStatus(
-                bool isWon,
-                string message)
-            {
-                Message = message;
-                IsWon = isWon;
-            }
-        }
-
-        private WinStatus GetDiaginal1WinStatus(CellValue value)
-        {
-            if (_gameBoard[0, 0] == value
-                && _gameBoard[1, 1] == value
-                && _gameBoard[2, 2] == value)
-            {
-                return new WinStatus(true, $"{value} has won with diaginal 1 win.");
-            }
-
-            return WinStatus.NotWon;
-        }
-
-        private WinStatus GetDiaginal2WinStatus(CellValue value)
-        {
-            if (_gameBoard[2, 0] == value
-                && _gameBoard[1, 1] == value
-                && _gameBoard[0, 2] == value)
-            {
-                return new WinStatus(true, $"{value} has won with diaginal 2 win.");
-            }
-
-            return WinStatus.NotWon;
-        }
-
-        private WinStatus GetHoisontalWinStatus(CellValue cellValue)
-        {
-            for (int y = 0; y < 3; y++)
-            {
-                if (_gameBoard[0, y] == cellValue
-                    && _gameBoard[1, y] == cellValue
-                    && _gameBoard[2, y] == cellValue)
-                    return new WinStatus(true, $"{cellValue} has won with horizontal win at y = {y}.");
-            }
-
-            return WinStatus.NotWon;
-        }
-
-        private WinStatus GetVerticalWinStatus(CellValue cellValue)
+        private WinStatus GetColumnWinStatus(
+            CellValue cellValue)
         {
             for (int x = 0; x < 3; x++)
             {
                 if (_gameBoard[x, 0] == cellValue
                     && _gameBoard[x, 1] == cellValue
                     && _gameBoard[x, 2] == cellValue)
-                    return new WinStatus(true, $"{cellValue} has won with vertical win at x = {x}.");
+                {
+                    var message = $"Column win for {cellValue} on column {x + 1}";
+                    return WinStatus.CreateAsWin(message);
+                }
             }
 
-            return WinStatus.NotWon;
+            return WinStatus.CreateAsNoWin();
         }
+
+        private WinStatus GetRowWinStatus(
+            CellValue cellValue)
+        {
+            for (int y = 0; y < 3; y++)
+            {
+                if (_gameBoard[0, y] == cellValue
+                    && _gameBoard[1, y] == cellValue
+                    && _gameBoard[2, y] == cellValue)
+                {
+                    var message = $"Row win for {cellValue} on row {y + 1}";
+                    return WinStatus.CreateAsWin(message);
+                }
+            }
+
+            return WinStatus.CreateAsNoWin();
+        }
+
+        public WinStatus GetWinStatus()
+        {
+            var columnWinStatusX = GetColumnWinStatus(CellValue.X);
+
+            if (columnWinStatusX.IsWon)
+                return columnWinStatusX;
+
+            var columnWinStatusO = GetColumnWinStatus(CellValue.O);
+
+            if (columnWinStatusO.IsWon)
+                return columnWinStatusO;
+
+            var rowWinStatusX = GetRowWinStatus(CellValue.X);
+
+            if (rowWinStatusX.IsWon)
+                return rowWinStatusX;
+
+            var rowWinStatusO = GetRowWinStatus(CellValue.O);
+
+            if (rowWinStatusO.IsWon)
+                return rowWinStatusO;
+
+            return WinStatus.CreateAsNoWin();
+        }
+
+        public class WinStatus
+        {
+            public static WinStatus CreateAsWin(
+                string message)
+            {
+                return new WinStatus(true)
+                {
+                    WinMessage = message
+                };
+            }
+
+            public static WinStatus CreateAsNoWin()
+            {
+                return new WinStatus(false);
+            }
+
+            private WinStatus(bool isWon)
+            {
+                IsWon = isWon;
+            }
+
+            public bool IsWon { get; }
+            public string WinMessage { get; private set; }
+        }
+
 
         public void SetCellValue(
             int x,
@@ -164,27 +137,101 @@ namespace ThreadingExplore.Core.TicTacToe
             O
         }
 
-        public string[] GetBoardAsStrings()
+        public string[] GetStringBoard()
         {
-            var results = new string[3];
+            var returnBoard = new string[3];
 
             for (int y = 0; y < 3; y++)
             {
-                results[y] = "";
-
                 for (int x = 0; x < 3; x++)
                 {
-                    var cellValue = _gameBoard[x, y];
-
-                    if (cellValue == CellValue.Blank)
-                        results[y] += "-";
+                    if (_gameBoard[x, y] == CellValue.Blank)
+                        returnBoard[y] += "-";
                     else
-                        results[y] += cellValue;
+                        returnBoard[y] += _gameBoard[x, y];
                 }
             }
 
+            return returnBoard;
+        }
 
-            return results;
+        private int AddWithAdjust(int x, int addVal)
+        {
+            var n1 = x + addVal;
+
+            if (n1 >= 3)
+                n1 = n1 - 3;
+
+            return n1;
+        }
+
+        public void MakeNextMoveFor(CellValue turnCellValue)
+        {
+            var opposingCellValue = CellValue.X;
+
+            if (turnCellValue == CellValue.X)
+                opposingCellValue = CellValue.O;
+
+            for (int y = 0; y < 3; y++)
+            {
+                for (int x = 0; x < 3; x++)
+                {
+                    if (_gameBoard[AddWithAdjust(x, 1), y] == opposingCellValue
+                        && _gameBoard[AddWithAdjust(x, 2), y] == opposingCellValue)
+                    {
+                        _gameBoard[AddWithAdjust(x, 0), y] = turnCellValue;
+                        return;
+                    }
+                }
+            }
+
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    if (_gameBoard[x, AddWithAdjust(y, 1)] == opposingCellValue
+                        && _gameBoard[x, AddWithAdjust(y, 2)] == opposingCellValue)
+                    {
+                        _gameBoard[x, AddWithAdjust(y, 0)] = turnCellValue;
+                        return;
+                    }
+                }
+            }
+
+            for (int n = 0; n < 3; n++)
+            {
+                if (_gameBoard[AddWithAdjust(n, 0), AddWithAdjust(n, 0)] == opposingCellValue
+                    && _gameBoard[AddWithAdjust(n, 1), AddWithAdjust(n, 1)] == opposingCellValue)
+                {
+                    _gameBoard[AddWithAdjust(n, 2), AddWithAdjust(n, 2)] = turnCellValue;
+                    return;
+                }
+            }
+
+            // **
+
+            if (_gameBoard[2, 0] == opposingCellValue
+                && _gameBoard[1, 1] == opposingCellValue)
+            {
+                _gameBoard[0, 2] = turnCellValue;
+                return;
+            }
+
+            if (_gameBoard[2, 0] == opposingCellValue
+                && _gameBoard[0, 2] == opposingCellValue)
+            {
+                _gameBoard[1, 1] = turnCellValue;
+                return;
+            }
+
+            if (_gameBoard[0, 2] == opposingCellValue
+                && _gameBoard[1, 1] == opposingCellValue)
+            {
+                _gameBoard[2, 0] = turnCellValue;
+                return;
+            }
+
+
         }
     }
 }
