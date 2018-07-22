@@ -34,15 +34,15 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         }
 
         [Theory]
-        [InlineData(0, TicTacToeGame.CellValue.X)]
-        [InlineData(1, TicTacToeGame.CellValue.X)]
-        [InlineData(2, TicTacToeGame.CellValue.X)]
-        [InlineData(0, TicTacToeGame.CellValue.O)]
-        [InlineData(1, TicTacToeGame.CellValue.O)]
-        [InlineData(2, TicTacToeGame.CellValue.O)]
+        [InlineData(0, TicTacToeCellValue.X)]
+        [InlineData(1, TicTacToeCellValue.X)]
+        [InlineData(2, TicTacToeCellValue.X)]
+        [InlineData(0, TicTacToeCellValue.O)]
+        [InlineData(1, TicTacToeCellValue.O)]
+        [InlineData(2, TicTacToeCellValue.O)]
         public void IsWonShouldBeTrueForHorizonalWin(
             int y,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var game = new TicTacToeGame();
 
@@ -57,15 +57,15 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         }
 
         [Theory]
-        [InlineData(0, TicTacToeGame.CellValue.X)]
-        [InlineData(1, TicTacToeGame.CellValue.X)]
-        [InlineData(2, TicTacToeGame.CellValue.X)]
-        [InlineData(0, TicTacToeGame.CellValue.O)]
-        [InlineData(1, TicTacToeGame.CellValue.O)]
-        [InlineData(2, TicTacToeGame.CellValue.O)]
+        [InlineData(0, TicTacToeCellValue.X)]
+        [InlineData(1, TicTacToeCellValue.X)]
+        [InlineData(2, TicTacToeCellValue.X)]
+        [InlineData(0, TicTacToeCellValue.O)]
+        [InlineData(1, TicTacToeCellValue.O)]
+        [InlineData(2, TicTacToeCellValue.O)]
         public void IsWonShouldBeTrueForVerticalWin(
             int x,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var game = new TicTacToeGame();
 

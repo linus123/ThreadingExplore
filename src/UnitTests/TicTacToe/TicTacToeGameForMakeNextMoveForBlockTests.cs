@@ -12,7 +12,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void ShouldMakeTopRowBlock(
             string inputRow,
             string expectedRow,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var grid = new string[]
             {
@@ -37,7 +37,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void ShouldMakeMiddleRowBlock(
             string inputRow,
             string expectedRow,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var grid = new string[]
             {
@@ -62,7 +62,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void ShouldMakeBottomRowBlock(
             string inputRow,
             string expectedRow,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var grid = new string[]
             {
@@ -89,7 +89,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void ShouldMakeLeftRowBlock(
             string inputRow,
             string expectedRow,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var grid = new string[]
             {
@@ -114,7 +114,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void ShouldMakeCenterRowBlock(
             string inputRow,
             string expectedRow,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var grid = new string[]
             {
@@ -139,7 +139,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void ShouldMakeRightRowBlock(
             string inputRow,
             string expectedRow,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var grid = new string[]
             {
@@ -164,7 +164,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void ShouldMakeDiagonalBlock1(
             string inputRow,
             string expectedRow,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var grid = new string[]
             {
@@ -189,7 +189,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void ShouldMakeDiagonalBlock2(
             string inputRow,
             string expectedRow,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var grid = new string[]
             {
@@ -212,13 +212,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
         public static IEnumerable<object[]> GetEveryBockableCombination(int numTests)
         {
-            yield return new object[] { "XX-", "XXO", TicTacToeGame.CellValue.O };
-            yield return new object[] { "X-X", "XOX", TicTacToeGame.CellValue.O };
-            yield return new object[] { "-XX", "OXX", TicTacToeGame.CellValue.O };
+            yield return new object[] { "XX-", "XXO", TicTacToeCellValue.O };
+            yield return new object[] { "X-X", "XOX", TicTacToeCellValue.O };
+            yield return new object[] { "-XX", "OXX", TicTacToeCellValue.O };
 
-            yield return new object[] { "OO-", "OOX", TicTacToeGame.CellValue.X };
-            yield return new object[] { "O-O", "OXO", TicTacToeGame.CellValue.X };
-            yield return new object[] { "-OO", "XOO", TicTacToeGame.CellValue.X };
+            yield return new object[] { "OO-", "OOX", TicTacToeCellValue.X };
+            yield return new object[] { "O-O", "OXO", TicTacToeCellValue.X };
+            yield return new object[] { "-OO", "XOO", TicTacToeCellValue.X };
         }
 
     }

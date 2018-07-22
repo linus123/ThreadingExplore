@@ -21,15 +21,15 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         public void SetCellValueShouldChangeCellValues(
             int x,
             int y,
-            TicTacToeGame.CellValue cellValue)
+            TicTacToeCellValue cellValue)
         {
             var game = new TicTacToeGame();
 
             game.SetCellValue(x, y, cellValue);
             game.GetCellValue(x, y).Should().Be(cellValue);
 
-            game.SetCellValue(x, y, TicTacToeGame.CellValue.Blank);
-            game.GetCellValue(x, y).Should().Be(TicTacToeGame.CellValue.Blank);
+            game.SetCellValue(x, y, TicTacToeCellValue.Blank);
+            game.GetCellValue(x, y).Should().Be(TicTacToeCellValue.Blank);
 
             AssertAllCellsAreBlank(game);
         }
@@ -61,12 +61,12 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var game = new TicTacToeGame(grid);
 
-            game.GetCellValue(0, 0).Should().Be(TicTacToeGame.CellValue.X);
-            game.GetCellValue(1, 0).Should().Be(TicTacToeGame.CellValue.Blank);
-            game.GetCellValue(1, 1).Should().Be(TicTacToeGame.CellValue.O);
-            game.GetCellValue(0, 2).Should().Be(TicTacToeGame.CellValue.O);
-            game.GetCellValue(1, 2).Should().Be(TicTacToeGame.CellValue.Blank);
-            game.GetCellValue(2, 2).Should().Be(TicTacToeGame.CellValue.X);
+            game.GetCellValue(0, 0).Should().Be(TicTacToeCellValue.X);
+            game.GetCellValue(1, 0).Should().Be(TicTacToeCellValue.Blank);
+            game.GetCellValue(1, 1).Should().Be(TicTacToeCellValue.O);
+            game.GetCellValue(0, 2).Should().Be(TicTacToeCellValue.O);
+            game.GetCellValue(1, 2).Should().Be(TicTacToeCellValue.Blank);
+            game.GetCellValue(2, 2).Should().Be(TicTacToeCellValue.X);
         }
 
         [Fact]
@@ -86,10 +86,10 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         {
             var ticTacToeGame = new TicTacToeGame();
 
-            ticTacToeGame.SetCellValue(0, 0, TicTacToeGame.CellValue.X);
-            ticTacToeGame.SetCellValue(1, 0, TicTacToeGame.CellValue.O);
-            ticTacToeGame.SetCellValue(1, 1, TicTacToeGame.CellValue.O);
-            ticTacToeGame.SetCellValue(1, 2, TicTacToeGame.CellValue.X);
+            ticTacToeGame.SetCellValue(0, 0, TicTacToeCellValue.X);
+            ticTacToeGame.SetCellValue(1, 0, TicTacToeCellValue.O);
+            ticTacToeGame.SetCellValue(1, 1, TicTacToeCellValue.O);
+            ticTacToeGame.SetCellValue(1, 2, TicTacToeCellValue.X);
 
             var stringBoard = ticTacToeGame.GetStringBoard();
 
@@ -105,7 +105,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             {
                 for (int y = 0; y < 3; y++)
                 {
-                    game.GetCellValue(x, y).Should().Be(TicTacToeGame.CellValue.Blank);
+                    game.GetCellValue(x, y).Should().Be(TicTacToeCellValue.Blank);
                 }
             }
         }
@@ -118,8 +118,8 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 {
                     for (int y = 0; y < 3; y++)
                     {
-                        yield return new object[] { x, y, TicTacToeGame.CellValue.X };
-                        yield return new object[] { x, y, TicTacToeGame.CellValue.O };
+                        yield return new object[] { x, y, TicTacToeCellValue.X };
+                        yield return new object[] { x, y, TicTacToeCellValue.O };
                     }
                 }
             }
