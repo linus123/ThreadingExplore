@@ -23,6 +23,19 @@ namespace ThreadingExplore.Core.TicTacToe
         public void MakeNextMove(
             TicTacToeBoard board)
         {
+            var possibleMoves = CreatePossibleMoves();
+
+            foreach (var possibleMove in possibleMoves)
+            {
+                var madeMove = possibleMove(board);
+
+                if (madeMove)
+                    return;
+            }
+        }
+
+        private List<Move> CreatePossibleMoves()
+        {
             var moves = new List<Move>();
 
             moves.Add(BlockHorizontal);
@@ -30,12 +43,7 @@ namespace ThreadingExplore.Core.TicTacToe
             moves.Add(BlockBackToFrontDiagonal);
             moves.Add(BlockFrontToBackDiagonal);
 
-            foreach (var move in moves)
-            {
-                if (move(board))
-                    return;
-            }
-
+            return moves;
         }
 
         private bool BlockVertical(
