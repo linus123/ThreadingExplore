@@ -95,7 +95,7 @@ namespace ThreadingExplore.Core.TicTacToe
         private bool BlockBackToFrontDiagonal(
             TicTacToeBoard board)
         {
-            var cellValues = board.GetFrontToBackDiagonalCells();
+            var cellValues = board.GetBackSlashDiagonalCells();
 
             for (int n = 0; n < 3; n++)
             {
@@ -113,22 +113,24 @@ namespace ThreadingExplore.Core.TicTacToe
         private bool BlockFrontToBackDiagonal(
             TicTacToeBoard board)
         {
-            if (board.GetCellValue(2, 0) == _opposingCellValue
-                && board.GetCellValue(1, 1) == _opposingCellValue)
+            var cellValues = board.GetFrontSlashDiagonalCells();
+
+            if (cellValues[0] == _opposingCellValue
+                && cellValues[1] == _opposingCellValue)
             {
                 board.SetCellValue(0, 2, _playerCellValue);
                 return true;
             }
 
-            if (board.GetCellValue(2, 0) == _opposingCellValue
-                && board.GetCellValue(0, 2) == _opposingCellValue)
+            if (cellValues[0] == _opposingCellValue
+                && cellValues[2] == _opposingCellValue)
             {
                 board.SetCellValue(1, 1, _playerCellValue);
                 return true;
             }
 
-            if (board.GetCellValue(0, 2) == _opposingCellValue
-                && board.GetCellValue(1, 1) == _opposingCellValue)
+            if (cellValues[2] == _opposingCellValue
+                && cellValues[1] == _opposingCellValue)
             {
                 board.SetCellValue(2, 0, _playerCellValue);
                 return true;

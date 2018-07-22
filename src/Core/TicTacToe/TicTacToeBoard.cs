@@ -71,13 +71,23 @@ namespace ThreadingExplore.Core.TicTacToe
             };
         }
 
-        public TicTacToeCellValue[] GetBackToFrontDiagonalCells()
+        public TicTacToeCellValue[] GetBackSlashDiagonalCells() // Backslash
         {
             return new[]
             {
                 _grid[0, 0],
                 _grid[1, 1],
                 _grid[2, 2],
+            };
+        }
+
+        public TicTacToeCellValue[] GetFrontSlashDiagonalCells() // ForwardSlash
+        {
+            return new[]
+            {
+                _grid[2, 0],
+                _grid[1, 1],
+                _grid[0, 2],
             };
         }
 
