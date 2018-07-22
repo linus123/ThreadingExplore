@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThreadingExplore.Core.TicTacToe
+﻿namespace ThreadingExplore.Core.TicTacToe
 {
     public class TicTacToeGame
     {
@@ -230,8 +228,6 @@ namespace ThreadingExplore.Core.TicTacToe
                 _gameBoard[2, 0] = turnCellValue;
                 return;
             }
-
-
         }
     }
 }
