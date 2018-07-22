@@ -2,26 +2,26 @@
 {
     public class TicTacToeBoard
     {
-        private readonly TicTacToeCellValue[,] _gameBoard;
+        private readonly TicTacToeCellValue[,] _grid;
 
         public TicTacToeBoard(
             string[] grid = null)
         {
-            _gameBoard = new TicTacToeCellValue[3, 3];
+            _grid = new TicTacToeCellValue[3, 3];
 
             for (int x = 0; x < 3; x++)
             {
                 for (int y = 0; y < 3; y++)
                 {
-                    _gameBoard[x, y] = TicTacToeCellValue.Blank;
+                    _grid[x, y] = TicTacToeCellValue.Blank;
 
                     if (grid != null)
                     {
                         if (grid[y][x] == 'X')
-                            _gameBoard[x, y] = TicTacToeCellValue.X;
+                            _grid[x, y] = TicTacToeCellValue.X;
 
                         if (grid[y][x] == 'O')
-                            _gameBoard[x, y] = TicTacToeCellValue.O;
+                            _grid[x, y] = TicTacToeCellValue.O;
 
                     }
                 }
@@ -32,7 +32,7 @@
             int x,
             int y)
         {
-            return _gameBoard[x, y];
+            return _grid[x, y];
         }
 
         public void SetCellValue(
@@ -40,7 +40,7 @@
             int y,
             TicTacToeCellValue cellValue)
         {
-            _gameBoard[x, y] = cellValue;
+            _grid[x, y] = cellValue;
         }
 
         public string[] GetStringBoard()
@@ -51,10 +51,10 @@
             {
                 for (int x = 0; x < 3; x++)
                 {
-                    if (_gameBoard[x, y] == TicTacToeCellValue.Blank)
+                    if (_grid[x, y] == TicTacToeCellValue.Blank)
                         returnBoard[y] += "-";
                     else
-                        returnBoard[y] += _gameBoard[x, y];
+                        returnBoard[y] += _grid[x, y];
                 }
             }
 

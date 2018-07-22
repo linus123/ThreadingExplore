@@ -64,6 +64,8 @@
     <Compile Include="TicTacToe\TicTacToeBoard.cs" />
     <Compile Include="TicTacToe\TicTacToeCellValue.cs" />
     <Compile Include="TicTacToe\TicTacToeGame.cs" />
+    <Compile Include="TicTacToe\WinDetector.cs" />
+    <Compile Include="TicTacToe\WinStatus.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

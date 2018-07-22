@@ -9,9 +9,9 @@ namespace ThreadingExplore.UnitTests.TicTacToe
         [Fact]
         public void IsWonShouldBeFalseForBlankGrid()
         {
-            var game = new TicTacToeGame();
+            var board = new TicTacToeBoard();
 
-            var winStatus = game.GetWinStatus();
+            var winStatus = WinDetector.GetWinStatus(board);
 
             winStatus.IsWon.Should().BeFalse();
         }
@@ -26,9 +26,9 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 "O-X",
             };
 
-            var game = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            var winStatus = game.GetWinStatus();
+            var winStatus = WinDetector.GetWinStatus(board);
 
             winStatus.IsWon.Should().BeFalse();
         }
@@ -44,13 +44,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             int y,
             TicTacToeCellValue cellValue)
         {
-            var game = new TicTacToeGame();
+            var board = new TicTacToeBoard();
 
-            game.SetCellValue(0, y, cellValue);
-            game.SetCellValue(1, y, cellValue);
-            game.SetCellValue(2, y, cellValue);
+            board.SetCellValue(0, y, cellValue);
+            board.SetCellValue(1, y, cellValue);
+            board.SetCellValue(2, y, cellValue);
 
-            var winStatus = game.GetWinStatus();
+            var winStatus = WinDetector.GetWinStatus(board);
 
             winStatus.IsWon.Should().BeTrue();
             winStatus.WinMessage.Should().Be($"Row win for {cellValue} on row {y + 1}");
@@ -67,13 +67,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             int x,
             TicTacToeCellValue cellValue)
         {
-            var game = new TicTacToeGame();
+            var board = new TicTacToeBoard();
 
-            game.SetCellValue(x, 0, cellValue);
-            game.SetCellValue(x, 1, cellValue);
-            game.SetCellValue(x, 2, cellValue);
+            board.SetCellValue(x, 0, cellValue);
+            board.SetCellValue(x, 1, cellValue);
+            board.SetCellValue(x, 2, cellValue);
 
-            var winStatus = game.GetWinStatus();
+            var winStatus = WinDetector.GetWinStatus(board);
 
             winStatus.IsWon.Should().BeTrue();
             winStatus.WinMessage.Should().Be($"Column win for {cellValue} on column {x + 1}");
