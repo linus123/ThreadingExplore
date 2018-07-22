@@ -10,7 +10,7 @@
             _cellValue = cellValue;
         }
 
-        public void MakeNextMoveFor(
+        public void MakeNextMove(
             TicTacToeBoard board)
         {
             var opposingCellValue = TicTacToeCellValue.X;
