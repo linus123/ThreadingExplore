@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ThreadingExplore.UnitTests.TicTacToe
 {
-    public class TicTacToeGameForMakeNextMoveTests
+    public class TicTacToeGameForMakeNextMoveForBlockTests
     {
         [Theory]
         [MemberData(nameof(GetEveryBockableCombination), parameters: 3)]
