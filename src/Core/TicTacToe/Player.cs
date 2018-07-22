@@ -95,7 +95,7 @@ namespace ThreadingExplore.Core.TicTacToe
         private bool BlockBackToFrontDiagonal(
             TicTacToeBoard board)
         {
-            var cellValues = board.GetBackToFrontDiagonalCells();
+            var cellValues = board.GetFrontToBackDiagonalCells();
 
             for (int n = 0; n < 3; n++)
             {
