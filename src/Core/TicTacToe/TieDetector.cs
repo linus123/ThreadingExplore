@@ -5,7 +5,16 @@
         public static bool IsTied(
             TicTacToeBoard board)
         {
-            return false;
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    if (board.GetCellValue(x, y) == TicTacToeCellValue.Blank)
+                        return false;
+                }
+            }
+
+            return true;
         }
     }
 }

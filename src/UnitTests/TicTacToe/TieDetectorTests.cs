@@ -15,5 +15,34 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             isTied.Should().BeFalse();
         }
+
+        [Fact]
+        public void ShouldReturnFalseSinglePopulatedCell()
+        {
+            var board = new TicTacToeBoard();
+
+            board.SetCellValue(0, 0, TicTacToeCellValue.O);
+
+            var isTied = TieDetector.IsTied(board);
+
+            isTied.Should().BeFalse();
+        }
+
+        [Fact]
+        public void ShouldReturnTrueWhenAllCellsAreNotBlank()
+        {
+            var grid = new string[]
+            {
+                "XXX",
+                "OOO",
+                "XXX",
+            };
+
+            var board = new TicTacToeBoard(grid);
+
+            var isTied = TieDetector.IsTied(board);
+
+            isTied.Should().BeTrue();
+        }
     }
 }
