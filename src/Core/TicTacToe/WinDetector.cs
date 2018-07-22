@@ -61,9 +61,11 @@
         {
             for (int y = 0; y < 3; y++)
             {
-                if (board.GetCellValue(0, y) == cellValue
-                    && board.GetCellValue(1, y) == cellValue
-                    && board.GetCellValue(2, y) == cellValue)
+                var horizontalCells = board.GetHorizontalCells(y);
+
+                if (horizontalCells[0] == cellValue
+                    && horizontalCells[1] == cellValue
+                    && horizontalCells[2] == cellValue)
                 {
                     var message = $"Row win for {cellValue} on row {y + 1}";
                     return WinStatus.CreateAsWin(message);
