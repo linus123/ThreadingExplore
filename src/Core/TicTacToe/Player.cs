@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Configuration;
 
 namespace ThreadingExplore.Core.TicTacToe
 {
@@ -53,7 +52,7 @@ namespace ThreadingExplore.Core.TicTacToe
             moves.Add(BlockVertical);
             moves.Add(BlockBackSlashDiagonal);
             moves.Add(BlockFrontSlashDiagonal);
-            moves.Add(NextBlankSpace);
+            moves.Add(SetFirstBlankSpace);
 
             return moves;
         }
@@ -136,18 +135,17 @@ namespace ThreadingExplore.Core.TicTacToe
             return false;
         }
 
-        private bool NextBlankSpace(
+        private bool SetFirstBlankSpace(
             TicTacToeBoard board)
         {
-            for (int x = 0; x < 3; x++)
+            var allLocations = TicTacToeBoard.GetAllLocations();
+
+            foreach (var location in allLocations)
             {
-                for (int y = 0; y < 3; y++)
+                if (board.IsCellBlank(location))
                 {
-                    if (board.GetCellValue(x, y) == TicTacToeCellValue.Blank)
-                    {
-                        board.SetCellValue(x, y, _playerCellValue);
-                        return true;
-                    }
+                    board.SetCellValue(location, _playerCellValue);
+                    return true;
                 }
             }
 
