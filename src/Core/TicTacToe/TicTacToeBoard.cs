@@ -1,4 +1,6 @@
-﻿namespace ThreadingExplore.Core.TicTacToe
+﻿using System.Collections.Generic;
+
+namespace ThreadingExplore.Core.TicTacToe
 {
     public class TicTacToeBoard
     {
@@ -26,6 +28,12 @@
                     }
                 }
             }
+        }
+
+        public TicTacToeCellValue GetCellValue(
+            TicTacToeLocation l)
+        {
+            return _grid[l.X, l.Y];
         }
 
         public TicTacToeCellValue GetCellValue(
@@ -61,5 +69,19 @@
             return returnBoard;
         }
 
+        public static TicTacToeLocation[] GetAllLocations()
+        {
+            var ticTacToeLocations = new List<TicTacToeLocation>();
+
+            for (int y = 0; y < 3; y++)
+            {
+                for (int x = 0; x < 3; x++)
+                {
+                    ticTacToeLocations.Add(new TicTacToeLocation(x, y));
+                }
+            }
+
+            return ticTacToeLocations.ToArray();
+        }
     }
 }

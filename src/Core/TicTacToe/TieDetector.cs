@@ -5,13 +5,12 @@
         public static bool IsTied(
             TicTacToeBoard board)
         {
-            for (int x = 0; x < 3; x++)
+            var locations = TicTacToeBoard.GetAllLocations();
+
+            foreach (var location in locations)
             {
-                for (int y = 0; y < 3; y++)
-                {
-                    if (board.GetCellValue(x, y) == TicTacToeCellValue.Blank)
-                        return false;
-                }
+                if (board.GetCellValue(location) == TicTacToeCellValue.Blank)
+                    return false;
             }
 
             return true;

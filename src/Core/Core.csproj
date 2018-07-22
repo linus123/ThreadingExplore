@@ -65,6 +65,7 @@
     <Compile Include="TicTacToe\TicTacToeBoard.cs" />
     <Compile Include="TicTacToe\TicTacToeCellValue.cs" />
     <Compile Include="TicTacToe\TicTacToeGame.cs" />
+    <Compile Include="TicTacToe\TicTacToeLocation.cs" />
     <Compile Include="TicTacToe\TieDetector.cs" />
     <Compile Include="TicTacToe\WinDetector.cs" />
     <Compile Include="TicTacToe\WinStatus.cs" />
