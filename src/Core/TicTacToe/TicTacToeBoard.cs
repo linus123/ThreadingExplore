@@ -36,6 +36,12 @@ namespace ThreadingExplore.Core.TicTacToe
             return _grid[l.X, l.Y];
         }
 
+        public bool IsCellBlank(
+            TicTacToeLocation l)
+        {
+            return _grid[l.X, l.Y] == TicTacToeCellValue.Blank;
+        }
+
         public TicTacToeCellValue GetCellValue(
             int x,
             int y)

@@ -9,7 +9,7 @@
 
             foreach (var location in locations)
             {
-                if (board.GetCellValue(location) == TicTacToeCellValue.Blank)
+                if (board.IsCellBlank(location))
                     return false;
             }
 
