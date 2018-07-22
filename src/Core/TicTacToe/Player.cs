@@ -95,10 +95,12 @@ namespace ThreadingExplore.Core.TicTacToe
         private bool BlockBackToFrontDiagonal(
             TicTacToeBoard board)
         {
+            var cellValues = board.GetBackToFrontDiagonalCells();
+
             for (int n = 0; n < 3; n++)
             {
-                if (board.GetCellValue(AddWithAdjust(n, 0), AddWithAdjust(n, 0)) == _opposingCellValue
-                    && board.GetCellValue(AddWithAdjust(n, 1), AddWithAdjust(n, 1)) == _opposingCellValue)
+                if (cellValues[AddWithAdjust(n, 0)] == _opposingCellValue
+                    && cellValues[AddWithAdjust(n, 1)] == _opposingCellValue)
                 {
                     board.SetCellValue(AddWithAdjust(n, 2), AddWithAdjust(n, 2), _playerCellValue);
                     return true;
