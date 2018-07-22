@@ -1,4 +1,6 @@
-﻿namespace ThreadingExplore.Core.TicTacToe
+﻿using System.Collections.Generic;
+
+namespace ThreadingExplore.Core.TicTacToe
 {
     public class Player
     {
@@ -16,47 +18,24 @@
                 _opposingCellValue = TicTacToeCellValue.X;
         }
 
+        delegate bool Move(TicTacToeBoard board);
+
         public void MakeNextMove(
             TicTacToeBoard board)
         {
-            if (BlockHorizontal(board))
-                return;
+            var moves = new List<Move>();
 
-            if (BlockVertical(board))
-                return;
+            moves.Add(BlockHorizontal);
+            moves.Add(BlockVertical);
+            moves.Add(BlockBackToFrontDiagonal);
+            moves.Add(BlockFrontToBackDiagonal);
 
-            for (int n = 0; n < 3; n++)
+            foreach (var move in moves)
             {
-                if (board.GetCellValue(AddWithAdjust(n, 0), AddWithAdjust(n, 0)) == _opposingCellValue
-                    && board.GetCellValue(AddWithAdjust(n, 1), AddWithAdjust(n, 1)) == _opposingCellValue)
-                {
-                    board.SetCellValue(AddWithAdjust(n, 2), AddWithAdjust(n, 2), _playerCellValue);
+                if (move(board))
                     return;
-                }
             }
 
-            // **
-
-            if (board.GetCellValue(2, 0) == _opposingCellValue
-                && board.GetCellValue(1, 1) == _opposingCellValue)
-            {
-                board.SetCellValue(0, 2, _playerCellValue);
-                return;
-            }
-
-            if (board.GetCellValue(2, 0) == _opposingCellValue
-                && board.GetCellValue(0, 2) == _opposingCellValue)
-            {
-                board.SetCellValue(1, 1, _playerCellValue);
-                return;
-            }
-
-            if (board.GetCellValue(0, 2) == _opposingCellValue
-                && board.GetCellValue(1, 1) == _opposingCellValue)
-            {
-                board.SetCellValue(2, 0, _playerCellValue);
-                return;
-            }
         }
 
         private bool BlockVertical(
@@ -92,6 +71,49 @@
                         return true;
                     }
                 }
+            }
+
+            return false;
+        }
+
+        private bool BlockBackToFrontDiagonal(
+            TicTacToeBoard board)
+        {
+            for (int n = 0; n < 3; n++)
+            {
+                if (board.GetCellValue(AddWithAdjust(n, 0), AddWithAdjust(n, 0)) == _opposingCellValue
+                    && board.GetCellValue(AddWithAdjust(n, 1), AddWithAdjust(n, 1)) == _opposingCellValue)
+                {
+                    board.SetCellValue(AddWithAdjust(n, 2), AddWithAdjust(n, 2), _playerCellValue);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool BlockFrontToBackDiagonal(
+            TicTacToeBoard board)
+        {
+            if (board.GetCellValue(2, 0) == _opposingCellValue
+                && board.GetCellValue(1, 1) == _opposingCellValue)
+            {
+                board.SetCellValue(0, 2, _playerCellValue);
+                return true;
+            }
+
+            if (board.GetCellValue(2, 0) == _opposingCellValue
+                && board.GetCellValue(0, 2) == _opposingCellValue)
+            {
+                board.SetCellValue(1, 1, _playerCellValue);
+                return true;
+            }
+
+            if (board.GetCellValue(0, 2) == _opposingCellValue
+                && board.GetCellValue(1, 1) == _opposingCellValue)
+            {
+                board.SetCellValue(2, 0, _playerCellValue);
+                return true;
             }
 
             return false;
