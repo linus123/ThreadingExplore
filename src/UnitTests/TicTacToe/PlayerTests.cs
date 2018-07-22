@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using ThreadingExplore.Core.TicTacToe;
 using Xunit;
@@ -28,6 +27,28 @@ namespace ThreadingExplore.UnitTests.TicTacToe
             player.MakeNextMove(board);
 
             board.GetCellValue(0, 0).Should().Be(cellValue);
+        }
+
+        [Theory]
+        [InlineData(TicTacToeCellValue.O)]
+        [InlineData(TicTacToeCellValue.X)]
+        public void ShouldPickNextBlankSpace2(
+            TicTacToeCellValue cellValue)
+        {
+            var grid = new string[]
+            {
+                "OXO",
+                "---",
+                "---",
+            };
+
+            var board = new TicTacToeBoard(grid);
+
+            var player = new Player(cellValue);
+
+            player.MakeNextMove(board);
+
+            board.GetCellValue(0, 1).Should().Be(cellValue);
         }
 
         [Theory]

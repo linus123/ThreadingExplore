@@ -23,5 +23,10 @@
         }
 
         public TicTacToeCellValue CellValue { get; }
+
+        public bool IsBlank
+        {
+            get { return CellValue == TicTacToeCellValue.Blank; }
+        }
     }
 }

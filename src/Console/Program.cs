@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading;
+using ThreadingExplore.Core.TicTacToe;
 
 namespace ThreadingExplore.Console
 {
@@ -7,59 +8,123 @@ namespace ThreadingExplore.Console
     {
         public static void Main(string[] args)
         {
-            var signal = new ManualResetEvent(false);
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            var board = new TicTacToeBoard();
+            string[] stringBoard;
+            WinStatus winStatus;
 
-            var thread1 = new Thread(() =>
+            var playerO = new Player(TicTacToeCellValue.O);
+            var playerX = new Player(TicTacToeCellValue.X);
+
+            while (true)
             {
-                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread1: Waiting for signal...");
-                signal.WaitOne();
-                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread1: Got signal.");
-            });
+                System.Console.WriteLine("O Move");
+                playerO.MakeNextMove(board);
+                stringBoard = board.GetStringBoard();
+                PrintBoard(stringBoard);
 
-            var thread2 = new Thread(() =>
-            {
-                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread2: Sleeping");
-                Thread.Sleep(3000);
-                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread2: Waiting for signal...");
-                signal.WaitOne();
-                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread2: Got signal.");
-            });
+                winStatus = WinDetector.GetWinStatus(board);
 
-            thread2.Start();
-            thread1.Start();
+                if (winStatus.IsWon)
+                {
+                    System.Console.WriteLine(winStatus.WinMessage);
+                    break;
+                }
 
-            Thread.Sleep(2000);
-            signal.Set();
+                if (TieDetector.IsTied(board))
+                {
+                    System.Console.WriteLine("Tied");
+                    break;
+                }
 
-            thread1.Join();
-            thread2.Join();
-            signal.Dispose();
+                System.Console.WriteLine("X Move");
+                playerX.MakeNextMove(board);
+                stringBoard = board.GetStringBoard();
+                PrintBoard(stringBoard);
 
-            System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Done");
-            stopwatch.Stop();
+                winStatus = WinDetector.GetWinStatus(board);
+
+                if (winStatus.IsWon)
+                {
+                    System.Console.WriteLine(winStatus.WinMessage);
+                    break;
+                }
+
+                if (TieDetector.IsTied(board))
+                {
+                    System.Console.WriteLine("Tied");
+                    break;
+                }
+            }
+
+
             System.Console.ReadLine();
         }
 
-//        static void Main(string[] args)
+        private static void PrintBoard(string[] stringBoard)
+        {
+            foreach (var s in stringBoard)
+            {
+                System.Console.WriteLine(s);
+            }
+
+            System.Console.WriteLine();
+        }
+
+//        public static void Main(string[] args)
 //        {
-//            bool done = false;
+//            var signal = new ManualResetEvent(false);
+//            var stopwatch = new Stopwatch();
+//            stopwatch.Start();
 //
-//            ThreadStart action = () =>
+//            var thread1 = new Thread(() =>
 //            {
-//                if (!done)
-//                {
-//                    done = true;
-//                    System.Console.WriteLine("Done");
-//                }
-//            };
+//                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread1: Waiting for signal...");
+//                signal.WaitOne();
+//                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread1: Got signal.");
+//            });
 //
-//            new Thread(action).Start();
-//            action();
+//            var thread2 = new Thread(() =>
+//            {
+//                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread2: Sleeping");
+//                Thread.Sleep(3000);
+//                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread2: Waiting for signal...");
+//                signal.WaitOne();
+//                System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Thread2: Got signal.");
+//            });
 //
+//            thread2.Start();
+//            thread1.Start();
+//
+//            Thread.Sleep(2000);
+//            signal.Set();
+//
+//            thread1.Join();
+//            thread2.Join();
+//            signal.Dispose();
+//
+//            System.Console.WriteLine($"{stopwatch.ElapsedMilliseconds}: Done");
+//            stopwatch.Stop();
 //            System.Console.ReadLine();
 //        }
+
+        //        static void Main(string[] args)
+        //        {
+        //            bool done = false;
+        //
+        //            ThreadStart action = () =>
+        //            {
+        //                if (!done)
+        //                {
+        //                    done = true;
+        //                    System.Console.WriteLine("Done");
+        //                }
+        //            };
+        //
+        //            new Thread(action).Start();
+        //            action();
+        //
+        //            System.Console.ReadLine();
+        //        }
 
 
         //        static void Main(string[] args)

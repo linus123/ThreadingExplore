@@ -115,13 +115,14 @@ namespace ThreadingExplore.Core.TicTacToe
             return false;
         }
 
-        public bool MakeBlockOnCells(
+        private bool MakeBlockOnCells(
             CellValueWithLocation[] cells,
             TicTacToeBoard board)
         {
             for (int n = 0; n < 3; n++)
             {
-                if (cells[AllCombos[n, 1]].CellValue == _opposingCellValue
+                if (cells[AllCombos[n, 0]].IsBlank
+                    && cells[AllCombos[n, 1]].CellValue == _opposingCellValue
                     && cells[AllCombos[n, 2]].CellValue == _opposingCellValue)
                 {
                     board.SetCellValue(
