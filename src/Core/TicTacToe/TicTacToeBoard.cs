@@ -49,6 +49,17 @@ namespace ThreadingExplore.Core.TicTacToe
             return _grid[x, y];
         }
 
+        public TicTacToeCellValue[] GetVerticalCells(
+            int x)
+        {
+            return new[]
+            {
+                _grid[x, 0],
+                _grid[x, 1],
+                _grid[x, 2],
+            };
+        }
+
         public void SetCellValue(
             int x,
             int y,

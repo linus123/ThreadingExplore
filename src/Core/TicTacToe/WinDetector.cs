@@ -41,9 +41,11 @@
         {
             for (int x = 0; x < 3; x++)
             {
-                if (board.GetCellValue(x, 0) == cellValue
-                    && board.GetCellValue(x, 1) == cellValue
-                    && board.GetCellValue(x, 2) == cellValue)
+                var verticalCells = board.GetVerticalCells(x);
+
+                if (verticalCells[0] == cellValue
+                    && verticalCells[1] == cellValue
+                    && verticalCells[2] == cellValue)
                 {
                     var message = $"Column win for {cellValue} on column {x + 1}";
                     return WinStatus.CreateAsWin(message);
