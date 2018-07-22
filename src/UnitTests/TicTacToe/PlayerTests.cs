@@ -25,7 +25,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var player = new Player(cellValue);
 
-            player.MakeNextMoveFor(board);
+            player.MakeNextMove(board);
 
             var stringBoard = board.GetStringBoard();
 
@@ -52,7 +52,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var player = new Player(cellValue);
 
-            player.MakeNextMoveFor(board);
+            player.MakeNextMove(board);
 
             var stringBoard = board.GetStringBoard();
 
@@ -79,7 +79,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var player = new Player(cellValue);
 
-            player.MakeNextMoveFor(board);
+            player.MakeNextMove(board);
 
             var stringBoard = board.GetStringBoard();
 
@@ -108,7 +108,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var player = new Player(cellValue);
 
-            player.MakeNextMoveFor(board);
+            player.MakeNextMove(board);
 
             var stringBoard = board.GetStringBoard();
             stringBoard[0].Should().Be(expectedRow[0] + "--");
@@ -134,7 +134,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var player = new Player(cellValue);
 
-            player.MakeNextMoveFor(board);
+            player.MakeNextMove(board);
 
             var stringBoard = board.GetStringBoard();
 
@@ -161,7 +161,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var player = new Player(cellValue);
 
-            player.MakeNextMoveFor(board);
+            player.MakeNextMove(board);
 
             var stringBoard = board.GetStringBoard();
 
@@ -188,7 +188,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var player = new Player(cellValue);
 
-            player.MakeNextMoveFor(board);
+            player.MakeNextMove(board);
 
             var stringBoard = board.GetStringBoard();
 
@@ -215,7 +215,7 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 
             var player = new Player(cellValue);
 
-            player.MakeNextMoveFor(board);
+            player.MakeNextMove(board);
 
             var stringBoard = board.GetStringBoard();
 
