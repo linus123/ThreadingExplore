@@ -25,20 +25,6 @@
             if (BlockVertical(board))
                 return;
 
-
-            for (int x = 0; x < 3; x++)
-            {
-                for (int y = 0; y < 3; y++)
-                {
-                    if (board.GetCellValue(x, AddWithAdjust(y, 1)) == _opposingCellValue
-                        && board.GetCellValue(x, AddWithAdjust(y, 2)) == _opposingCellValue)
-                    {
-                        board.SetCellValue(x, AddWithAdjust(y, 0), _playerCellValue);
-                        return;
-                    }
-                }
-            }
-
             for (int n = 0; n < 3; n++)
             {
                 if (board.GetCellValue(AddWithAdjust(n, 0), AddWithAdjust(n, 0)) == _opposingCellValue
@@ -76,14 +62,14 @@
         private bool BlockVertical(
             TicTacToeBoard board)
         {
-            for (int y = 0; y < 3; y++)
+            for (int x = 0; x < 3; x++)
             {
-                for (int x = 0; x < 3; x++)
+                for (int y = 0; y < 3; y++)
                 {
-                    if (board.GetCellValue(AddWithAdjust(x, 1), y) == _opposingCellValue
-                        && board.GetCellValue(AddWithAdjust(x, 2), y) == _opposingCellValue)
+                    if (board.GetCellValue(x, AddWithAdjust(y, 1)) == _opposingCellValue
+                        && board.GetCellValue(x, AddWithAdjust(y, 2)) == _opposingCellValue)
                     {
-                        board.SetCellValue(AddWithAdjust(x, 0), y, _playerCellValue);
+                        board.SetCellValue(x, AddWithAdjust(y, 0), _playerCellValue);
                         return true;
                     }
                 }
