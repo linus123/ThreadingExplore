@@ -55,10 +55,12 @@ namespace ThreadingExplore.Core.TicTacToe
         {
             for (int x = 0; x < 3; x++)
             {
+                var verticalCells = board.GetVerticalCells(x);
+
                 for (int y = 0; y < 3; y++)
                 {
-                    if (board.GetCellValue(x, AddWithAdjust(y, 1)) == _opposingCellValue
-                        && board.GetCellValue(x, AddWithAdjust(y, 2)) == _opposingCellValue)
+                    if (verticalCells[AddWithAdjust(y, 1)] == _opposingCellValue
+                        && verticalCells[AddWithAdjust(y, 2)] == _opposingCellValue)
                     {
                         board.SetCellValue(x, AddWithAdjust(y, 0), _playerCellValue);
                         return true;
