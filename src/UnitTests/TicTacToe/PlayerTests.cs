@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ThreadingExplore.UnitTests.TicTacToe
 {
-    public class TicTacToeGameForMakeNextMoveForBlockTests
+    public class PlayerTests
     {
         [Theory]
         [MemberData(nameof(GetEveryBockableCombination), parameters: 3)]
@@ -21,11 +21,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 "---",
             };
 
-            var ticTacToeGame = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            ticTacToeGame.MakeNextMoveFor(cellValue);
+            var player = new Player(cellValue);
 
-            var stringBoard = ticTacToeGame.GetStringBoard();
+            player.MakeNextMoveFor(board);
+
+            var stringBoard = board.GetStringBoard();
 
             stringBoard[0].Should().Be(expectedRow);
             stringBoard[1].Should().Be("---");
@@ -46,11 +48,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 "---",
             };
 
-            var ticTacToeGame = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            ticTacToeGame.MakeNextMoveFor(cellValue);
+            var player = new Player(cellValue);
 
-            var stringBoard = ticTacToeGame.GetStringBoard();
+            player.MakeNextMoveFor(board);
+
+            var stringBoard = board.GetStringBoard();
 
             stringBoard[0].Should().Be("---");
             stringBoard[1].Should().Be(expectedRow);
@@ -71,11 +75,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 inputRow,
             };
 
-            var ticTacToeGame = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            ticTacToeGame.MakeNextMoveFor(cellValue);
+            var player = new Player(cellValue);
 
-            var stringBoard = ticTacToeGame.GetStringBoard();
+            player.MakeNextMoveFor(board);
+
+            var stringBoard = board.GetStringBoard();
 
             stringBoard[0].Should().Be("---");
             stringBoard[1].Should().Be("---");
@@ -98,12 +104,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 inputRow[2] + "--",
             };
 
-            var ticTacToeGame = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            ticTacToeGame.MakeNextMoveFor(cellValue);
+            var player = new Player(cellValue);
 
-            var stringBoard = ticTacToeGame.GetStringBoard();
+            player.MakeNextMoveFor(board);
 
+            var stringBoard = board.GetStringBoard();
             stringBoard[0].Should().Be(expectedRow[0] + "--");
             stringBoard[1].Should().Be(expectedRow[1] + "--");
             stringBoard[2].Should().Be(expectedRow[2] + "--");
@@ -123,11 +130,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 "-" + inputRow[2] + "-",
             };
 
-            var ticTacToeGame = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            ticTacToeGame.MakeNextMoveFor(cellValue);
+            var player = new Player(cellValue);
 
-            var stringBoard = ticTacToeGame.GetStringBoard();
+            player.MakeNextMoveFor(board);
+
+            var stringBoard = board.GetStringBoard();
 
             stringBoard[0].Should().Be("-" + expectedRow[0] + "-");
             stringBoard[1].Should().Be("-" + expectedRow[1] + "-");
@@ -148,11 +157,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 "--" + inputRow[2],
             };
 
-            var ticTacToeGame = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            ticTacToeGame.MakeNextMoveFor(cellValue);
+            var player = new Player(cellValue);
 
-            var stringBoard = ticTacToeGame.GetStringBoard();
+            player.MakeNextMoveFor(board);
+
+            var stringBoard = board.GetStringBoard();
 
             stringBoard[0].Should().Be("--" + expectedRow[0]);
             stringBoard[1].Should().Be("--" + expectedRow[1]);
@@ -173,11 +184,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 "--" + inputRow[2],
             };
 
-            var ticTacToeGame = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            ticTacToeGame.MakeNextMoveFor(cellValue);
+            var player = new Player(cellValue);
 
-            var stringBoard = ticTacToeGame.GetStringBoard();
+            player.MakeNextMoveFor(board);
+
+            var stringBoard = board.GetStringBoard();
 
             stringBoard[0].Should().Be(expectedRow[0] + "--");
             stringBoard[1].Should().Be("-" + expectedRow[1] + "-");
@@ -198,11 +211,13 @@ namespace ThreadingExplore.UnitTests.TicTacToe
                 inputRow[2] + "--",
             };
 
-            var ticTacToeGame = new TicTacToeGame(grid);
+            var board = new TicTacToeBoard(grid);
 
-            ticTacToeGame.MakeNextMoveFor(cellValue);
+            var player = new Player(cellValue);
 
-            var stringBoard = ticTacToeGame.GetStringBoard();
+            player.MakeNextMoveFor(board);
+
+            var stringBoard = board.GetStringBoard();
 
             stringBoard[0].Should().Be("--" + expectedRow[0]);
             stringBoard[1].Should().Be("-" + expectedRow[1] + "-");

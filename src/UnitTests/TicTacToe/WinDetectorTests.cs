@@ -4,7 +4,7 @@ using Xunit;
 
 namespace ThreadingExplore.UnitTests.TicTacToe
 {
-    public class TicTacToeGameForWinDetectionTests
+    public class WinDetectorTests
     {
         [Fact]
         public void IsWonShouldBeFalseForBlankGrid()
