@@ -49,45 +49,45 @@ namespace ThreadingExplore.Core.TicTacToe
             return _grid[x, y];
         }
 
-        public TicTacToeCellValue[] GetVerticalCells(
+        public CellValueWithLocation[] GetVerticalCells(
             int x)
         {
             return new[]
             {
-                _grid[x, 0],
-                _grid[x, 1],
-                _grid[x, 2],
+                new CellValueWithLocation(_grid[x, 0], new TicTacToeLocation(x, 0)),
+                new CellValueWithLocation(_grid[x, 1], new TicTacToeLocation(x, 1)),
+                new CellValueWithLocation(_grid[x, 2], new TicTacToeLocation(x, 2)),
             };
         }
 
-        public TicTacToeCellValue[] GetHorizontalCells(
+        public CellValueWithLocation[] GetHorizontalCells(
             int y)
         {
             return new[]
             {
-                _grid[0, y],
-                _grid[1, y],
-                _grid[2, y],
+                new CellValueWithLocation(_grid[0, y], new TicTacToeLocation(0, y)),
+                new CellValueWithLocation(_grid[1, y], new TicTacToeLocation(1, y)),
+                new CellValueWithLocation(_grid[2, y], new TicTacToeLocation(2, y))
             };
         }
 
-        public TicTacToeCellValue[] GetBackSlashDiagonalCells() // Backslash
+        public CellValueWithLocation[] GetBackSlashDiagonalCells() // Backslash
         {
             return new[]
             {
-                _grid[0, 0],
-                _grid[1, 1],
-                _grid[2, 2],
+                new CellValueWithLocation(_grid[0, 0], new TicTacToeLocation(0, 0)),
+                new CellValueWithLocation(_grid[1, 1], new TicTacToeLocation(1, 1)),
+                new CellValueWithLocation(_grid[2, 2], new TicTacToeLocation(2, 2))
             };
         }
 
-        public TicTacToeCellValue[] GetFrontSlashDiagonalCells() // ForwardSlash
+        public CellValueWithLocation[] GetFrontSlashDiagonalCells() // ForwardSlash
         {
             return new[]
             {
-                _grid[2, 0],
-                _grid[1, 1],
-                _grid[0, 2],
+                new CellValueWithLocation(_grid[2, 0], new TicTacToeLocation(2, 0)),
+                new CellValueWithLocation(_grid[1, 1], new TicTacToeLocation(1, 1)),
+                new CellValueWithLocation(_grid[0, 2], new TicTacToeLocation(0, 2))
             };
         }
 
@@ -97,6 +97,13 @@ namespace ThreadingExplore.Core.TicTacToe
             TicTacToeCellValue cellValue)
         {
             _grid[x, y] = cellValue;
+        }
+
+        public void SetCellValue(
+            ILocation location,
+            TicTacToeCellValue cellValue)
+        {
+            _grid[location.X, location.Y] = cellValue;
         }
 
         public string[] GetStringBoard()

@@ -43,9 +43,9 @@
             {
                 var verticalCells = board.GetVerticalCells(x);
 
-                if (verticalCells[0] == cellValue
-                    && verticalCells[1] == cellValue
-                    && verticalCells[2] == cellValue)
+                if (verticalCells[0].CellValue == cellValue
+                    && verticalCells[1].CellValue == cellValue
+                    && verticalCells[2].CellValue == cellValue)
                 {
                     var message = $"Column win for {cellValue} on column {x + 1}";
                     return WinStatus.CreateAsWin(message);
@@ -63,9 +63,9 @@
             {
                 var horizontalCells = board.GetHorizontalCells(y);
 
-                if (horizontalCells[0] == cellValue
-                    && horizontalCells[1] == cellValue
-                    && horizontalCells[2] == cellValue)
+                if (horizontalCells[0].CellValue == cellValue
+                    && horizontalCells[1].CellValue == cellValue
+                    && horizontalCells[2].CellValue == cellValue)
                 {
                     var message = $"Row win for {cellValue} on row {y + 1}";
                     return WinStatus.CreateAsWin(message);

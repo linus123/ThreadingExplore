@@ -61,6 +61,8 @@
     <Compile Include="SystemLog\ConsoleSystemLog.cs" />
     <Compile Include="SystemLog\ISystemLog.cs" />
     <Compile Include="SystemLog\NoOpSystemLog.cs" />
+    <Compile Include="TicTacToe\CellValueWithLocation.cs" />
+    <Compile Include="TicTacToe\ILocation.cs" />
     <Compile Include="TicTacToe\Player.cs" />
     <Compile Include="TicTacToe\TicTacToeBoard.cs" />
     <Compile Include="TicTacToe\TicTacToeCellValue.cs" />

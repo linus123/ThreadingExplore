@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Configuration;
 
 namespace ThreadingExplore.Core.TicTacToe
 {
@@ -7,6 +8,13 @@ namespace ThreadingExplore.Core.TicTacToe
     {
         private readonly TicTacToeCellValue _playerCellValue;
         private readonly TicTacToeCellValue _opposingCellValue;
+
+        public static int[,] AllCombos = new int[,]
+        {
+            {0, 1, 2},
+            {1, 2, 0},
+            {2, 0, 1},
+        };
 
         public Player(
             TicTacToeCellValue playerCellValue)
@@ -43,8 +51,8 @@ namespace ThreadingExplore.Core.TicTacToe
 
             moves.Add(BlockHorizontal);
             moves.Add(BlockVertical);
-            moves.Add(BlockBackToFrontDiagonal);
-            moves.Add(BlockFrontToBackDiagonal);
+            moves.Add(BlockBackSlashDiagonal);
+            moves.Add(BlockFrontSlashDiagonal);
             moves.Add(NextBlankSpace);
 
             return moves;
@@ -57,15 +65,10 @@ namespace ThreadingExplore.Core.TicTacToe
             {
                 var verticalCells = board.GetVerticalCells(x);
 
-                for (int y = 0; y < 3; y++)
-                {
-                    if (verticalCells[AddWithAdjust(y, 1)] == _opposingCellValue
-                        && verticalCells[AddWithAdjust(y, 2)] == _opposingCellValue)
-                    {
-                        board.SetCellValue(x, AddWithAdjust(y, 0), _playerCellValue);
-                        return true;
-                    }
-                }
+                var madeBlock = MakeBlockOnCells(verticalCells, board);
+
+                if (madeBlock)
+                    return true;
             }
 
             return false;
@@ -78,62 +81,56 @@ namespace ThreadingExplore.Core.TicTacToe
             {
                 var horizontalCells = board.GetHorizontalCells(y);
 
-                for (int x = 0; x < 3; x++)
-                {
-                    if (horizontalCells[AddWithAdjust(x, 1)] == _opposingCellValue
-                        && horizontalCells[AddWithAdjust(x, 2)] == _opposingCellValue)
-                    {
-                        board.SetCellValue(AddWithAdjust(x, 0), y, _playerCellValue);
-                        return true;
-                    }
-                }
+                var madeBlock = MakeBlockOnCells(horizontalCells, board);
+
+                if (madeBlock)
+                    return true;
             }
 
             return false;
         }
 
-        private bool BlockBackToFrontDiagonal(
+        private bool BlockBackSlashDiagonal(
             TicTacToeBoard board)
         {
-            var cellValues = board.GetBackSlashDiagonalCells();
+            var backSlashDiagonalCells = board.GetBackSlashDiagonalCells();
 
+            var madeBlock = MakeBlockOnCells(backSlashDiagonalCells, board);
+
+            if (madeBlock)
+                return true;
+
+            return false;
+        }
+
+        private bool BlockFrontSlashDiagonal(
+            TicTacToeBoard board)
+        {
+            var frontSlashDiagonalCells = board.GetFrontSlashDiagonalCells();
+
+            var madeBlock = MakeBlockOnCells(frontSlashDiagonalCells, board);
+
+            if (madeBlock)
+                return true;
+
+            return false;
+        }
+
+        public bool MakeBlockOnCells(
+            CellValueWithLocation[] cells,
+            TicTacToeBoard board)
+        {
             for (int n = 0; n < 3; n++)
             {
-                if (cellValues[AddWithAdjust(n, 0)] == _opposingCellValue
-                    && cellValues[AddWithAdjust(n, 1)] == _opposingCellValue)
+                if (cells[AllCombos[n, 1]].CellValue == _opposingCellValue
+                    && cells[AllCombos[n, 2]].CellValue == _opposingCellValue)
                 {
-                    board.SetCellValue(AddWithAdjust(n, 2), AddWithAdjust(n, 2), _playerCellValue);
+                    board.SetCellValue(
+                        cells[AllCombos[n, 0]],
+                        _playerCellValue);
+
                     return true;
                 }
-            }
-
-            return false;
-        }
-
-        private bool BlockFrontToBackDiagonal(
-            TicTacToeBoard board)
-        {
-            var cellValues = board.GetFrontSlashDiagonalCells();
-
-            if (cellValues[0] == _opposingCellValue
-                && cellValues[1] == _opposingCellValue)
-            {
-                board.SetCellValue(0, 2, _playerCellValue);
-                return true;
-            }
-
-            if (cellValues[0] == _opposingCellValue
-                && cellValues[2] == _opposingCellValue)
-            {
-                board.SetCellValue(1, 1, _playerCellValue);
-                return true;
-            }
-
-            if (cellValues[2] == _opposingCellValue
-                && cellValues[1] == _opposingCellValue)
-            {
-                board.SetCellValue(2, 0, _playerCellValue);
-                return true;
             }
 
             return false;
@@ -147,24 +144,14 @@ namespace ThreadingExplore.Core.TicTacToe
                 for (int y = 0; y < 3; y++)
                 {
                     if (board.GetCellValue(x, y) == TicTacToeCellValue.Blank)
+                    {
                         board.SetCellValue(x, y, _playerCellValue);
-
-                    return true;
+                        return true;
+                    }
                 }
             }
 
             return false;
         }
-
-        private int AddWithAdjust(int x, int addVal)
-        {
-            var n1 = x + addVal;
-
-            if (n1 >= 3)
-                n1 = n1 - 3;
-
-            return n1;
-        }
-
     }
 }

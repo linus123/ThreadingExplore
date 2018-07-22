@@ -1,6 +1,6 @@
 ﻿namespace ThreadingExplore.Core.TicTacToe
 {
-    public class TicTacToeLocation
+    public class TicTacToeLocation : ILocation
     {
         public TicTacToeLocation(
             int x,
