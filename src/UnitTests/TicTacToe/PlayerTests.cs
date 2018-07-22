@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using ThreadingExplore.Core.TicTacToe;
 using Xunit;
@@ -7,6 +8,28 @@ namespace ThreadingExplore.UnitTests.TicTacToe
 {
     public class PlayerTests
     {
+        [Theory]
+        [InlineData(TicTacToeCellValue.O)]
+        [InlineData(TicTacToeCellValue.X)]
+        public void ShouldPickNextBlankSpace(
+            TicTacToeCellValue cellValue)
+        {
+            var grid = new string[]
+            {
+                "---",
+                "---",
+                "---",
+            };
+
+            var board = new TicTacToeBoard(grid);
+
+            var player = new Player(cellValue);
+
+            player.MakeNextMove(board);
+
+            board.GetCellValue(0, 0).Should().Be(cellValue);
+        }
+
         [Theory]
         [MemberData(nameof(GetEveryBockableCombination), parameters: 3)]
         public void ShouldMakeTopRowBlock(

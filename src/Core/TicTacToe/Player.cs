@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ThreadingExplore.Core.TicTacToe
 {
@@ -32,6 +33,8 @@ namespace ThreadingExplore.Core.TicTacToe
                 if (madeMove)
                     return;
             }
+
+            throw new Exception("Could not make another move.");
         }
 
         private List<Move> CreatePossibleMoves()
@@ -42,6 +45,7 @@ namespace ThreadingExplore.Core.TicTacToe
             moves.Add(BlockVertical);
             moves.Add(BlockBackToFrontDiagonal);
             moves.Add(BlockFrontToBackDiagonal);
+            moves.Add(NextBlankSpace);
 
             return moves;
         }
@@ -122,6 +126,23 @@ namespace ThreadingExplore.Core.TicTacToe
             {
                 board.SetCellValue(2, 0, _playerCellValue);
                 return true;
+            }
+
+            return false;
+        }
+
+        private bool NextBlankSpace(
+            TicTacToeBoard board)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    if (board.GetCellValue(x, y) == TicTacToeCellValue.Blank)
+                        board.SetCellValue(x, y, _playerCellValue);
+
+                    return true;
+                }
             }
 
             return false;
