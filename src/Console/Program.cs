@@ -8,7 +8,14 @@ namespace ThreadingExplore.Console
     {
         public static void Main(string[] args)
         {
-            var board = new TicTacToeBoard();
+            var grid = new string[]
+            {
+                "X-X",
+                "-O-",
+                "O-X",
+            };
+
+            var board = new TicTacToeBoard(grid);
             string[] stringBoard;
             WinStatus winStatus;
 
