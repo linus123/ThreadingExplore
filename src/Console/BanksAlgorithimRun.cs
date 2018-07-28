@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using ThreadingExplore.Core.BankersAlgorithim;
 using ThreadingExplore.Core.SystemLog;
 
@@ -64,21 +65,20 @@ namespace ThreadingExplore.Console
 
             processes.Add(process3);
 
-            var threads = new List<Thread>();
+            var tasks = new List<Task>();
 
             stopwatch.Start();
 
             foreach (var process in processes)
             {
-                var thread = new Thread(() => process.Start(system));
-                thread.Start();
+                var task = Task.Run(() => { process.Start(system); });
 
-                threads.Add(thread);
+                tasks.Add(task);
             }
 
-            foreach (var thread in threads)
+            foreach (var task in tasks)
             {
-                thread.Join();
+                task.Wait();
             }
 
             stopwatch.Stop();
