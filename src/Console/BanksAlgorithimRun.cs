@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using ThreadingExplore.Core.BankersAlgorithim;
 using ThreadingExplore.Core.SystemLog;
@@ -17,19 +18,27 @@ namespace ThreadingExplore.Console
                 new SystemResource(ResourceName.D, 10),
             };
 
-            var system = new SystemResources(systemResources, new ConsoleSystemLog());
+            var stopwatch = new Stopwatch();
+
+            var consoleSystemLog = new ConsoleSystemLog(
+                stopwatch);
+
+            var system = new SystemResources(systemResources, consoleSystemLog);
 
             // **
 
             var processes = new List<BankProcess>();
 
-            var process1 = new BankProcess("P1", 5, new[]
+            var resourcesSignal = new ManualResetEvent(false);
+
+            var process1 = new BankProcess("P1", 500, new[]
             {
                 new BankProcessResource(ResourceName.A, 5),
                 new BankProcessResource(ResourceName.B, 5),
                 new BankProcessResource(ResourceName.C, 6),
                 new BankProcessResource(ResourceName.D, 5),
-            });
+            },
+                resourcesSignal);
 
             processes.Add(process1);
 
@@ -39,7 +48,8 @@ namespace ThreadingExplore.Console
                 new BankProcessResource(ResourceName.B, 1),
                 new BankProcessResource(ResourceName.C, 3),
                 new BankProcessResource(ResourceName.D, 9),
-            });
+            },
+                resourcesSignal);
 
             processes.Add(process2);
 
@@ -49,11 +59,14 @@ namespace ThreadingExplore.Console
                 new BankProcessResource(ResourceName.B, 1),
                 new BankProcessResource(ResourceName.C, 1),
                 new BankProcessResource(ResourceName.D, 1),
-            });
+            },
+                resourcesSignal);
 
             processes.Add(process3);
 
             var threads = new List<Thread>();
+
+            stopwatch.Start();
 
             foreach (var process in processes)
             {
@@ -67,6 +80,9 @@ namespace ThreadingExplore.Console
             {
                 thread.Join();
             }
+
+            stopwatch.Stop();
+
         }
     }
 }

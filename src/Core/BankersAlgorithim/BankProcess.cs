@@ -8,13 +8,17 @@ namespace ThreadingExplore.Core.BankersAlgorithim
     {
         private readonly BankProcessResource[] _bankProcessResources;
         private readonly int _timeInMiliseconds;
+        private readonly ManualResetEvent _resourcesSignal;
+
         public string ProcessName { get; }
 
         public BankProcess(
             string processName,
             int timeInMiliseconds,
-            BankProcessResource[] bankProcessResources)
+            BankProcessResource[] bankProcessResources,
+            ManualResetEvent resourcesSignal = null)
         {
+            _resourcesSignal = resourcesSignal;
             _timeInMiliseconds = timeInMiliseconds;
             ProcessName = processName;
             _bankProcessResources = bankProcessResources;
@@ -35,12 +39,21 @@ namespace ThreadingExplore.Core.BankersAlgorithim
             {
                 Console.WriteLine("Try again");
 
+                if (_resourcesSignal != null)
+                    _resourcesSignal.WaitOne();
+
                 wasSuccessful = system.ClaimResources(this);
             }
 
             Thread.Sleep(_timeInMiliseconds);
 
             system.RestoreResources(this);
+
+            if (_resourcesSignal != null)
+            {
+                _resourcesSignal.Set();
+                _resourcesSignal.Reset();
+            }
         }
     }
 }

@@ -6,20 +6,19 @@ namespace ThreadingExplore.Core.SystemLog
 {
     public class ConsoleSystemLog : ISystemLog
     {
-        public void Info(
-            Stopwatch stopwatch,
-            string message)
+        private readonly Stopwatch _stopwatch;
+
+        public ConsoleSystemLog(
+            Stopwatch stopwatch)
         {
-            Console.WriteLine("{0} T:{1} - {2}",
-                stopwatch.ElapsedMilliseconds,
-                Thread.CurrentThread.ManagedThreadId,
-                message);
+            _stopwatch = stopwatch;
         }
 
         public void Info(
             string message)
         {
-            Console.WriteLine("XX T:{0} - {1}",
+            Console.WriteLine("{0} T:{1} - {2}",
+                _stopwatch.ElapsedMilliseconds,
                 Thread.CurrentThread.ManagedThreadId,
                 message);
         }
