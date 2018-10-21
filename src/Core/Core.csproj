@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankersAlgorithim\BankProcess.cs" />
-    <Compile Include="BankersAlgorithim\BankProcessResource.cs" />
-    <Compile Include="BankersAlgorithim\ResourceName.cs" />
-    <Compile Include="BankersAlgorithim\SystemResource.cs" />
-    <Compile Include="BankersAlgorithim\SystemResources.cs" />
+    <Compile Include="BankersAlgorithm\BankProcess.cs" />
+    <Compile Include="BankersAlgorithm\BankProcessResource.cs" />
+    <Compile Include="BankersAlgorithm\ResourceName.cs" />
+    <Compile Include="BankersAlgorithm\SystemResource.cs" />
+    <Compile Include="BankersAlgorithm\SystemResources.cs" />
     <Compile Include="BplusTreeDataStructure\BplusTree.cs" />
     <Compile Include="BplusTreeDataStructure\CustomerRecord.cs" />
     <Compile Include="BplusTreeDataStructure\DataPage.cs" />

@@ -82,7 +82,7 @@ namespace ThreadingExplore.Console
             }
 
             stopwatch.Stop();
-
+            resourcesSignal.Dispose();
         }
     }
 }

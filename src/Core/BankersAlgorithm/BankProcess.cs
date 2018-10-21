@@ -45,7 +45,8 @@ namespace ThreadingExplore.Core.BankersAlgorithim
                 wasSuccessful = system.ClaimResources(this);
             }
 
-            Thread.Sleep(_timeInMiliseconds);
+            Enumerable.Range(2, _timeInMiliseconds * 10000).Count(n =>
+                Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0));
 
             system.RestoreResources(this);
 
