@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ThreadingExplore.Core.BankersAlgorithim;
+using ThreadingExplore.Core.BankersAlgorithm;
 using ThreadingExplore.Core.SystemLog;
 
 namespace ThreadingExplore.Console

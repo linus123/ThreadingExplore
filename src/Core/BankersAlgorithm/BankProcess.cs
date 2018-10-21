@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 
-namespace ThreadingExplore.Core.BankersAlgorithim
+namespace ThreadingExplore.Core.BankersAlgorithm
 {
     public class BankProcess
     {

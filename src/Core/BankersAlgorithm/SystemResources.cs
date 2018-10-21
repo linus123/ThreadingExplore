@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using ThreadingExplore.Core.SystemLog;
 
-namespace ThreadingExplore.Core.BankersAlgorithim
+namespace ThreadingExplore.Core.BankersAlgorithm
 {
     public class SystemResources
     {

@@ -58,7 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankersAlgorithim\SystemResourcesTests.cs" />
+    <Compile Include="BankersAlgorithm\SystemResourcesTests.cs" />
     <Compile Include="BplusTreeDataStructure\BplusTreeTests.cs" />
     <Compile Include="BplusTreeDataStructure\BplusTreeThreeCountTests.cs" />
     <Compile Include="BplusTreeDataStructure\BplusTreeTwoCountTests.cs" />

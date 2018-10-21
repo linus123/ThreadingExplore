@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ThreadingExplore.Core.BankersAlgorithim
+namespace ThreadingExplore.Core.BankersAlgorithm
 {
     public class SystemResource
     {

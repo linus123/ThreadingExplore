@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using ThreadingExplore.Core.BankersAlgorithim;
+using ThreadingExplore.Core.BankersAlgorithm;
 using ThreadingExplore.Core.SystemLog;
 using Xunit;
 
-namespace ThreadingExplore.UnitTests.BankersAlgorithim
+namespace ThreadingExplore.UnitTests.BankersAlgorithm
 {
     public class SystemResourcesTests
     {
