@@ -7,7 +7,7 @@ using ThreadingExplore.Core.SystemLog;
 
 namespace ThreadingExplore.Console
 {
-    public class BanksAlgorithimRun
+    public class BanksAlgorithmRun
     {
         public void Run()
         {

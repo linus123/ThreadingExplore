@@ -56,7 +56,7 @@ namespace ThreadingExplore.Console
 
             // **
 
-            //            var banksAlgorithimRun = new BanksAlgorithimRun();
+            //            var banksAlgorithimRun = new BanksAlgorithmRun();
             //
             //            banksAlgorithimRun.Run();
             //
